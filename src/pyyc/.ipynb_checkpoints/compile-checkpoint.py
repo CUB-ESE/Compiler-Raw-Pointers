@@ -45,13 +45,22 @@ def flatten(AST):
         return f.write("print " + str(flatten(AST.nodes[0])) + "\n")
     elif isinstance(AST,Assign):
         v_num = var_cnt
-        f.write(flatten(AST.nodes[0]) + " = " + str(flatten(AST.expr)) + "\n")
-        var_cnt = v_num + 1
+#         print AST.nodes[0].name
+        if isinstance(AST.nodes[0].name, CallFunc):
+            f.write(flatten(AST.nodes[0]) + ", " + str(flatten(AST.expr)) + ")\n")
+        else:
+            f.write(flatten(AST.nodes[0]) + " = " + str(flatten(AST.expr)) + "\n")
+#         var_cnt = v_num + 1
         return
     elif isinstance(AST, AssName):
+#         print AST.name
+        if(isinstance(AST.name, CallFunc)):
+#             f.write("set_ptr_value("+ flatten(AST.name.args[0]) + +")\n")
+#             tmp = flatten(AST.name)
+            return "set_ptr_value("+ flatten(AST.name.args[0])
         return mapped(AST.name)
     elif isinstance(AST, Discard):
-        return 0
+        return flatten(AST.expr)
     elif isinstance(AST, Const):
         return AST.value
     elif isinstance(AST, Name):        
@@ -75,17 +84,33 @@ def flatten(AST):
         return (var_name+str(var_cnt-1))
     elif isinstance(AST, CallFunc):
         if AST.node.name == "input":
-            f.write(var_name + str(var_cnt) + " = " + AST.node.name + "()\n") # avoid recursion to avoid mapping function to temporary variable
-        else:
-             f.write(var_name + str(var_cnt) + " = " + AST.node.name + "(" + flatten(AST.args[0]) + ")\n")
-        var_cnt += 1
-        return (var_name + str(var_cnt-1))
+            return AST.node.name + "()"
+        elif AST.node.name == "deref":
+            return "get_ptr_value" + "(" + flatten(AST.args[0]) + ")"
+        elif AST.node.name == "ptr":
+            return "create_ptr"+ "(" + flatten(AST.args[0]) + ")"
+        elif AST.node.name == "freep":
+            f.write("free_ptr"+ "(" + flatten(AST.args[0]) + ")\n")
+        return      
+        
+        
+#         if AST.node.name == "input":
+#             f.write(var_name + str(var_cnt) + " = " + AST.node.name + "()\n") # avoid recursion to avoid mapping function to temporary variable
+#         elif AST.node.name == "deref":
+#             f.write(var_name + str(var_cnt) + " = " + "get_ptr_value" + "(" + flatten(AST.args[0]) + ")\n")
+#         elif AST.node.name == "ptr":
+#             f.write(var_name + str(var_cnt) + " = " + "create_ptr"+ "(" + flatten(AST.args[0]) + ")\n")
+#         elif AST.node.name == "freep":
+#             f.write(var_name + str(var_cnt) + " = " + "free_ptr"+ "(" + flatten(AST.args[0]) + ")\n")
+#         var_cnt += 1
+#         return (var_name + str(var_cnt-1))
     else:
         print "ERROR: "+ P0_file +" is not a valid P0 file"
         f.close() 
         os.remove(flattened)
         exit()
 
+# TODO: Convert to regex
 # checks if given operand is memory address (offset from ebp)
 # looks for form -XX(%ebp)
 def isMem(s):
@@ -106,7 +131,8 @@ def generate_asm(AST):
         param = str(generate_asm(AST.nodes[0]))
         of.write(tab + "pushl " + param + "\n")
         of.write(tab + "call print_int_nl" + "\n")
-        return of.write(tab + "subl $4, %esp" + "\n")
+        return
+#         return of.write(tab + "addl $4, %esp" + "\n")
     elif isinstance(AST,Assign):
         dst = generate_asm(AST.nodes[0])
         src = str(generate_asm(AST.expr))
@@ -123,7 +149,7 @@ def generate_asm(AST):
         number = int(name[3:])
         return "-" + str(4*(number+1)) + "(%ebp)"
     elif isinstance(AST, Discard):
-        return 0
+        return generate_asm(AST.expr)
     elif isinstance(AST, Const):
         return "$" + str(AST.value)
     elif isinstance(AST, Name):
@@ -144,6 +170,12 @@ def generate_asm(AST):
         of.write(tab + "negl " + var + "\n")
         return var
     elif isinstance(AST, CallFunc):
+        if AST.node.name == "input":  
+            of.write(tab + "call " + AST.node.name + "\n")
+            return "%eax"
+        elif AST.node.name == "set_ptr_value":
+            of.write(tab + "push " + str(generate_asm(AST.args[1])) + "\n" )
+        of.write(tab + "push " + str(generate_asm(AST.args[0])) + "\n")
         of.write(tab + "call " + AST.node.name + "\n")
         return "%eax"
     else:
@@ -169,8 +201,10 @@ def preamble(out_file, input_file):
         tokens = line.split()
         
         if(tokens[0] not in var_list):
-            num_vars += 1
-            var_list.append(tokens[0])
+            # ensures we are not counting 'print' or other function calls
+            if(tokens[0][0:3] == "tmp"):
+                num_vars += 1
+                var_list.append(tokens[0])
     
     out_file.write(tab + "subl $" + str(num_vars*4) + ", %esp\n")
     in_file.close()
@@ -200,7 +234,7 @@ if __name__ == "__main__":
     AST = parse(P0_file)
     
     # for debugging
-    print AST
+#     print AST
     
     # flatten AST into new file
     f=open(flattened,"w")
@@ -208,9 +242,9 @@ if __name__ == "__main__":
     f.seek(0)
     f.close()
     
-    AST2 = parse(flattened)
+    AST2 = compiler.parseFile(flattened)
     
-#     print AST2
+    print AST2
     
     # generate asm file from flattened representation
     of=open(asm, "w")
@@ -219,4 +253,4 @@ if __name__ == "__main__":
     conclude(of, num_vars)
     of.close()
     
-#     os.remove(flattened)
+    os.remove(flattened)

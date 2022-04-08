@@ -1072,7 +1072,6 @@ int* create_ptr(int ptr_value)
 {
     int* ptr_addr = (int*)malloc(sizeof(int));
     *(ptr_addr) = ptr_value;
-    printf("%u\n", ptr_addr);
     return ptr_addr;
 } 
 
