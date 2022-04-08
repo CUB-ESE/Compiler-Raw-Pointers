@@ -2,6 +2,7 @@ import compiler
 from compiler.ast import *
 import sys
 import os
+import lparse 
 
 # global variables 
 var_name = "tmp"
@@ -30,10 +31,6 @@ def mapped(v_name):
     var_mappings.append((v_name, tmp_name))
     var_cnt += 1
     return (tmp_name)
-
-# take input filename and return AST for the program
-def parse(filename):
-    return compiler.parseFile(filename)
 
 # take an AST as input and return flattened intermediate file
 def flatten(AST):
@@ -182,6 +179,12 @@ def conclude(out_file, num_vars):
     out_file.write(tab + "movl $0, %eax\n")
     out_file.write(tab + "leave\n" + tab + "ret\n")
     
+    
+# take input filename and return AST for the program
+def parse(filename):
+    return lparse.parseFile(filename)
+#     return compiler.parseFile(filename)
+
 if __name__ == "__main__":
     
     # get input file from argv1
@@ -194,7 +197,7 @@ if __name__ == "__main__":
     AST = parse(P0_file)
     
     # for debugging
-    # print AST
+    print AST
     
     # flatten AST into new file
     f=open(flattened,"w")
@@ -204,7 +207,7 @@ if __name__ == "__main__":
     
     AST2 = parse(flattened)
     
-    # print AST2
+#     print AST2
     
     # generate asm file from flattened representation
     of=open(asm, "w")
@@ -213,4 +216,4 @@ if __name__ == "__main__":
     conclude(of, num_vars)
     of.close()
     
-    os.remove(flattened)
+#     os.remove(flattened)

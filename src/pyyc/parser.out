@@ -1,0 +1,484 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> module
+Rule 2     module -> slist
+Rule 3     slist -> slist statement
+Rule 4     slist -> statement
+Rule 5     statement -> PRINT expression
+Rule 6     statement -> NAME EQUAL expression
+Rule 7     statement -> expression EQUAL expression
+Rule 8     expression -> NAME LPAREN expression RPAREN
+Rule 9     expression -> LPAREN expression RPAREN
+Rule 10    statement -> expression
+Rule 11    expression -> expression PLUS expression
+Rule 12    expression -> INT
+Rule 13    expression -> NAME LPAREN RPAREN
+Rule 14    expression -> NAME
+Rule 15    expression -> MINUS expression
+
+Terminals, with rules where they appear
+
+EQUAL                : 6 7
+INT                  : 12
+LPAREN               : 8 9 13
+MINUS                : 15
+NAME                 : 6 8 13 14
+PLUS                 : 11
+PRINT                : 5
+RPAREN               : 8 9 13
+error                : 
+
+Nonterminals, with rules where they appear
+
+expression           : 5 6 7 7 8 9 10 11 11 15
+module               : 1
+program              : 0
+slist                : 2 3
+statement            : 3 4
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . module
+    (2) module -> . slist
+    (3) slist -> . slist statement
+    (4) slist -> . statement
+    (5) statement -> . PRINT expression
+    (6) statement -> . NAME EQUAL expression
+    (7) statement -> . expression EQUAL expression
+    (10) statement -> . expression
+    (8) expression -> . NAME LPAREN expression RPAREN
+    (9) expression -> . LPAREN expression RPAREN
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . INT
+    (13) expression -> . NAME LPAREN RPAREN
+    (14) expression -> . NAME
+    (15) expression -> . MINUS expression
+
+    PRINT           shift and go to state 8
+    NAME            shift and go to state 3
+    LPAREN          shift and go to state 1
+    INT             shift and go to state 4
+    MINUS           shift and go to state 10
+
+    slist                          shift and go to state 2
+    program                        shift and go to state 6
+    expression                     shift and go to state 9
+    statement                      shift and go to state 7
+    module                         shift and go to state 5
+
+state 1
+
+    (9) expression -> LPAREN . expression RPAREN
+    (8) expression -> . NAME LPAREN expression RPAREN
+    (9) expression -> . LPAREN expression RPAREN
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . INT
+    (13) expression -> . NAME LPAREN RPAREN
+    (14) expression -> . NAME
+    (15) expression -> . MINUS expression
+
+    NAME            shift and go to state 11
+    LPAREN          shift and go to state 1
+    INT             shift and go to state 4
+    MINUS           shift and go to state 10
+
+    expression                     shift and go to state 12
+
+state 2
+
+    (2) module -> slist .
+    (3) slist -> slist . statement
+    (5) statement -> . PRINT expression
+    (6) statement -> . NAME EQUAL expression
+    (7) statement -> . expression EQUAL expression
+    (10) statement -> . expression
+    (8) expression -> . NAME LPAREN expression RPAREN
+    (9) expression -> . LPAREN expression RPAREN
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . INT
+    (13) expression -> . NAME LPAREN RPAREN
+    (14) expression -> . NAME
+    (15) expression -> . MINUS expression
+
+    $end            reduce using rule 2 (module -> slist .)
+    PRINT           shift and go to state 8
+    NAME            shift and go to state 3
+    LPAREN          shift and go to state 1
+    INT             shift and go to state 4
+    MINUS           shift and go to state 10
+
+    expression                     shift and go to state 9
+    statement                      shift and go to state 13
+
+state 3
+
+    (6) statement -> NAME . EQUAL expression
+    (8) expression -> NAME . LPAREN expression RPAREN
+    (13) expression -> NAME . LPAREN RPAREN
+    (14) expression -> NAME .
+
+  ! shift/reduce conflict for EQUAL resolved as shift
+  ! shift/reduce conflict for LPAREN resolved as shift
+    EQUAL           shift and go to state 15
+    LPAREN          shift and go to state 14
+    PLUS            reduce using rule 14 (expression -> NAME .)
+    PRINT           reduce using rule 14 (expression -> NAME .)
+    NAME            reduce using rule 14 (expression -> NAME .)
+    INT             reduce using rule 14 (expression -> NAME .)
+    MINUS           reduce using rule 14 (expression -> NAME .)
+    $end            reduce using rule 14 (expression -> NAME .)
+
+  ! EQUAL           [ reduce using rule 14 (expression -> NAME .) ]
+  ! LPAREN          [ reduce using rule 14 (expression -> NAME .) ]
+
+
+state 4
+
+    (12) expression -> INT .
+
+    EQUAL           reduce using rule 12 (expression -> INT .)
+    PLUS            reduce using rule 12 (expression -> INT .)
+    PRINT           reduce using rule 12 (expression -> INT .)
+    NAME            reduce using rule 12 (expression -> INT .)
+    LPAREN          reduce using rule 12 (expression -> INT .)
+    INT             reduce using rule 12 (expression -> INT .)
+    MINUS           reduce using rule 12 (expression -> INT .)
+    $end            reduce using rule 12 (expression -> INT .)
+    RPAREN          reduce using rule 12 (expression -> INT .)
+
+
+state 5
+
+    (1) program -> module .
+
+    $end            reduce using rule 1 (program -> module .)
+
+
+state 6
+
+    (0) S' -> program .
+
+
+
+state 7
+
+    (4) slist -> statement .
+
+    PRINT           reduce using rule 4 (slist -> statement .)
+    NAME            reduce using rule 4 (slist -> statement .)
+    LPAREN          reduce using rule 4 (slist -> statement .)
+    INT             reduce using rule 4 (slist -> statement .)
+    MINUS           reduce using rule 4 (slist -> statement .)
+    $end            reduce using rule 4 (slist -> statement .)
+
+
+state 8
+
+    (5) statement -> PRINT . expression
+    (8) expression -> . NAME LPAREN expression RPAREN
+    (9) expression -> . LPAREN expression RPAREN
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . INT
+    (13) expression -> . NAME LPAREN RPAREN
+    (14) expression -> . NAME
+    (15) expression -> . MINUS expression
+
+    NAME            shift and go to state 11
+    LPAREN          shift and go to state 1
+    INT             shift and go to state 4
+    MINUS           shift and go to state 10
+
+    expression                     shift and go to state 16
+
+state 9
+
+    (7) statement -> expression . EQUAL expression
+    (10) statement -> expression .
+    (11) expression -> expression . PLUS expression
+
+    EQUAL           shift and go to state 18
+    PRINT           reduce using rule 10 (statement -> expression .)
+    NAME            reduce using rule 10 (statement -> expression .)
+    LPAREN          reduce using rule 10 (statement -> expression .)
+    INT             reduce using rule 10 (statement -> expression .)
+    MINUS           reduce using rule 10 (statement -> expression .)
+    $end            reduce using rule 10 (statement -> expression .)
+    PLUS            shift and go to state 17
+
+
+state 10
+
+    (15) expression -> MINUS . expression
+    (8) expression -> . NAME LPAREN expression RPAREN
+    (9) expression -> . LPAREN expression RPAREN
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . INT
+    (13) expression -> . NAME LPAREN RPAREN
+    (14) expression -> . NAME
+    (15) expression -> . MINUS expression
+
+    NAME            shift and go to state 11
+    LPAREN          shift and go to state 1
+    INT             shift and go to state 4
+    MINUS           shift and go to state 10
+
+    expression                     shift and go to state 19
+
+state 11
+
+    (8) expression -> NAME . LPAREN expression RPAREN
+    (13) expression -> NAME . LPAREN RPAREN
+    (14) expression -> NAME .
+
+  ! shift/reduce conflict for LPAREN resolved as shift
+    LPAREN          shift and go to state 14
+    PLUS            reduce using rule 14 (expression -> NAME .)
+    EQUAL           reduce using rule 14 (expression -> NAME .)
+    PRINT           reduce using rule 14 (expression -> NAME .)
+    NAME            reduce using rule 14 (expression -> NAME .)
+    INT             reduce using rule 14 (expression -> NAME .)
+    MINUS           reduce using rule 14 (expression -> NAME .)
+    $end            reduce using rule 14 (expression -> NAME .)
+    RPAREN          reduce using rule 14 (expression -> NAME .)
+
+  ! LPAREN          [ reduce using rule 14 (expression -> NAME .) ]
+
+
+state 12
+
+    (9) expression -> LPAREN expression . RPAREN
+    (11) expression -> expression . PLUS expression
+
+    RPAREN          shift and go to state 20
+    PLUS            shift and go to state 17
+
+
+state 13
+
+    (3) slist -> slist statement .
+
+    PRINT           reduce using rule 3 (slist -> slist statement .)
+    NAME            reduce using rule 3 (slist -> slist statement .)
+    LPAREN          reduce using rule 3 (slist -> slist statement .)
+    INT             reduce using rule 3 (slist -> slist statement .)
+    MINUS           reduce using rule 3 (slist -> slist statement .)
+    $end            reduce using rule 3 (slist -> slist statement .)
+
+
+state 14
+
+    (8) expression -> NAME LPAREN . expression RPAREN
+    (13) expression -> NAME LPAREN . RPAREN
+    (8) expression -> . NAME LPAREN expression RPAREN
+    (9) expression -> . LPAREN expression RPAREN
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . INT
+    (13) expression -> . NAME LPAREN RPAREN
+    (14) expression -> . NAME
+    (15) expression -> . MINUS expression
+
+    RPAREN          shift and go to state 21
+    NAME            shift and go to state 11
+    LPAREN          shift and go to state 1
+    INT             shift and go to state 4
+    MINUS           shift and go to state 10
+
+    expression                     shift and go to state 22
+
+state 15
+
+    (6) statement -> NAME EQUAL . expression
+    (8) expression -> . NAME LPAREN expression RPAREN
+    (9) expression -> . LPAREN expression RPAREN
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . INT
+    (13) expression -> . NAME LPAREN RPAREN
+    (14) expression -> . NAME
+    (15) expression -> . MINUS expression
+
+    NAME            shift and go to state 11
+    LPAREN          shift and go to state 1
+    INT             shift and go to state 4
+    MINUS           shift and go to state 10
+
+    expression                     shift and go to state 23
+
+state 16
+
+    (5) statement -> PRINT expression .
+    (11) expression -> expression . PLUS expression
+
+    PRINT           reduce using rule 5 (statement -> PRINT expression .)
+    NAME            reduce using rule 5 (statement -> PRINT expression .)
+    LPAREN          reduce using rule 5 (statement -> PRINT expression .)
+    INT             reduce using rule 5 (statement -> PRINT expression .)
+    MINUS           reduce using rule 5 (statement -> PRINT expression .)
+    $end            reduce using rule 5 (statement -> PRINT expression .)
+    PLUS            shift and go to state 17
+
+
+state 17
+
+    (11) expression -> expression PLUS . expression
+    (8) expression -> . NAME LPAREN expression RPAREN
+    (9) expression -> . LPAREN expression RPAREN
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . INT
+    (13) expression -> . NAME LPAREN RPAREN
+    (14) expression -> . NAME
+    (15) expression -> . MINUS expression
+
+    NAME            shift and go to state 11
+    LPAREN          shift and go to state 1
+    INT             shift and go to state 4
+    MINUS           shift and go to state 10
+
+    expression                     shift and go to state 24
+
+state 18
+
+    (7) statement -> expression EQUAL . expression
+    (8) expression -> . NAME LPAREN expression RPAREN
+    (9) expression -> . LPAREN expression RPAREN
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . INT
+    (13) expression -> . NAME LPAREN RPAREN
+    (14) expression -> . NAME
+    (15) expression -> . MINUS expression
+
+    NAME            shift and go to state 11
+    LPAREN          shift and go to state 1
+    INT             shift and go to state 4
+    MINUS           shift and go to state 10
+
+    expression                     shift and go to state 25
+
+state 19
+
+    (15) expression -> MINUS expression .
+    (11) expression -> expression . PLUS expression
+
+    EQUAL           reduce using rule 15 (expression -> MINUS expression .)
+    PLUS            reduce using rule 15 (expression -> MINUS expression .)
+    PRINT           reduce using rule 15 (expression -> MINUS expression .)
+    NAME            reduce using rule 15 (expression -> MINUS expression .)
+    LPAREN          reduce using rule 15 (expression -> MINUS expression .)
+    INT             reduce using rule 15 (expression -> MINUS expression .)
+    MINUS           reduce using rule 15 (expression -> MINUS expression .)
+    $end            reduce using rule 15 (expression -> MINUS expression .)
+    RPAREN          reduce using rule 15 (expression -> MINUS expression .)
+
+  ! PLUS            [ shift and go to state 17 ]
+
+
+state 20
+
+    (9) expression -> LPAREN expression RPAREN .
+
+    EQUAL           reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+    PRINT           reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+    NAME            reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+    LPAREN          reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+    INT             reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+    $end            reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+
+
+state 21
+
+    (13) expression -> NAME LPAREN RPAREN .
+
+    EQUAL           reduce using rule 13 (expression -> NAME LPAREN RPAREN .)
+    PLUS            reduce using rule 13 (expression -> NAME LPAREN RPAREN .)
+    PRINT           reduce using rule 13 (expression -> NAME LPAREN RPAREN .)
+    NAME            reduce using rule 13 (expression -> NAME LPAREN RPAREN .)
+    LPAREN          reduce using rule 13 (expression -> NAME LPAREN RPAREN .)
+    INT             reduce using rule 13 (expression -> NAME LPAREN RPAREN .)
+    MINUS           reduce using rule 13 (expression -> NAME LPAREN RPAREN .)
+    $end            reduce using rule 13 (expression -> NAME LPAREN RPAREN .)
+    RPAREN          reduce using rule 13 (expression -> NAME LPAREN RPAREN .)
+
+
+state 22
+
+    (8) expression -> NAME LPAREN expression . RPAREN
+    (11) expression -> expression . PLUS expression
+
+    RPAREN          shift and go to state 26
+    PLUS            shift and go to state 17
+
+
+state 23
+
+    (6) statement -> NAME EQUAL expression .
+    (11) expression -> expression . PLUS expression
+
+    PRINT           reduce using rule 6 (statement -> NAME EQUAL expression .)
+    NAME            reduce using rule 6 (statement -> NAME EQUAL expression .)
+    LPAREN          reduce using rule 6 (statement -> NAME EQUAL expression .)
+    INT             reduce using rule 6 (statement -> NAME EQUAL expression .)
+    MINUS           reduce using rule 6 (statement -> NAME EQUAL expression .)
+    $end            reduce using rule 6 (statement -> NAME EQUAL expression .)
+    PLUS            shift and go to state 17
+
+
+state 24
+
+    (11) expression -> expression PLUS expression .
+    (11) expression -> expression . PLUS expression
+
+    EQUAL           reduce using rule 11 (expression -> expression PLUS expression .)
+    PLUS            reduce using rule 11 (expression -> expression PLUS expression .)
+    PRINT           reduce using rule 11 (expression -> expression PLUS expression .)
+    NAME            reduce using rule 11 (expression -> expression PLUS expression .)
+    LPAREN          reduce using rule 11 (expression -> expression PLUS expression .)
+    INT             reduce using rule 11 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 11 (expression -> expression PLUS expression .)
+    $end            reduce using rule 11 (expression -> expression PLUS expression .)
+    RPAREN          reduce using rule 11 (expression -> expression PLUS expression .)
+
+  ! PLUS            [ shift and go to state 17 ]
+
+
+state 25
+
+    (7) statement -> expression EQUAL expression .
+    (11) expression -> expression . PLUS expression
+
+    PRINT           reduce using rule 7 (statement -> expression EQUAL expression .)
+    NAME            reduce using rule 7 (statement -> expression EQUAL expression .)
+    LPAREN          reduce using rule 7 (statement -> expression EQUAL expression .)
+    INT             reduce using rule 7 (statement -> expression EQUAL expression .)
+    MINUS           reduce using rule 7 (statement -> expression EQUAL expression .)
+    $end            reduce using rule 7 (statement -> expression EQUAL expression .)
+    PLUS            shift and go to state 17
+
+
+state 26
+
+    (8) expression -> NAME LPAREN expression RPAREN .
+
+    EQUAL           reduce using rule 8 (expression -> NAME LPAREN expression RPAREN .)
+    PLUS            reduce using rule 8 (expression -> NAME LPAREN expression RPAREN .)
+    PRINT           reduce using rule 8 (expression -> NAME LPAREN expression RPAREN .)
+    NAME            reduce using rule 8 (expression -> NAME LPAREN expression RPAREN .)
+    LPAREN          reduce using rule 8 (expression -> NAME LPAREN expression RPAREN .)
+    INT             reduce using rule 8 (expression -> NAME LPAREN expression RPAREN .)
+    MINUS           reduce using rule 8 (expression -> NAME LPAREN expression RPAREN .)
+    $end            reduce using rule 8 (expression -> NAME LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 8 (expression -> NAME LPAREN expression RPAREN .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for EQUAL in state 3 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 3 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 11 resolved as shift
