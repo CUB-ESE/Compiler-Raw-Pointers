@@ -74,7 +74,10 @@ def flatten(AST):
         var_cnt += 1
         return (var_name+str(var_cnt-1))
     elif isinstance(AST, CallFunc):
-        f.write(var_name + str(var_cnt) + " = " + AST.node.name + "()\n") # avoid recursion to avoid mapping function to temporary variable
+        if AST.node.name == "input":
+            f.write(var_name + str(var_cnt) + " = " + AST.node.name + "()\n") # avoid recursion to avoid mapping function to temporary variable
+        else:
+             f.write(var_name + str(var_cnt) + " = " + AST.node.name + "(" + flatten(AST.args[0]) + ")\n")
         var_cnt += 1
         return (var_name + str(var_cnt-1))
     else:
