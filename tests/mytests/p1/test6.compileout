@@ -1,0 +1,107 @@
+LexToken(NAME,'x',1,0)
+LexToken(ASSIGN,'=',1,2)
+LexToken(LCURLY,'{',1,4)
+LexToken(INT,1,1,5)
+LexToken(COLON,':',1,7)
+LexToken(INT,1,1,9)
+LexToken(COMMA,',',1,10)
+LexToken(INT,2,1,12)
+LexToken(COLON,':',1,13)
+LexToken(INT,2,1,15)
+LexToken(RCURLY,'}',1,16)
+LexToken(PRINT,'print',2,18)
+LexToken(NAME,'x',2,24)
+LexToken(LSQUARE,'[',2,25)
+LexToken(INT,1,2,26)
+LexToken(RSQUARE,']',2,27)
+
+
+--------AST--------
+Module(None, Stmt([Assign([AssName('x', 'OP_ASSIGN')], Dict([(Const(1), Const(1)), (Const(2), Const(2))])), Printnl([Subscript(Name('x'), 'OP_APPLY', [Const(1)])], None)]))
+
+-------ExpAST-------
+Module(None, Stmt([Assign([AssName('x', 'OP_ASSIGN')], Dict([(InjectFrom('Const(0)', Const(1)), InjectFrom('Const(0)', Const(1))), (InjectFrom('Const(0)', Const(2)), InjectFrom('Const(0)', Const(2)))])), Printnl([Subscript(Name('x'), 'OP_APPLY', InjectFrom('Const(0)', Const(1)))], None)]))
+
+-------FLATTEN-------
+tmp1
+tmp1= create_dict()
+tmp1 = tmp1 | 3
+tmp3 = 1
+tmp2 = tmp3 << 2
+tmp2 = tmp2 | 0
+tmp5 = 1
+tmp4 = tmp5 << 2
+tmp4 = tmp4 | 0
+set_subscript(tmp1, tmp4, tmp2)
+tmp7 = 2
+tmp6 = tmp7 << 2
+tmp6 = tmp6 | 0
+tmp9 = 2
+tmp8 = tmp9 << 2
+tmp8 = tmp8 | 0
+set_subscript(tmp1, tmp8, tmp6)
+tmp0 = tmp1
+tmp12 = 1
+tmp11 = tmp12 << 2
+tmp11 = tmp11 | 0
+tmp10 = get_subscript(tmp0, tmp11)
+print tmp10
+
+
+-------AST_flat-------
+Module(None, Stmt([Assign([AssName('tmp1', 'OP_ASSIGN')], CallFunc(Name('create_dict'), [], None, None)), Assign([AssName('tmp1', 'OP_ASSIGN')], Bitor([Name('tmp1'), Const(3)])), Assign([AssName('tmp3', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp2', 'OP_ASSIGN')], LeftShift((Name('tmp3'), Const(2)))), Assign([AssName('tmp2', 'OP_ASSIGN')], Bitor([Name('tmp2'), Const(0)])), Assign([AssName('tmp5', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp4', 'OP_ASSIGN')], LeftShift((Name('tmp5'), Const(2)))), Assign([AssName('tmp4', 'OP_ASSIGN')], Bitor([Name('tmp4'), Const(0)])), Discard(CallFunc(Name('set_subscript'), [Name('tmp1'), Name('tmp4'), Name('tmp2')], None, None)), Assign([AssName('tmp7', 'OP_ASSIGN')], Const(2)), Assign([AssName('tmp6', 'OP_ASSIGN')], LeftShift((Name('tmp7'), Const(2)))), Assign([AssName('tmp6', 'OP_ASSIGN')], Bitor([Name('tmp6'), Const(0)])), Assign([AssName('tmp9', 'OP_ASSIGN')], Const(2)), Assign([AssName('tmp8', 'OP_ASSIGN')], LeftShift((Name('tmp9'), Const(2)))), Assign([AssName('tmp8', 'OP_ASSIGN')], Bitor([Name('tmp8'), Const(0)])), Discard(CallFunc(Name('set_subscript'), [Name('tmp1'), Name('tmp8'), Name('tmp6')], None, None)), Assign([AssName('tmp0', 'OP_ASSIGN')], Name('tmp1')), Assign([AssName('tmp12', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp11', 'OP_ASSIGN')], LeftShift((Name('tmp12'), Const(2)))), Assign([AssName('tmp11', 'OP_ASSIGN')], Bitor([Name('tmp11'), Const(0)])), Assign([AssName('tmp10', 'OP_ASSIGN')], CallFunc(Name('get_subscript'), [Name('tmp0'), Name('tmp11')], None, None)), Printnl([Name('tmp10')], None)]))
+
+-------x86_IR-------
+['call', 'create_dict', []]
+['movl', '%eax', 'tmp13']
+['movl', 'tmp13', 'tmp1']
+['movl', 'tmp1', 'tmp14']
+['or', 'tmp14', '$3']
+['movl', 'tmp14', 'tmp1']
+['movl', '$1', 'tmp3']
+['movl', 'tmp3', 'tmp15']
+['shl', 'tmp15', '$2']
+['movl', 'tmp15', 'tmp2']
+['movl', 'tmp2', 'tmp16']
+['or', 'tmp16', '$0']
+['movl', 'tmp16', 'tmp2']
+['movl', '$1', 'tmp5']
+['movl', 'tmp5', 'tmp17']
+['shl', 'tmp17', '$2']
+['movl', 'tmp17', 'tmp4']
+['movl', 'tmp4', 'tmp18']
+['or', 'tmp18', '$0']
+['movl', 'tmp18', 'tmp4']
+['call', 'set_subscript', ['tmp1', 'tmp4', 'tmp2']]
+['movl', '%eax', 'tmp19']
+['movl', '$2', 'tmp7']
+['movl', 'tmp7', 'tmp20']
+['shl', 'tmp20', '$2']
+['movl', 'tmp20', 'tmp6']
+['movl', 'tmp6', 'tmp21']
+['or', 'tmp21', '$0']
+['movl', 'tmp21', 'tmp6']
+['movl', '$2', 'tmp9']
+['movl', 'tmp9', 'tmp22']
+['shl', 'tmp22', '$2']
+['movl', 'tmp22', 'tmp8']
+['movl', 'tmp8', 'tmp23']
+['or', 'tmp23', '$0']
+['movl', 'tmp23', 'tmp8']
+['call', 'set_subscript', ['tmp1', 'tmp8', 'tmp6']]
+['movl', '%eax', 'tmp24']
+['movl', 'tmp1', 'tmp0']
+['movl', '$1', 'tmp12']
+['movl', 'tmp12', 'tmp25']
+['shl', 'tmp25', '$2']
+['movl', 'tmp25', 'tmp11']
+['movl', 'tmp11', 'tmp26']
+['or', 'tmp26', '$0']
+['movl', 'tmp26', 'tmp11']
+['call', 'get_subscript', ['tmp0', 'tmp11']]
+['movl', '%eax', 'tmp27']
+['movl', 'tmp27', 'tmp10']
+['print', 'tmp10', None]
+
+
+False

@@ -1066,6 +1066,7 @@ pyobj error_pyobj(char* string) {
   exit(-1);
 }
 
+
 /* Pointers */
 
 int* create_ptr(int ptr_value)

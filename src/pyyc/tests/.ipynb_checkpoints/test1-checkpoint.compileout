@@ -1,0 +1,360 @@
+
+
+--------AST--------
+Module(None, Stmt([Assign([AssName('x', 'OP_ASSIGN')], Add((Const(1), Const(1))))]))
+
+-------ExpAST-------
+Module(None, Stmt([Assign([AssName('x', 'OP_ASSIGN')], Let(let_var2, Const(1), Let(let_var1, Const(1), IfExp(And([Or([Compare(GetTag('let_var1'), [('==', Const(1))]), Compare(GetTag('let_var1'), [('==', Const(0))])]), Or([Compare(GetTag('let_var2'), [('==', Const(1))]), Compare(GetTag('let_var2'), [('==', Const(0))])])]), InjectFrom('Const(1)', Add((ProjectTo('Const(1)', let_var1), ProjectTo('Const(1)', let_var2)))), IfExp(And([Compare(GetTag('let_var1'), [('==', Const(3))]), Compare(GetTag('let_var2'), [('==', Const(3))])]), InjectFrom('Const(3)', CallFunc(Name('add'), [ProjectTo('Const(3)', let_var1), ProjectTo('Const(3)', let_var2)], None, None)), CallFunc(Name('error_pyobj'), [Const(1)], None, None))))))]))
+
+-------FLATTEN-------
+tmp1 = 1
+tmp3 = 1
+tmp9 = tmp3 & 3
+tmp8= equal_pyobj(tmp9, 1)
+tmp11 = tmp3 & 3
+tmp10= equal_pyobj(tmp11, 0)
+tmp7 = tmp8 or tmp10
+tmp14 = tmp1 & 3
+tmp13= equal_pyobj(tmp14, 1)
+tmp16 = tmp1 & 3
+tmp15= equal_pyobj(tmp16, 0)
+tmp12 = tmp13 or tmp15
+tmp6 = tmp7 and tmp12
+tmp5 = tmp6
+if0 = tmp5
+tmp19 = tmp3 >> 2
+tmp20 = tmp1 >> 2
+tmp21 = tmp19 + tmp20
+tmp18 = tmp21 << 2
+tmp18 = tmp18 | 1
+tmp17 = tmp18
+else0
+tmp25 = tmp3 & 3
+tmp24= equal_pyobj(tmp25, 3)
+tmp27 = tmp1 & 3
+tmp26= equal_pyobj(tmp27, 3)
+tmp23 = tmp24 and tmp26
+tmp22 = tmp23
+if1 = tmp22
+tmp32 = ~3
+tmp31 = tmp31 & tmp32
+tmp34 = ~3
+tmp33 = tmp33 & tmp34
+tmp30 = add(tmp31, tmp33)
+tmp29 = tmp30 << 2
+tmp29 = tmp29 | 3
+tmp28 = tmp29
+else1
+tmp35 = error_pyobj(1)
+tmp28 = tmp35
+endif1
+tmp17 = tmp28
+endif0
+tmp4 = tmp17
+tmp2 = tmp4
+tmp0 = tmp2
+
+
+-------AST_flat-------
+Module(None, Stmt([Assign([AssName('tmp1', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp3', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp9', 'OP_ASSIGN')], Bitand([Name('tmp3'), Const(3)])), Assign([AssName('tmp8', 'OP_ASSIGN')], CallFunc(Name('equal_pyobj'), [Name('tmp9'), Const(1)], None, None)), Assign([AssName('tmp11', 'OP_ASSIGN')], Bitand([Name('tmp3'), Const(3)])), Assign([AssName('tmp10', 'OP_ASSIGN')], CallFunc(Name('equal_pyobj'), [Name('tmp11'), Const(0)], None, None)), Assign([AssName('tmp7', 'OP_ASSIGN')], Or([Name('tmp8'), Name('tmp10')])), Assign([AssName('tmp14', 'OP_ASSIGN')], Bitand([Name('tmp1'), Const(3)])), Assign([AssName('tmp13', 'OP_ASSIGN')], CallFunc(Name('equal_pyobj'), [Name('tmp14'), Const(1)], None, None)), Assign([AssName('tmp16', 'OP_ASSIGN')], Bitand([Name('tmp1'), Const(3)])), Assign([AssName('tmp15', 'OP_ASSIGN')], CallFunc(Name('equal_pyobj'), [Name('tmp16'), Const(0)], None, None)), Assign([AssName('tmp12', 'OP_ASSIGN')], Or([Name('tmp13'), Name('tmp15')])), Assign([AssName('tmp6', 'OP_ASSIGN')], And([Name('tmp7'), Name('tmp12')])), Assign([AssName('tmp5', 'OP_ASSIGN')], Name('tmp6')), Assign([AssName('if0', 'OP_ASSIGN')], Name('tmp5')), Assign([AssName('tmp19', 'OP_ASSIGN')], RightShift((Name('tmp3'), Const(2)))), Assign([AssName('tmp20', 'OP_ASSIGN')], RightShift((Name('tmp1'), Const(2)))), Assign([AssName('tmp21', 'OP_ASSIGN')], Add((Name('tmp19'), Name('tmp20')))), Assign([AssName('tmp18', 'OP_ASSIGN')], LeftShift((Name('tmp21'), Const(2)))), Assign([AssName('tmp18', 'OP_ASSIGN')], Bitor([Name('tmp18'), Const(1)])), Assign([AssName('tmp17', 'OP_ASSIGN')], Name('tmp18')), Discard(Name('else0')), Assign([AssName('tmp25', 'OP_ASSIGN')], Bitand([Name('tmp3'), Const(3)])), Assign([AssName('tmp24', 'OP_ASSIGN')], CallFunc(Name('equal_pyobj'), [Name('tmp25'), Const(3)], None, None)), Assign([AssName('tmp27', 'OP_ASSIGN')], Bitand([Name('tmp1'), Const(3)])), Assign([AssName('tmp26', 'OP_ASSIGN')], CallFunc(Name('equal_pyobj'), [Name('tmp27'), Const(3)], None, None)), Assign([AssName('tmp23', 'OP_ASSIGN')], And([Name('tmp24'), Name('tmp26')])), Assign([AssName('tmp22', 'OP_ASSIGN')], Name('tmp23')), Assign([AssName('if1', 'OP_ASSIGN')], Name('tmp22')), Assign([AssName('tmp32', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp31', 'OP_ASSIGN')], Bitand([Name('tmp31'), Name('tmp32')])), Assign([AssName('tmp34', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp33', 'OP_ASSIGN')], Bitand([Name('tmp33'), Name('tmp34')])), Assign([AssName('tmp30', 'OP_ASSIGN')], CallFunc(Name('add'), [Name('tmp31'), Name('tmp33')], None, None)), Assign([AssName('tmp29', 'OP_ASSIGN')], LeftShift((Name('tmp30'), Const(2)))), Assign([AssName('tmp29', 'OP_ASSIGN')], Bitor([Name('tmp29'), Const(3)])), Assign([AssName('tmp28', 'OP_ASSIGN')], Name('tmp29')), Discard(Name('else1')), Assign([AssName('tmp35', 'OP_ASSIGN')], CallFunc(Name('error_pyobj'), [Const(1)], None, None)), Assign([AssName('tmp28', 'OP_ASSIGN')], Name('tmp35')), Discard(Name('endif1')), Assign([AssName('tmp17', 'OP_ASSIGN')], Name('tmp28')), Discard(Name('endif0')), Assign([AssName('tmp4', 'OP_ASSIGN')], Name('tmp17')), Assign([AssName('tmp2', 'OP_ASSIGN')], Name('tmp4')), Assign([AssName('tmp0', 'OP_ASSIGN')], Name('tmp2'))]))
+
+-------x86_IR-------
+['movl', '$1', 'tmp1']
+['movl', '$1', 'tmp3']
+['movl', 'tmp3', 'tmp1']
+['and', 'tmp1', '$3']
+['movl', 'tmp1', 'tmp9']
+['call', 'equal_pyobj', ['tmp9', '$1']]
+['movl', '%eax', 'tmp2']
+['movl', 'tmp2', 'tmp8']
+['movl', 'tmp3', 'tmp3']
+['and', 'tmp3', '$3']
+['movl', 'tmp3', 'tmp11']
+['call', 'equal_pyobj', ['tmp11', '$0']]
+['movl', '%eax', 'tmp4']
+['movl', 'tmp4', 'tmp10']
+['movl', 'tmp8', 'tmp5']
+['or', 'tmp5', 'tmp10']
+['movl', 'tmp5', 'tmp7']
+['movl', 'tmp1', 'tmp6']
+['and', 'tmp6', '$3']
+['movl', 'tmp6', 'tmp14']
+['call', 'equal_pyobj', ['tmp14', '$1']]
+['movl', '%eax', 'tmp7']
+['movl', 'tmp7', 'tmp13']
+['movl', 'tmp1', 'tmp8']
+['and', 'tmp8', '$3']
+['movl', 'tmp8', 'tmp16']
+['call', 'equal_pyobj', ['tmp16', '$0']]
+['movl', '%eax', 'tmp9']
+['movl', 'tmp9', 'tmp15']
+['movl', 'tmp13', 'tmp10']
+['or', 'tmp10', 'tmp15']
+['movl', 'tmp10', 'tmp12']
+['movl', 'tmp7', 'tmp11']
+['and', 'tmp11', 'tmp12']
+['movl', 'tmp11', 'tmp6']
+['movl', 'tmp6', 'tmp5']
+['if', 'tmp5', '0']
+['movl', 'tmp3', 'tmp12']
+['shr', 'tmp12', '$2']
+['movl', 'tmp12', 'tmp19']
+['movl', 'tmp1', 'tmp13']
+['shr', 'tmp13', '$2']
+['movl', 'tmp13', 'tmp20']
+['movl', 'tmp20', 'tmp14']
+['addl', 'tmp19', 'tmp14']
+['movl', 'tmp14', 'tmp21']
+['movl', 'tmp21', 'tmp15']
+['shl', 'tmp15', '$2']
+['movl', 'tmp15', 'tmp18']
+['movl', 'tmp18', 'tmp16']
+['or', 'tmp16', '$1']
+['movl', 'tmp16', 'tmp18']
+['movl', 'tmp18', 'tmp17']
+['else', None, '0']
+['movl', 'tmp3', 'tmp17']
+['and', 'tmp17', '$3']
+['movl', 'tmp17', 'tmp25']
+['call', 'equal_pyobj', ['tmp25', '$3']]
+['movl', '%eax', 'tmp18']
+['movl', 'tmp18', 'tmp24']
+['movl', 'tmp1', 'tmp19']
+['and', 'tmp19', '$3']
+['movl', 'tmp19', 'tmp27']
+['call', 'equal_pyobj', ['tmp27', '$3']]
+['movl', '%eax', 'tmp20']
+['movl', 'tmp20', 'tmp26']
+['movl', 'tmp24', 'tmp21']
+['and', 'tmp21', 'tmp26']
+['movl', 'tmp21', 'tmp23']
+['movl', 'tmp23', 'tmp22']
+['if', 'tmp22', '1']
+['movl', '$3', 'tmp22']
+['not', 'tmp22', None]
+['movl', 'tmp22', 'tmp32']
+['movl', 'tmp31', 'tmp23']
+['and', 'tmp23', 'tmp32']
+['movl', 'tmp23', 'tmp31']
+['movl', '$3', 'tmp24']
+['not', 'tmp24', None]
+['movl', 'tmp24', 'tmp34']
+['movl', 'tmp33', 'tmp25']
+['and', 'tmp25', 'tmp34']
+['movl', 'tmp25', 'tmp33']
+['call', 'add', ['tmp31', 'tmp33']]
+['movl', '%eax', 'tmp26']
+['movl', 'tmp26', 'tmp30']
+['movl', 'tmp30', 'tmp27']
+['shl', 'tmp27', '$2']
+['movl', 'tmp27', 'tmp29']
+['movl', 'tmp29', 'tmp28']
+['or', 'tmp28', '$3']
+['movl', 'tmp28', 'tmp29']
+['movl', 'tmp29', 'tmp28']
+['else', None, '1']
+['call', 'error_pyobj', ['$1']]
+['movl', '%eax', 'tmp29']
+['movl', 'tmp29', 'tmp35']
+['movl', 'tmp35', 'tmp28']
+['endif', None, '1']
+['movl', 'tmp28', 'tmp17']
+['endif', None, '0']
+['movl', 'tmp17', 'tmp4']
+['movl', 'tmp4', 'tmp2']
+['movl', 'tmp2', 'tmp0']
+
+
+105
+104
+('NODE: ', 0)
+[['movl', '$1', 'tmp1'], ['movl', '$1', 'tmp3'], ['movl', 'tmp3', 'tmp1'], ['and', 'tmp1', '$3'], ['movl', 'tmp1', 'tmp9'], ['call', 'equal_pyobj', ['tmp9', '$1']], ['movl', '%eax', 'tmp2'], ['movl', 'tmp2', 'tmp8'], ['movl', 'tmp3', 'tmp3'], ['and', 'tmp3', '$3'], ['movl', 'tmp3', 'tmp11'], ['call', 'equal_pyobj', ['tmp11', '$0']], ['movl', '%eax', 'tmp4'], ['movl', 'tmp4', 'tmp10'], ['movl', 'tmp8', 'tmp5'], ['or', 'tmp5', 'tmp10'], ['movl', 'tmp5', 'tmp7'], ['movl', 'tmp1', 'tmp6'], ['and', 'tmp6', '$3'], ['movl', 'tmp6', 'tmp14'], ['call', 'equal_pyobj', ['tmp14', '$1']], ['movl', '%eax', 'tmp7'], ['movl', 'tmp7', 'tmp13'], ['movl', 'tmp1', 'tmp8'], ['and', 'tmp8', '$3'], ['movl', 'tmp8', 'tmp16'], ['call', 'equal_pyobj', ['tmp16', '$0']], ['movl', '%eax', 'tmp9'], ['movl', 'tmp9', 'tmp15'], ['movl', 'tmp13', 'tmp10'], ['or', 'tmp10', 'tmp15'], ['movl', 'tmp10', 'tmp12'], ['movl', 'tmp7', 'tmp11'], ['and', 'tmp11', 'tmp12'], ['movl', 'tmp11', 'tmp6'], ['movl', 'tmp6', 'tmp5'], ['if', 'tmp5', '0']]
+CHILDREN: 
+1
+2
+PARENTS: 
+('NODE: ', 1)
+[['movl', 'tmp3', 'tmp12'], ['shr', 'tmp12', '$2'], ['movl', 'tmp12', 'tmp19'], ['movl', 'tmp1', 'tmp13'], ['shr', 'tmp13', '$2'], ['movl', 'tmp13', 'tmp20'], ['movl', 'tmp20', 'tmp14'], ['addl', 'tmp19', 'tmp14'], ['movl', 'tmp14', 'tmp21'], ['movl', 'tmp21', 'tmp15'], ['shl', 'tmp15', '$2'], ['movl', 'tmp15', 'tmp18'], ['movl', 'tmp18', 'tmp16'], ['or', 'tmp16', '$1'], ['movl', 'tmp16', 'tmp18'], ['movl', 'tmp18', 'tmp17']]
+CHILDREN: 
+7
+PARENTS: 
+('NODE: ', 2)
+[['else', None, '-1'], ['movl', 'tmp3', 'tmp17'], ['and', 'tmp17', '$3'], ['movl', 'tmp17', 'tmp25'], ['call', 'equal_pyobj', ['tmp25', '$3']], ['movl', '%eax', 'tmp18'], ['movl', 'tmp18', 'tmp24'], ['movl', 'tmp1', 'tmp19'], ['and', 'tmp19', '$3'], ['movl', 'tmp19', 'tmp27'], ['call', 'equal_pyobj', ['tmp27', '$3']], ['movl', '%eax', 'tmp20'], ['movl', 'tmp20', 'tmp26'], ['movl', 'tmp24', 'tmp21'], ['and', 'tmp21', 'tmp26'], ['movl', 'tmp21', 'tmp23'], ['movl', 'tmp23', 'tmp22'], ['if', 'tmp22', '1']]
+CHILDREN: 
+3
+4
+PARENTS: 
+('NODE: ', 3)
+[['movl', '$3', 'tmp22'], ['not', 'tmp22', None], ['movl', 'tmp22', 'tmp32'], ['movl', 'tmp31', 'tmp23'], ['and', 'tmp23', 'tmp32'], ['movl', 'tmp23', 'tmp31'], ['movl', '$3', 'tmp24'], ['not', 'tmp24', None], ['movl', 'tmp24', 'tmp34'], ['movl', 'tmp33', 'tmp25'], ['and', 'tmp25', 'tmp34'], ['movl', 'tmp25', 'tmp33'], ['call', 'add', ['tmp31', 'tmp33']], ['movl', '%eax', 'tmp26'], ['movl', 'tmp26', 'tmp30'], ['movl', 'tmp30', 'tmp27'], ['shl', 'tmp27', '$2'], ['movl', 'tmp27', 'tmp29'], ['movl', 'tmp29', 'tmp28'], ['or', 'tmp28', '$3'], ['movl', 'tmp28', 'tmp29'], ['movl', 'tmp29', 'tmp28']]
+CHILDREN: 
+5
+PARENTS: 
+('NODE: ', 4)
+[['else', None, '-1'], ['call', 'error_pyobj', ['$1']], ['movl', '%eax', 'tmp29'], ['movl', 'tmp29', 'tmp35'], ['movl', 'tmp35', 'tmp28']]
+CHILDREN: 
+5
+PARENTS: 
+('NODE: ', 5)
+[['endif', None, '1']]
+CHILDREN: 
+6
+PARENTS: 
+('NODE: ', 6)
+[['movl', 'tmp28', 'tmp17']]
+CHILDREN: 
+7
+PARENTS: 
+('NODE: ', 7)
+[['endif', None, '0']]
+CHILDREN: 
+8
+PARENTS: 
+('NODE: ', 8)
+[['movl', 'tmp17', 'tmp4'], ['movl', 'tmp4', 'tmp2'], ['movl', 'tmp2', 'tmp0']]
+CHILDREN: 
+PARENTS: 
+edi
+tmp9
+tmp8
+tmp12
+tmp5
+tmp4
+edx
+tmp6
+ebx
+tmp7
+tmp3
+tmp2
+tmp24
+tmp25
+tmp26
+tmp27
+tmp20
+tmp21
+tmp22
+tmp23
+tmp1
+tmp28
+tmp29
+esi
+tmp15
+tmp13
+eax
+tmp14
+tmp17
+ecx
+tmp16
+tmp19
+tmp18
+tmp33
+tmp32
+tmp31
+tmp30
+tmp11
+tmp10
+tmp35
+tmp34
+['movl', '$1', '%ebx']
+['movl', '$1', '%ebx']
+['movl', '%ebx', '%ebx']
+['and', '%ebx', '$3']
+['movl', '%ebx', '%ecx']
+['call', 'equal_pyobj', ['%ecx', '$1']]
+['movl', '%eax', '%eax']
+['movl', '%eax', '%ebx']
+['movl', '%ebx', '%ebx']
+['and', '%ebx', '$3']
+['movl', '%ebx', '%ecx']
+['call', 'equal_pyobj', ['%ecx', '$0']]
+['movl', '%eax', '%eax']
+['movl', '%eax', '%ecx']
+['movl', '%ebx', '%ecx']
+['or', '%ecx', '%ecx']
+['movl', '%ecx', '%ecx']
+['movl', '%ebx', '%ecx']
+['and', '%ecx', '$3']
+['movl', '%ecx', '%ecx']
+['call', 'equal_pyobj', ['%ecx', '$1']]
+['movl', '%eax', '%ecx']
+['movl', '%ecx', '%ecx']
+['movl', '%ebx', '%ebx']
+['and', '%ebx', '$3']
+['movl', '%ebx', '%ecx']
+['call', 'equal_pyobj', ['%ecx', '$0']]
+['movl', '%eax', '%ecx']
+['movl', '%ecx', '%ecx']
+['movl', '%ecx', '%ecx']
+['or', '%ecx', '%ecx']
+['movl', '%ecx', '%edx']
+['movl', '%ecx', '%ecx']
+['and', '%ecx', '%edx']
+['movl', '%ecx', '%ecx']
+['movl', '%ecx', '%ecx']
+['if', '%ecx', '0']
+['movl', '%ebx', '%edx']
+['shr', '%edx', '$2']
+['movl', '%edx', '%edi']
+['movl', '%ebx', '%ecx']
+['shr', '%ecx', '$2']
+['movl', '%ecx', '%ecx']
+['movl', '%ecx', '%ecx']
+['addl', '%edi', '%ecx']
+['movl', '%ecx', '%edi']
+['movl', '%edi', '%ecx']
+['shl', '%ecx', '$2']
+['movl', '%ecx', '%eax']
+['movl', '%eax', '%ecx']
+['or', '%ecx', '$1']
+['movl', '%ecx', '%eax']
+['movl', '%eax', '%edx']
+['else', None, '0']
+['movl', '%ebx', '%edx']
+['and', '%edx', '$3']
+['movl', '%edx', '%eax']
+['call', 'equal_pyobj', ['%eax', '$3']]
+['movl', '%eax', '%eax']
+['movl', '%eax', '%eax']
+['movl', '%ebx', '%edi']
+['and', '%edi', '$3']
+['movl', '%edi', '%eax']
+['call', 'equal_pyobj', ['%eax', '$3']]
+['movl', '%eax', '%ecx']
+['movl', '%ecx', '%eax']
+['movl', '%eax', '%edi']
+['and', '%edi', '%eax']
+['movl', '%edi', '%eax']
+['movl', '%eax', '%eax']
+['if', '%eax', '1']
+['movl', '$3', '%eax']
+['not', '%eax', None]
+['movl', '%eax', '%eax']
+['movl', '-4(%ebp)', '%eax']
+['and', '%eax', '%eax']
+['movl', '%eax', '-4(%ebp)']
+['movl', '$3', '%eax']
+['not', '%eax', None]
+['movl', '%eax', '%eax']
+['movl', '%esi', '%eax']
+['and', '%eax', '%eax']
+['movl', '%eax', '%esi']
+['call', 'add', ['-4(%ebp)', '%esi']]
+['movl', '%eax', '%eax']
+['movl', '%eax', '%eax']
+['movl', '%eax', '%eax']
+['shl', '%eax', '$2']
+['movl', '%eax', '%edi']
+['movl', '%edi', '%edi']
+['or', '%edi', '$3']
+['movl', '%edi', '%edi']
+['movl', '%edi', '%edi']
+['else', None, '1']
+['call', 'error_pyobj', ['$1']]
+['movl', '%eax', '%edi']
+['movl', '%edi', '%ecx']
+['movl', '%ecx', '%edi']
+['endif', None, '1']
+['movl', '%edi', '%edx']
+['endif', None, '0']
+['movl', '%edx', '%eax']
+['movl', '%eax', '%eax']
+['movl', '%eax', None]

@@ -1,0 +1,1348 @@
+LexToken(NAME,'x',1,0)
+LexToken(ASSIGN,'=',1,2)
+LexToken(INT,1,1,4)
+LexToken(NAME,'y',2,6)
+LexToken(ASSIGN,'=',2,8)
+LexToken(INT,2,2,10)
+LexToken(PRINT,'print',3,12)
+LexToken(NAME,'x',3,18)
+LexToken(EQ,'==',3,20)
+LexToken(NAME,'y',3,23)
+LexToken(NAME,'x',4,25)
+LexToken(ASSIGN,'=',4,27)
+LexToken(TRUE,'True',4,29)
+LexToken(NAME,'y',5,34)
+LexToken(ASSIGN,'=',5,36)
+LexToken(INT,1,5,38)
+LexToken(PRINT,'print',6,40)
+LexToken(NAME,'x',6,46)
+LexToken(EQ,'==',6,48)
+LexToken(NAME,'y',6,51)
+LexToken(PRINT,'print',7,53)
+LexToken(NAME,'x',7,59)
+LexToken(NEQ,'!=',7,61)
+LexToken(NAME,'y',7,64)
+LexToken(PRINT,'print',8,66)
+LexToken(NAME,'y',8,72)
+LexToken(EQ,'==',8,74)
+LexToken(NAME,'y',8,77)
+LexToken(NAME,'y',9,79)
+LexToken(ASSIGN,'=',9,81)
+LexToken(FALSE,'False',9,83)
+LexToken(PRINT,'print',10,89)
+LexToken(NAME,'y',10,95)
+LexToken(NEQ,'!=',10,97)
+LexToken(NAME,'y',10,100)
+LexToken(PRINT,'print',11,102)
+LexToken(NAME,'y',11,108)
+LexToken(EQ,'==',11,110)
+LexToken(INT,0,11,113)
+
+
+--------AST--------
+Module(None, Stmt([Assign([AssName('x', 'OP_ASSIGN')], Const(1)), Assign([AssName('y', 'OP_ASSIGN')], Const(2)), Printnl([Compare(Name('x'), [('==', Name('y'))])], None), Assign([AssName('x', 'OP_ASSIGN')], Name('True')), Assign([AssName('y', 'OP_ASSIGN')], Const(1)), Printnl([Compare(Name('x'), [('==', Name('y'))])], None), Printnl([Compare(Name('x'), [('!=', Name('y'))])], None), Printnl([Compare(Name('y'), [('==', Name('y'))])], None), Assign([AssName('y', 'OP_ASSIGN')], Name('False')), Printnl([Compare(Name('y'), [('!=', Name('y'))])], None), Printnl([Compare(Name('y'), [('==', Const(0))])], None)]))
+
+-------ExpAST-------
+Module(None, Stmt([Assign([AssName('x', 'OP_ASSIGN')], InjectFrom('Const(0)', Const(1))), Assign([AssName('y', 'OP_ASSIGN')], InjectFrom('Const(0)', Const(2))), Printnl([Let(let_var2, Name('y'), Let(let_var1, Name('x'), IfExp(InjectFrom('Const(0)', And([Or([CallFunc(Name('is_int'), [Name('let_var1')], None, None), CallFunc(Name('is_bool'), [Name('let_var1')], None, None)]), Or([CallFunc(Name('is_int'), [Name('let_var2')], None, None), CallFunc(Name('is_bool'), [Name('let_var2')], None, None)])])), InjectFrom('Const(1)', Compare(ProjectTo('Const(0)', let_var1), [('==', ProjectTo('Const(0)', let_var2))])), IfExp(InjectFrom('Const(0)', And([CallFunc(Name('is_big'), [Name('let_var1')], None, None), CallFunc(Name('is_big'), [Name('let_var2')], None, None)])), InjectFrom('Const(1)', CallFunc(Name('equal'), [ProjectTo('Const(3)', let_var1), ProjectTo('Const(3)', let_var2)], None, None)), InjectFrom('Const(1)', Const(0))))))], None), Assign([AssName('x', 'OP_ASSIGN')], InjectFrom('Const(1)', Const(1))), Assign([AssName('y', 'OP_ASSIGN')], InjectFrom('Const(0)', Const(1))), Printnl([Let(let_var4, Name('y'), Let(let_var3, Name('x'), IfExp(InjectFrom('Const(0)', And([Or([CallFunc(Name('is_int'), [Name('let_var3')], None, None), CallFunc(Name('is_bool'), [Name('let_var3')], None, None)]), Or([CallFunc(Name('is_int'), [Name('let_var4')], None, None), CallFunc(Name('is_bool'), [Name('let_var4')], None, None)])])), InjectFrom('Const(1)', Compare(ProjectTo('Const(0)', let_var3), [('==', ProjectTo('Const(0)', let_var4))])), IfExp(InjectFrom('Const(0)', And([CallFunc(Name('is_big'), [Name('let_var3')], None, None), CallFunc(Name('is_big'), [Name('let_var4')], None, None)])), InjectFrom('Const(1)', CallFunc(Name('equal'), [ProjectTo('Const(3)', let_var3), ProjectTo('Const(3)', let_var4)], None, None)), InjectFrom('Const(1)', Const(0))))))], None), Printnl([Let(let_var6, Name('y'), Let(let_var5, Name('x'), IfExp(InjectFrom('Const(0)', And([Or([CallFunc(Name('is_int'), [Name('let_var5')], None, None), CallFunc(Name('is_bool'), [Name('let_var5')], None, None)]), Or([CallFunc(Name('is_int'), [Name('let_var6')], None, None), CallFunc(Name('is_bool'), [Name('let_var6')], None, None)])])), InjectFrom('Const(1)', Compare(ProjectTo('Const(0)', let_var5), [('!=', ProjectTo('Const(0)', let_var6))])), IfExp(InjectFrom('Const(0)', And([CallFunc(Name('is_big'), [Name('let_var5')], None, None), CallFunc(Name('is_big'), [Name('let_var6')], None, None)])), InjectFrom('Const(1)', CallFunc(Name('not_equal'), [ProjectTo('Const(3)', let_var5), ProjectTo('Const(3)', let_var6)], None, None)), InjectFrom('Const(1)', Const(1))))))], None), Printnl([Let(let_var8, Name('y'), Let(let_var7, Name('y'), IfExp(InjectFrom('Const(0)', And([Or([CallFunc(Name('is_int'), [Name('let_var7')], None, None), CallFunc(Name('is_bool'), [Name('let_var7')], None, None)]), Or([CallFunc(Name('is_int'), [Name('let_var8')], None, None), CallFunc(Name('is_bool'), [Name('let_var8')], None, None)])])), InjectFrom('Const(1)', Compare(ProjectTo('Const(0)', let_var7), [('==', ProjectTo('Const(0)', let_var8))])), IfExp(InjectFrom('Const(0)', And([CallFunc(Name('is_big'), [Name('let_var7')], None, None), CallFunc(Name('is_big'), [Name('let_var8')], None, None)])), InjectFrom('Const(1)', CallFunc(Name('equal'), [ProjectTo('Const(3)', let_var7), ProjectTo('Const(3)', let_var8)], None, None)), InjectFrom('Const(1)', Const(0))))))], None), Assign([AssName('y', 'OP_ASSIGN')], InjectFrom('Const(1)', Const(0))), Printnl([Let(let_var10, Name('y'), Let(let_var9, Name('y'), IfExp(InjectFrom('Const(0)', And([Or([CallFunc(Name('is_int'), [Name('let_var9')], None, None), CallFunc(Name('is_bool'), [Name('let_var9')], None, None)]), Or([CallFunc(Name('is_int'), [Name('let_var10')], None, None), CallFunc(Name('is_bool'), [Name('let_var10')], None, None)])])), InjectFrom('Const(1)', Compare(ProjectTo('Const(0)', let_var9), [('!=', ProjectTo('Const(0)', let_var10))])), IfExp(InjectFrom('Const(0)', And([CallFunc(Name('is_big'), [Name('let_var9')], None, None), CallFunc(Name('is_big'), [Name('let_var10')], None, None)])), InjectFrom('Const(1)', CallFunc(Name('not_equal'), [ProjectTo('Const(3)', let_var9), ProjectTo('Const(3)', let_var10)], None, None)), InjectFrom('Const(1)', Const(1))))))], None), Printnl([Let(let_var12, InjectFrom('Const(0)', Const(0)), Let(let_var11, Name('y'), IfExp(InjectFrom('Const(0)', And([Or([CallFunc(Name('is_int'), [Name('let_var11')], None, None), CallFunc(Name('is_bool'), [Name('let_var11')], None, None)]), Or([CallFunc(Name('is_int'), [Name('let_var12')], None, None), CallFunc(Name('is_bool'), [Name('let_var12')], None, None)])])), InjectFrom('Const(1)', Compare(ProjectTo('Const(0)', let_var11), [('==', ProjectTo('Const(0)', let_var12))])), IfExp(InjectFrom('Const(0)', And([CallFunc(Name('is_big'), [Name('let_var11')], None, None), CallFunc(Name('is_big'), [Name('let_var12')], None, None)])), InjectFrom('Const(1)', CallFunc(Name('equal'), [ProjectTo('Const(3)', let_var11), ProjectTo('Const(3)', let_var12)], None, None)), InjectFrom('Const(1)', Const(0))))))], None)]))
+
+-------FLATTEN-------
+tmp2 = 1
+tmp1 = tmp2 << 2
+tmp1 = tmp1 | 0
+tmp0 = tmp1
+tmp5 = 2
+tmp4 = tmp5 << 2
+tmp4 = tmp4 | 0
+tmp3 = tmp4
+tmp6 = tmp3
+tmp8 = tmp0
+tmp15 = is_int(tmp8)
+tmp16 = is_bool(tmp8)
+tmp14 = tmp15 or tmp16
+tmp18 = is_int(tmp6)
+tmp19 = is_bool(tmp6)
+tmp17 = tmp18 or tmp19
+tmp13 = tmp14 and tmp17
+tmp12 = tmp13
+tmp11 = tmp12 << 2
+tmp11 = tmp11 | 0
+tmp10 = tmp11
+tmp10 = is_true(tmp10)
+tmp20 = 0
+tmp10 = tmp10!= tmp20
+if0 = tmp10
+tmp26 = tmp8 >> 2
+tmp27 = tmp6 >> 2
+tmp25 = tmp27
+tmp24= tmp26==tmp25
+tmp23 = tmp24
+tmp22 = tmp23 << 2
+tmp22 = tmp22 | 1
+tmp21 = tmp22
+else0
+tmp32 = is_big(tmp8)
+tmp33 = is_big(tmp6)
+tmp31 = tmp32 and tmp33
+tmp30 = tmp31
+tmp29 = tmp30 << 2
+tmp29 = tmp29 | 0
+tmp28 = tmp29
+tmp28 = is_true(tmp28)
+tmp34 = 0
+tmp28 = tmp28!= tmp34
+if1 = tmp28
+tmp40 = ~3
+tmp39 = tmp8 & tmp40
+tmp42 = ~3
+tmp41 = tmp6 & tmp42
+tmp38 = equal(tmp39, tmp41)
+tmp37 = tmp38
+tmp36 = tmp37 << 2
+tmp36 = tmp36 | 1
+tmp35 = tmp36
+else1
+tmp44 = 0
+tmp43 = tmp44 << 2
+tmp43 = tmp43 | 1
+tmp35 = tmp43
+endif1
+tmp21 = tmp35
+endif0
+tmp9 = tmp21
+tmp7 = tmp9
+print tmp7
+tmp46 = 1
+tmp45 = tmp46 << 2
+tmp45 = tmp45 | 1
+tmp0 = tmp45
+tmp48 = 1
+tmp47 = tmp48 << 2
+tmp47 = tmp47 | 0
+tmp3 = tmp47
+tmp49 = tmp3
+tmp51 = tmp0
+tmp58 = is_int(tmp51)
+tmp59 = is_bool(tmp51)
+tmp57 = tmp58 or tmp59
+tmp61 = is_int(tmp49)
+tmp62 = is_bool(tmp49)
+tmp60 = tmp61 or tmp62
+tmp56 = tmp57 and tmp60
+tmp55 = tmp56
+tmp54 = tmp55 << 2
+tmp54 = tmp54 | 0
+tmp53 = tmp54
+tmp53 = is_true(tmp53)
+tmp63 = 0
+tmp53 = tmp53!= tmp63
+if2 = tmp53
+tmp69 = tmp51 >> 2
+tmp70 = tmp49 >> 2
+tmp68 = tmp70
+tmp67= tmp69==tmp68
+tmp66 = tmp67
+tmp65 = tmp66 << 2
+tmp65 = tmp65 | 1
+tmp64 = tmp65
+else2
+tmp75 = is_big(tmp51)
+tmp76 = is_big(tmp49)
+tmp74 = tmp75 and tmp76
+tmp73 = tmp74
+tmp72 = tmp73 << 2
+tmp72 = tmp72 | 0
+tmp71 = tmp72
+tmp71 = is_true(tmp71)
+tmp77 = 0
+tmp71 = tmp71!= tmp77
+if3 = tmp71
+tmp83 = ~3
+tmp82 = tmp51 & tmp83
+tmp85 = ~3
+tmp84 = tmp49 & tmp85
+tmp81 = equal(tmp82, tmp84)
+tmp80 = tmp81
+tmp79 = tmp80 << 2
+tmp79 = tmp79 | 1
+tmp78 = tmp79
+else3
+tmp87 = 0
+tmp86 = tmp87 << 2
+tmp86 = tmp86 | 1
+tmp78 = tmp86
+endif3
+tmp64 = tmp78
+endif2
+tmp52 = tmp64
+tmp50 = tmp52
+print tmp50
+tmp88 = tmp3
+tmp90 = tmp0
+tmp97 = is_int(tmp90)
+tmp98 = is_bool(tmp90)
+tmp96 = tmp97 or tmp98
+tmp100 = is_int(tmp88)
+tmp101 = is_bool(tmp88)
+tmp99 = tmp100 or tmp101
+tmp95 = tmp96 and tmp99
+tmp94 = tmp95
+tmp93 = tmp94 << 2
+tmp93 = tmp93 | 0
+tmp92 = tmp93
+tmp92 = is_true(tmp92)
+tmp102 = 0
+tmp92 = tmp92!= tmp102
+if4 = tmp92
+tmp108 = tmp90 >> 2
+tmp109 = tmp88 >> 2
+tmp107 = tmp109
+tmp106= tmp108!=tmp107
+tmp105 = tmp106
+tmp104 = tmp105 << 2
+tmp104 = tmp104 | 1
+tmp103 = tmp104
+else4
+tmp114 = is_big(tmp90)
+tmp115 = is_big(tmp88)
+tmp113 = tmp114 and tmp115
+tmp112 = tmp113
+tmp111 = tmp112 << 2
+tmp111 = tmp111 | 0
+tmp110 = tmp111
+tmp110 = is_true(tmp110)
+tmp116 = 0
+tmp110 = tmp110!= tmp116
+if5 = tmp110
+tmp122 = ~3
+tmp121 = tmp90 & tmp122
+tmp124 = ~3
+tmp123 = tmp88 & tmp124
+tmp120 = not_equal(tmp121, tmp123)
+tmp119 = tmp120
+tmp118 = tmp119 << 2
+tmp118 = tmp118 | 1
+tmp117 = tmp118
+else5
+tmp126 = 1
+tmp125 = tmp126 << 2
+tmp125 = tmp125 | 1
+tmp117 = tmp125
+endif5
+tmp103 = tmp117
+endif4
+tmp91 = tmp103
+tmp89 = tmp91
+print tmp89
+tmp127 = tmp3
+tmp129 = tmp3
+tmp136 = is_int(tmp129)
+tmp137 = is_bool(tmp129)
+tmp135 = tmp136 or tmp137
+tmp139 = is_int(tmp127)
+tmp140 = is_bool(tmp127)
+tmp138 = tmp139 or tmp140
+tmp134 = tmp135 and tmp138
+tmp133 = tmp134
+tmp132 = tmp133 << 2
+tmp132 = tmp132 | 0
+tmp131 = tmp132
+tmp131 = is_true(tmp131)
+tmp141 = 0
+tmp131 = tmp131!= tmp141
+if6 = tmp131
+tmp147 = tmp129 >> 2
+tmp148 = tmp127 >> 2
+tmp146 = tmp148
+tmp145= tmp147==tmp146
+tmp144 = tmp145
+tmp143 = tmp144 << 2
+tmp143 = tmp143 | 1
+tmp142 = tmp143
+else6
+tmp153 = is_big(tmp129)
+tmp154 = is_big(tmp127)
+tmp152 = tmp153 and tmp154
+tmp151 = tmp152
+tmp150 = tmp151 << 2
+tmp150 = tmp150 | 0
+tmp149 = tmp150
+tmp149 = is_true(tmp149)
+tmp155 = 0
+tmp149 = tmp149!= tmp155
+if7 = tmp149
+tmp161 = ~3
+tmp160 = tmp129 & tmp161
+tmp163 = ~3
+tmp162 = tmp127 & tmp163
+tmp159 = equal(tmp160, tmp162)
+tmp158 = tmp159
+tmp157 = tmp158 << 2
+tmp157 = tmp157 | 1
+tmp156 = tmp157
+else7
+tmp165 = 0
+tmp164 = tmp165 << 2
+tmp164 = tmp164 | 1
+tmp156 = tmp164
+endif7
+tmp142 = tmp156
+endif6
+tmp130 = tmp142
+tmp128 = tmp130
+print tmp128
+tmp167 = 0
+tmp166 = tmp167 << 2
+tmp166 = tmp166 | 1
+tmp3 = tmp166
+tmp168 = tmp3
+tmp170 = tmp3
+tmp177 = is_int(tmp170)
+tmp178 = is_bool(tmp170)
+tmp176 = tmp177 or tmp178
+tmp180 = is_int(tmp168)
+tmp181 = is_bool(tmp168)
+tmp179 = tmp180 or tmp181
+tmp175 = tmp176 and tmp179
+tmp174 = tmp175
+tmp173 = tmp174 << 2
+tmp173 = tmp173 | 0
+tmp172 = tmp173
+tmp172 = is_true(tmp172)
+tmp182 = 0
+tmp172 = tmp172!= tmp182
+if8 = tmp172
+tmp188 = tmp170 >> 2
+tmp189 = tmp168 >> 2
+tmp187 = tmp189
+tmp186= tmp188!=tmp187
+tmp185 = tmp186
+tmp184 = tmp185 << 2
+tmp184 = tmp184 | 1
+tmp183 = tmp184
+else8
+tmp194 = is_big(tmp170)
+tmp195 = is_big(tmp168)
+tmp193 = tmp194 and tmp195
+tmp192 = tmp193
+tmp191 = tmp192 << 2
+tmp191 = tmp191 | 0
+tmp190 = tmp191
+tmp190 = is_true(tmp190)
+tmp196 = 0
+tmp190 = tmp190!= tmp196
+if9 = tmp190
+tmp202 = ~3
+tmp201 = tmp170 & tmp202
+tmp204 = ~3
+tmp203 = tmp168 & tmp204
+tmp200 = not_equal(tmp201, tmp203)
+tmp199 = tmp200
+tmp198 = tmp199 << 2
+tmp198 = tmp198 | 1
+tmp197 = tmp198
+else9
+tmp206 = 1
+tmp205 = tmp206 << 2
+tmp205 = tmp205 | 1
+tmp197 = tmp205
+endif9
+tmp183 = tmp197
+endif8
+tmp171 = tmp183
+tmp169 = tmp171
+print tmp169
+tmp209 = 0
+tmp208 = tmp209 << 2
+tmp208 = tmp208 | 0
+tmp207 = tmp208
+tmp211 = tmp3
+tmp218 = is_int(tmp211)
+tmp219 = is_bool(tmp211)
+tmp217 = tmp218 or tmp219
+tmp221 = is_int(tmp207)
+tmp222 = is_bool(tmp207)
+tmp220 = tmp221 or tmp222
+tmp216 = tmp217 and tmp220
+tmp215 = tmp216
+tmp214 = tmp215 << 2
+tmp214 = tmp214 | 0
+tmp213 = tmp214
+tmp213 = is_true(tmp213)
+tmp223 = 0
+tmp213 = tmp213!= tmp223
+if10 = tmp213
+tmp229 = tmp211 >> 2
+tmp230 = tmp207 >> 2
+tmp228 = tmp230
+tmp227= tmp229==tmp228
+tmp226 = tmp227
+tmp225 = tmp226 << 2
+tmp225 = tmp225 | 1
+tmp224 = tmp225
+else10
+tmp235 = is_big(tmp211)
+tmp236 = is_big(tmp207)
+tmp234 = tmp235 and tmp236
+tmp233 = tmp234
+tmp232 = tmp233 << 2
+tmp232 = tmp232 | 0
+tmp231 = tmp232
+tmp231 = is_true(tmp231)
+tmp237 = 0
+tmp231 = tmp231!= tmp237
+if11 = tmp231
+tmp243 = ~3
+tmp242 = tmp211 & tmp243
+tmp245 = ~3
+tmp244 = tmp207 & tmp245
+tmp241 = equal(tmp242, tmp244)
+tmp240 = tmp241
+tmp239 = tmp240 << 2
+tmp239 = tmp239 | 1
+tmp238 = tmp239
+else11
+tmp247 = 0
+tmp246 = tmp247 << 2
+tmp246 = tmp246 | 1
+tmp238 = tmp246
+endif11
+tmp224 = tmp238
+endif10
+tmp212 = tmp224
+tmp210 = tmp212
+print tmp210
+
+
+-------AST_flat-------
+Module(None, Stmt([Assign([AssName('tmp2', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp1', 'OP_ASSIGN')], LeftShift((Name('tmp2'), Const(2)))), Assign([AssName('tmp1', 'OP_ASSIGN')], Bitor([Name('tmp1'), Const(0)])), Assign([AssName('tmp0', 'OP_ASSIGN')], Name('tmp1')), Assign([AssName('tmp5', 'OP_ASSIGN')], Const(2)), Assign([AssName('tmp4', 'OP_ASSIGN')], LeftShift((Name('tmp5'), Const(2)))), Assign([AssName('tmp4', 'OP_ASSIGN')], Bitor([Name('tmp4'), Const(0)])), Assign([AssName('tmp3', 'OP_ASSIGN')], Name('tmp4')), Assign([AssName('tmp6', 'OP_ASSIGN')], Name('tmp3')), Assign([AssName('tmp8', 'OP_ASSIGN')], Name('tmp0')), Assign([AssName('tmp15', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp8')], None, None)), Assign([AssName('tmp16', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp8')], None, None)), Assign([AssName('tmp14', 'OP_ASSIGN')], Or([Name('tmp15'), Name('tmp16')])), Assign([AssName('tmp18', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp6')], None, None)), Assign([AssName('tmp19', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp6')], None, None)), Assign([AssName('tmp17', 'OP_ASSIGN')], Or([Name('tmp18'), Name('tmp19')])), Assign([AssName('tmp13', 'OP_ASSIGN')], And([Name('tmp14'), Name('tmp17')])), Assign([AssName('tmp12', 'OP_ASSIGN')], Name('tmp13')), Assign([AssName('tmp11', 'OP_ASSIGN')], LeftShift((Name('tmp12'), Const(2)))), Assign([AssName('tmp11', 'OP_ASSIGN')], Bitor([Name('tmp11'), Const(0)])), Assign([AssName('tmp10', 'OP_ASSIGN')], Name('tmp11')), Assign([AssName('tmp10', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp10')], None, None)), Assign([AssName('tmp20', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp10', 'OP_ASSIGN')], Compare(Name('tmp10'), [('!=', Name('tmp20'))])), Assign([AssName('if0', 'OP_ASSIGN')], Name('tmp10')), Assign([AssName('tmp26', 'OP_ASSIGN')], RightShift((Name('tmp8'), Const(2)))), Assign([AssName('tmp27', 'OP_ASSIGN')], RightShift((Name('tmp6'), Const(2)))), Assign([AssName('tmp25', 'OP_ASSIGN')], Name('tmp27')), Assign([AssName('tmp24', 'OP_ASSIGN')], Compare(Name('tmp26'), [('==', Name('tmp25'))])), Assign([AssName('tmp23', 'OP_ASSIGN')], Name('tmp24')), Assign([AssName('tmp22', 'OP_ASSIGN')], LeftShift((Name('tmp23'), Const(2)))), Assign([AssName('tmp22', 'OP_ASSIGN')], Bitor([Name('tmp22'), Const(1)])), Assign([AssName('tmp21', 'OP_ASSIGN')], Name('tmp22')), Discard(Name('else0')), Assign([AssName('tmp32', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp8')], None, None)), Assign([AssName('tmp33', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp6')], None, None)), Assign([AssName('tmp31', 'OP_ASSIGN')], And([Name('tmp32'), Name('tmp33')])), Assign([AssName('tmp30', 'OP_ASSIGN')], Name('tmp31')), Assign([AssName('tmp29', 'OP_ASSIGN')], LeftShift((Name('tmp30'), Const(2)))), Assign([AssName('tmp29', 'OP_ASSIGN')], Bitor([Name('tmp29'), Const(0)])), Assign([AssName('tmp28', 'OP_ASSIGN')], Name('tmp29')), Assign([AssName('tmp28', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp28')], None, None)), Assign([AssName('tmp34', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp28', 'OP_ASSIGN')], Compare(Name('tmp28'), [('!=', Name('tmp34'))])), Assign([AssName('if1', 'OP_ASSIGN')], Name('tmp28')), Assign([AssName('tmp40', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp39', 'OP_ASSIGN')], Bitand([Name('tmp8'), Name('tmp40')])), Assign([AssName('tmp42', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp41', 'OP_ASSIGN')], Bitand([Name('tmp6'), Name('tmp42')])), Assign([AssName('tmp38', 'OP_ASSIGN')], CallFunc(Name('equal'), [Name('tmp39'), Name('tmp41')], None, None)), Assign([AssName('tmp37', 'OP_ASSIGN')], Name('tmp38')), Assign([AssName('tmp36', 'OP_ASSIGN')], LeftShift((Name('tmp37'), Const(2)))), Assign([AssName('tmp36', 'OP_ASSIGN')], Bitor([Name('tmp36'), Const(1)])), Assign([AssName('tmp35', 'OP_ASSIGN')], Name('tmp36')), Discard(Name('else1')), Assign([AssName('tmp44', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp43', 'OP_ASSIGN')], LeftShift((Name('tmp44'), Const(2)))), Assign([AssName('tmp43', 'OP_ASSIGN')], Bitor([Name('tmp43'), Const(1)])), Assign([AssName('tmp35', 'OP_ASSIGN')], Name('tmp43')), Discard(Name('endif1')), Assign([AssName('tmp21', 'OP_ASSIGN')], Name('tmp35')), Discard(Name('endif0')), Assign([AssName('tmp9', 'OP_ASSIGN')], Name('tmp21')), Assign([AssName('tmp7', 'OP_ASSIGN')], Name('tmp9')), Printnl([Name('tmp7')], None), Assign([AssName('tmp46', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp45', 'OP_ASSIGN')], LeftShift((Name('tmp46'), Const(2)))), Assign([AssName('tmp45', 'OP_ASSIGN')], Bitor([Name('tmp45'), Const(1)])), Assign([AssName('tmp0', 'OP_ASSIGN')], Name('tmp45')), Assign([AssName('tmp48', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp47', 'OP_ASSIGN')], LeftShift((Name('tmp48'), Const(2)))), Assign([AssName('tmp47', 'OP_ASSIGN')], Bitor([Name('tmp47'), Const(0)])), Assign([AssName('tmp3', 'OP_ASSIGN')], Name('tmp47')), Assign([AssName('tmp49', 'OP_ASSIGN')], Name('tmp3')), Assign([AssName('tmp51', 'OP_ASSIGN')], Name('tmp0')), Assign([AssName('tmp58', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp51')], None, None)), Assign([AssName('tmp59', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp51')], None, None)), Assign([AssName('tmp57', 'OP_ASSIGN')], Or([Name('tmp58'), Name('tmp59')])), Assign([AssName('tmp61', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp49')], None, None)), Assign([AssName('tmp62', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp49')], None, None)), Assign([AssName('tmp60', 'OP_ASSIGN')], Or([Name('tmp61'), Name('tmp62')])), Assign([AssName('tmp56', 'OP_ASSIGN')], And([Name('tmp57'), Name('tmp60')])), Assign([AssName('tmp55', 'OP_ASSIGN')], Name('tmp56')), Assign([AssName('tmp54', 'OP_ASSIGN')], LeftShift((Name('tmp55'), Const(2)))), Assign([AssName('tmp54', 'OP_ASSIGN')], Bitor([Name('tmp54'), Const(0)])), Assign([AssName('tmp53', 'OP_ASSIGN')], Name('tmp54')), Assign([AssName('tmp53', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp53')], None, None)), Assign([AssName('tmp63', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp53', 'OP_ASSIGN')], Compare(Name('tmp53'), [('!=', Name('tmp63'))])), Assign([AssName('if2', 'OP_ASSIGN')], Name('tmp53')), Assign([AssName('tmp69', 'OP_ASSIGN')], RightShift((Name('tmp51'), Const(2)))), Assign([AssName('tmp70', 'OP_ASSIGN')], RightShift((Name('tmp49'), Const(2)))), Assign([AssName('tmp68', 'OP_ASSIGN')], Name('tmp70')), Assign([AssName('tmp67', 'OP_ASSIGN')], Compare(Name('tmp69'), [('==', Name('tmp68'))])), Assign([AssName('tmp66', 'OP_ASSIGN')], Name('tmp67')), Assign([AssName('tmp65', 'OP_ASSIGN')], LeftShift((Name('tmp66'), Const(2)))), Assign([AssName('tmp65', 'OP_ASSIGN')], Bitor([Name('tmp65'), Const(1)])), Assign([AssName('tmp64', 'OP_ASSIGN')], Name('tmp65')), Discard(Name('else2')), Assign([AssName('tmp75', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp51')], None, None)), Assign([AssName('tmp76', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp49')], None, None)), Assign([AssName('tmp74', 'OP_ASSIGN')], And([Name('tmp75'), Name('tmp76')])), Assign([AssName('tmp73', 'OP_ASSIGN')], Name('tmp74')), Assign([AssName('tmp72', 'OP_ASSIGN')], LeftShift((Name('tmp73'), Const(2)))), Assign([AssName('tmp72', 'OP_ASSIGN')], Bitor([Name('tmp72'), Const(0)])), Assign([AssName('tmp71', 'OP_ASSIGN')], Name('tmp72')), Assign([AssName('tmp71', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp71')], None, None)), Assign([AssName('tmp77', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp71', 'OP_ASSIGN')], Compare(Name('tmp71'), [('!=', Name('tmp77'))])), Assign([AssName('if3', 'OP_ASSIGN')], Name('tmp71')), Assign([AssName('tmp83', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp82', 'OP_ASSIGN')], Bitand([Name('tmp51'), Name('tmp83')])), Assign([AssName('tmp85', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp84', 'OP_ASSIGN')], Bitand([Name('tmp49'), Name('tmp85')])), Assign([AssName('tmp81', 'OP_ASSIGN')], CallFunc(Name('equal'), [Name('tmp82'), Name('tmp84')], None, None)), Assign([AssName('tmp80', 'OP_ASSIGN')], Name('tmp81')), Assign([AssName('tmp79', 'OP_ASSIGN')], LeftShift((Name('tmp80'), Const(2)))), Assign([AssName('tmp79', 'OP_ASSIGN')], Bitor([Name('tmp79'), Const(1)])), Assign([AssName('tmp78', 'OP_ASSIGN')], Name('tmp79')), Discard(Name('else3')), Assign([AssName('tmp87', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp86', 'OP_ASSIGN')], LeftShift((Name('tmp87'), Const(2)))), Assign([AssName('tmp86', 'OP_ASSIGN')], Bitor([Name('tmp86'), Const(1)])), Assign([AssName('tmp78', 'OP_ASSIGN')], Name('tmp86')), Discard(Name('endif3')), Assign([AssName('tmp64', 'OP_ASSIGN')], Name('tmp78')), Discard(Name('endif2')), Assign([AssName('tmp52', 'OP_ASSIGN')], Name('tmp64')), Assign([AssName('tmp50', 'OP_ASSIGN')], Name('tmp52')), Printnl([Name('tmp50')], None), Assign([AssName('tmp88', 'OP_ASSIGN')], Name('tmp3')), Assign([AssName('tmp90', 'OP_ASSIGN')], Name('tmp0')), Assign([AssName('tmp97', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp90')], None, None)), Assign([AssName('tmp98', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp90')], None, None)), Assign([AssName('tmp96', 'OP_ASSIGN')], Or([Name('tmp97'), Name('tmp98')])), Assign([AssName('tmp100', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp88')], None, None)), Assign([AssName('tmp101', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp88')], None, None)), Assign([AssName('tmp99', 'OP_ASSIGN')], Or([Name('tmp100'), Name('tmp101')])), Assign([AssName('tmp95', 'OP_ASSIGN')], And([Name('tmp96'), Name('tmp99')])), Assign([AssName('tmp94', 'OP_ASSIGN')], Name('tmp95')), Assign([AssName('tmp93', 'OP_ASSIGN')], LeftShift((Name('tmp94'), Const(2)))), Assign([AssName('tmp93', 'OP_ASSIGN')], Bitor([Name('tmp93'), Const(0)])), Assign([AssName('tmp92', 'OP_ASSIGN')], Name('tmp93')), Assign([AssName('tmp92', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp92')], None, None)), Assign([AssName('tmp102', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp92', 'OP_ASSIGN')], Compare(Name('tmp92'), [('!=', Name('tmp102'))])), Assign([AssName('if4', 'OP_ASSIGN')], Name('tmp92')), Assign([AssName('tmp108', 'OP_ASSIGN')], RightShift((Name('tmp90'), Const(2)))), Assign([AssName('tmp109', 'OP_ASSIGN')], RightShift((Name('tmp88'), Const(2)))), Assign([AssName('tmp107', 'OP_ASSIGN')], Name('tmp109')), Assign([AssName('tmp106', 'OP_ASSIGN')], Compare(Name('tmp108'), [('!=', Name('tmp107'))])), Assign([AssName('tmp105', 'OP_ASSIGN')], Name('tmp106')), Assign([AssName('tmp104', 'OP_ASSIGN')], LeftShift((Name('tmp105'), Const(2)))), Assign([AssName('tmp104', 'OP_ASSIGN')], Bitor([Name('tmp104'), Const(1)])), Assign([AssName('tmp103', 'OP_ASSIGN')], Name('tmp104')), Discard(Name('else4')), Assign([AssName('tmp114', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp90')], None, None)), Assign([AssName('tmp115', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp88')], None, None)), Assign([AssName('tmp113', 'OP_ASSIGN')], And([Name('tmp114'), Name('tmp115')])), Assign([AssName('tmp112', 'OP_ASSIGN')], Name('tmp113')), Assign([AssName('tmp111', 'OP_ASSIGN')], LeftShift((Name('tmp112'), Const(2)))), Assign([AssName('tmp111', 'OP_ASSIGN')], Bitor([Name('tmp111'), Const(0)])), Assign([AssName('tmp110', 'OP_ASSIGN')], Name('tmp111')), Assign([AssName('tmp110', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp110')], None, None)), Assign([AssName('tmp116', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp110', 'OP_ASSIGN')], Compare(Name('tmp110'), [('!=', Name('tmp116'))])), Assign([AssName('if5', 'OP_ASSIGN')], Name('tmp110')), Assign([AssName('tmp122', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp121', 'OP_ASSIGN')], Bitand([Name('tmp90'), Name('tmp122')])), Assign([AssName('tmp124', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp123', 'OP_ASSIGN')], Bitand([Name('tmp88'), Name('tmp124')])), Assign([AssName('tmp120', 'OP_ASSIGN')], CallFunc(Name('not_equal'), [Name('tmp121'), Name('tmp123')], None, None)), Assign([AssName('tmp119', 'OP_ASSIGN')], Name('tmp120')), Assign([AssName('tmp118', 'OP_ASSIGN')], LeftShift((Name('tmp119'), Const(2)))), Assign([AssName('tmp118', 'OP_ASSIGN')], Bitor([Name('tmp118'), Const(1)])), Assign([AssName('tmp117', 'OP_ASSIGN')], Name('tmp118')), Discard(Name('else5')), Assign([AssName('tmp126', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp125', 'OP_ASSIGN')], LeftShift((Name('tmp126'), Const(2)))), Assign([AssName('tmp125', 'OP_ASSIGN')], Bitor([Name('tmp125'), Const(1)])), Assign([AssName('tmp117', 'OP_ASSIGN')], Name('tmp125')), Discard(Name('endif5')), Assign([AssName('tmp103', 'OP_ASSIGN')], Name('tmp117')), Discard(Name('endif4')), Assign([AssName('tmp91', 'OP_ASSIGN')], Name('tmp103')), Assign([AssName('tmp89', 'OP_ASSIGN')], Name('tmp91')), Printnl([Name('tmp89')], None), Assign([AssName('tmp127', 'OP_ASSIGN')], Name('tmp3')), Assign([AssName('tmp129', 'OP_ASSIGN')], Name('tmp3')), Assign([AssName('tmp136', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp129')], None, None)), Assign([AssName('tmp137', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp129')], None, None)), Assign([AssName('tmp135', 'OP_ASSIGN')], Or([Name('tmp136'), Name('tmp137')])), Assign([AssName('tmp139', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp127')], None, None)), Assign([AssName('tmp140', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp127')], None, None)), Assign([AssName('tmp138', 'OP_ASSIGN')], Or([Name('tmp139'), Name('tmp140')])), Assign([AssName('tmp134', 'OP_ASSIGN')], And([Name('tmp135'), Name('tmp138')])), Assign([AssName('tmp133', 'OP_ASSIGN')], Name('tmp134')), Assign([AssName('tmp132', 'OP_ASSIGN')], LeftShift((Name('tmp133'), Const(2)))), Assign([AssName('tmp132', 'OP_ASSIGN')], Bitor([Name('tmp132'), Const(0)])), Assign([AssName('tmp131', 'OP_ASSIGN')], Name('tmp132')), Assign([AssName('tmp131', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp131')], None, None)), Assign([AssName('tmp141', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp131', 'OP_ASSIGN')], Compare(Name('tmp131'), [('!=', Name('tmp141'))])), Assign([AssName('if6', 'OP_ASSIGN')], Name('tmp131')), Assign([AssName('tmp147', 'OP_ASSIGN')], RightShift((Name('tmp129'), Const(2)))), Assign([AssName('tmp148', 'OP_ASSIGN')], RightShift((Name('tmp127'), Const(2)))), Assign([AssName('tmp146', 'OP_ASSIGN')], Name('tmp148')), Assign([AssName('tmp145', 'OP_ASSIGN')], Compare(Name('tmp147'), [('==', Name('tmp146'))])), Assign([AssName('tmp144', 'OP_ASSIGN')], Name('tmp145')), Assign([AssName('tmp143', 'OP_ASSIGN')], LeftShift((Name('tmp144'), Const(2)))), Assign([AssName('tmp143', 'OP_ASSIGN')], Bitor([Name('tmp143'), Const(1)])), Assign([AssName('tmp142', 'OP_ASSIGN')], Name('tmp143')), Discard(Name('else6')), Assign([AssName('tmp153', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp129')], None, None)), Assign([AssName('tmp154', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp127')], None, None)), Assign([AssName('tmp152', 'OP_ASSIGN')], And([Name('tmp153'), Name('tmp154')])), Assign([AssName('tmp151', 'OP_ASSIGN')], Name('tmp152')), Assign([AssName('tmp150', 'OP_ASSIGN')], LeftShift((Name('tmp151'), Const(2)))), Assign([AssName('tmp150', 'OP_ASSIGN')], Bitor([Name('tmp150'), Const(0)])), Assign([AssName('tmp149', 'OP_ASSIGN')], Name('tmp150')), Assign([AssName('tmp149', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp149')], None, None)), Assign([AssName('tmp155', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp149', 'OP_ASSIGN')], Compare(Name('tmp149'), [('!=', Name('tmp155'))])), Assign([AssName('if7', 'OP_ASSIGN')], Name('tmp149')), Assign([AssName('tmp161', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp160', 'OP_ASSIGN')], Bitand([Name('tmp129'), Name('tmp161')])), Assign([AssName('tmp163', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp162', 'OP_ASSIGN')], Bitand([Name('tmp127'), Name('tmp163')])), Assign([AssName('tmp159', 'OP_ASSIGN')], CallFunc(Name('equal'), [Name('tmp160'), Name('tmp162')], None, None)), Assign([AssName('tmp158', 'OP_ASSIGN')], Name('tmp159')), Assign([AssName('tmp157', 'OP_ASSIGN')], LeftShift((Name('tmp158'), Const(2)))), Assign([AssName('tmp157', 'OP_ASSIGN')], Bitor([Name('tmp157'), Const(1)])), Assign([AssName('tmp156', 'OP_ASSIGN')], Name('tmp157')), Discard(Name('else7')), Assign([AssName('tmp165', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp164', 'OP_ASSIGN')], LeftShift((Name('tmp165'), Const(2)))), Assign([AssName('tmp164', 'OP_ASSIGN')], Bitor([Name('tmp164'), Const(1)])), Assign([AssName('tmp156', 'OP_ASSIGN')], Name('tmp164')), Discard(Name('endif7')), Assign([AssName('tmp142', 'OP_ASSIGN')], Name('tmp156')), Discard(Name('endif6')), Assign([AssName('tmp130', 'OP_ASSIGN')], Name('tmp142')), Assign([AssName('tmp128', 'OP_ASSIGN')], Name('tmp130')), Printnl([Name('tmp128')], None), Assign([AssName('tmp167', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp166', 'OP_ASSIGN')], LeftShift((Name('tmp167'), Const(2)))), Assign([AssName('tmp166', 'OP_ASSIGN')], Bitor([Name('tmp166'), Const(1)])), Assign([AssName('tmp3', 'OP_ASSIGN')], Name('tmp166')), Assign([AssName('tmp168', 'OP_ASSIGN')], Name('tmp3')), Assign([AssName('tmp170', 'OP_ASSIGN')], Name('tmp3')), Assign([AssName('tmp177', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp170')], None, None)), Assign([AssName('tmp178', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp170')], None, None)), Assign([AssName('tmp176', 'OP_ASSIGN')], Or([Name('tmp177'), Name('tmp178')])), Assign([AssName('tmp180', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp168')], None, None)), Assign([AssName('tmp181', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp168')], None, None)), Assign([AssName('tmp179', 'OP_ASSIGN')], Or([Name('tmp180'), Name('tmp181')])), Assign([AssName('tmp175', 'OP_ASSIGN')], And([Name('tmp176'), Name('tmp179')])), Assign([AssName('tmp174', 'OP_ASSIGN')], Name('tmp175')), Assign([AssName('tmp173', 'OP_ASSIGN')], LeftShift((Name('tmp174'), Const(2)))), Assign([AssName('tmp173', 'OP_ASSIGN')], Bitor([Name('tmp173'), Const(0)])), Assign([AssName('tmp172', 'OP_ASSIGN')], Name('tmp173')), Assign([AssName('tmp172', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp172')], None, None)), Assign([AssName('tmp182', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp172', 'OP_ASSIGN')], Compare(Name('tmp172'), [('!=', Name('tmp182'))])), Assign([AssName('if8', 'OP_ASSIGN')], Name('tmp172')), Assign([AssName('tmp188', 'OP_ASSIGN')], RightShift((Name('tmp170'), Const(2)))), Assign([AssName('tmp189', 'OP_ASSIGN')], RightShift((Name('tmp168'), Const(2)))), Assign([AssName('tmp187', 'OP_ASSIGN')], Name('tmp189')), Assign([AssName('tmp186', 'OP_ASSIGN')], Compare(Name('tmp188'), [('!=', Name('tmp187'))])), Assign([AssName('tmp185', 'OP_ASSIGN')], Name('tmp186')), Assign([AssName('tmp184', 'OP_ASSIGN')], LeftShift((Name('tmp185'), Const(2)))), Assign([AssName('tmp184', 'OP_ASSIGN')], Bitor([Name('tmp184'), Const(1)])), Assign([AssName('tmp183', 'OP_ASSIGN')], Name('tmp184')), Discard(Name('else8')), Assign([AssName('tmp194', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp170')], None, None)), Assign([AssName('tmp195', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp168')], None, None)), Assign([AssName('tmp193', 'OP_ASSIGN')], And([Name('tmp194'), Name('tmp195')])), Assign([AssName('tmp192', 'OP_ASSIGN')], Name('tmp193')), Assign([AssName('tmp191', 'OP_ASSIGN')], LeftShift((Name('tmp192'), Const(2)))), Assign([AssName('tmp191', 'OP_ASSIGN')], Bitor([Name('tmp191'), Const(0)])), Assign([AssName('tmp190', 'OP_ASSIGN')], Name('tmp191')), Assign([AssName('tmp190', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp190')], None, None)), Assign([AssName('tmp196', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp190', 'OP_ASSIGN')], Compare(Name('tmp190'), [('!=', Name('tmp196'))])), Assign([AssName('if9', 'OP_ASSIGN')], Name('tmp190')), Assign([AssName('tmp202', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp201', 'OP_ASSIGN')], Bitand([Name('tmp170'), Name('tmp202')])), Assign([AssName('tmp204', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp203', 'OP_ASSIGN')], Bitand([Name('tmp168'), Name('tmp204')])), Assign([AssName('tmp200', 'OP_ASSIGN')], CallFunc(Name('not_equal'), [Name('tmp201'), Name('tmp203')], None, None)), Assign([AssName('tmp199', 'OP_ASSIGN')], Name('tmp200')), Assign([AssName('tmp198', 'OP_ASSIGN')], LeftShift((Name('tmp199'), Const(2)))), Assign([AssName('tmp198', 'OP_ASSIGN')], Bitor([Name('tmp198'), Const(1)])), Assign([AssName('tmp197', 'OP_ASSIGN')], Name('tmp198')), Discard(Name('else9')), Assign([AssName('tmp206', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp205', 'OP_ASSIGN')], LeftShift((Name('tmp206'), Const(2)))), Assign([AssName('tmp205', 'OP_ASSIGN')], Bitor([Name('tmp205'), Const(1)])), Assign([AssName('tmp197', 'OP_ASSIGN')], Name('tmp205')), Discard(Name('endif9')), Assign([AssName('tmp183', 'OP_ASSIGN')], Name('tmp197')), Discard(Name('endif8')), Assign([AssName('tmp171', 'OP_ASSIGN')], Name('tmp183')), Assign([AssName('tmp169', 'OP_ASSIGN')], Name('tmp171')), Printnl([Name('tmp169')], None), Assign([AssName('tmp209', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp208', 'OP_ASSIGN')], LeftShift((Name('tmp209'), Const(2)))), Assign([AssName('tmp208', 'OP_ASSIGN')], Bitor([Name('tmp208'), Const(0)])), Assign([AssName('tmp207', 'OP_ASSIGN')], Name('tmp208')), Assign([AssName('tmp211', 'OP_ASSIGN')], Name('tmp3')), Assign([AssName('tmp218', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp211')], None, None)), Assign([AssName('tmp219', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp211')], None, None)), Assign([AssName('tmp217', 'OP_ASSIGN')], Or([Name('tmp218'), Name('tmp219')])), Assign([AssName('tmp221', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp207')], None, None)), Assign([AssName('tmp222', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp207')], None, None)), Assign([AssName('tmp220', 'OP_ASSIGN')], Or([Name('tmp221'), Name('tmp222')])), Assign([AssName('tmp216', 'OP_ASSIGN')], And([Name('tmp217'), Name('tmp220')])), Assign([AssName('tmp215', 'OP_ASSIGN')], Name('tmp216')), Assign([AssName('tmp214', 'OP_ASSIGN')], LeftShift((Name('tmp215'), Const(2)))), Assign([AssName('tmp214', 'OP_ASSIGN')], Bitor([Name('tmp214'), Const(0)])), Assign([AssName('tmp213', 'OP_ASSIGN')], Name('tmp214')), Assign([AssName('tmp213', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp213')], None, None)), Assign([AssName('tmp223', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp213', 'OP_ASSIGN')], Compare(Name('tmp213'), [('!=', Name('tmp223'))])), Assign([AssName('if10', 'OP_ASSIGN')], Name('tmp213')), Assign([AssName('tmp229', 'OP_ASSIGN')], RightShift((Name('tmp211'), Const(2)))), Assign([AssName('tmp230', 'OP_ASSIGN')], RightShift((Name('tmp207'), Const(2)))), Assign([AssName('tmp228', 'OP_ASSIGN')], Name('tmp230')), Assign([AssName('tmp227', 'OP_ASSIGN')], Compare(Name('tmp229'), [('==', Name('tmp228'))])), Assign([AssName('tmp226', 'OP_ASSIGN')], Name('tmp227')), Assign([AssName('tmp225', 'OP_ASSIGN')], LeftShift((Name('tmp226'), Const(2)))), Assign([AssName('tmp225', 'OP_ASSIGN')], Bitor([Name('tmp225'), Const(1)])), Assign([AssName('tmp224', 'OP_ASSIGN')], Name('tmp225')), Discard(Name('else10')), Assign([AssName('tmp235', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp211')], None, None)), Assign([AssName('tmp236', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp207')], None, None)), Assign([AssName('tmp234', 'OP_ASSIGN')], And([Name('tmp235'), Name('tmp236')])), Assign([AssName('tmp233', 'OP_ASSIGN')], Name('tmp234')), Assign([AssName('tmp232', 'OP_ASSIGN')], LeftShift((Name('tmp233'), Const(2)))), Assign([AssName('tmp232', 'OP_ASSIGN')], Bitor([Name('tmp232'), Const(0)])), Assign([AssName('tmp231', 'OP_ASSIGN')], Name('tmp232')), Assign([AssName('tmp231', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp231')], None, None)), Assign([AssName('tmp237', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp231', 'OP_ASSIGN')], Compare(Name('tmp231'), [('!=', Name('tmp237'))])), Assign([AssName('if11', 'OP_ASSIGN')], Name('tmp231')), Assign([AssName('tmp243', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp242', 'OP_ASSIGN')], Bitand([Name('tmp211'), Name('tmp243')])), Assign([AssName('tmp245', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp244', 'OP_ASSIGN')], Bitand([Name('tmp207'), Name('tmp245')])), Assign([AssName('tmp241', 'OP_ASSIGN')], CallFunc(Name('equal'), [Name('tmp242'), Name('tmp244')], None, None)), Assign([AssName('tmp240', 'OP_ASSIGN')], Name('tmp241')), Assign([AssName('tmp239', 'OP_ASSIGN')], LeftShift((Name('tmp240'), Const(2)))), Assign([AssName('tmp239', 'OP_ASSIGN')], Bitor([Name('tmp239'), Const(1)])), Assign([AssName('tmp238', 'OP_ASSIGN')], Name('tmp239')), Discard(Name('else11')), Assign([AssName('tmp247', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp246', 'OP_ASSIGN')], LeftShift((Name('tmp247'), Const(2)))), Assign([AssName('tmp246', 'OP_ASSIGN')], Bitor([Name('tmp246'), Const(1)])), Assign([AssName('tmp238', 'OP_ASSIGN')], Name('tmp246')), Discard(Name('endif11')), Assign([AssName('tmp224', 'OP_ASSIGN')], Name('tmp238')), Discard(Name('endif10')), Assign([AssName('tmp212', 'OP_ASSIGN')], Name('tmp224')), Assign([AssName('tmp210', 'OP_ASSIGN')], Name('tmp212')), Printnl([Name('tmp210')], None)]))
+
+-------x86_IR-------
+['movl', '$1', 'tmp2']
+['movl', 'tmp2', 'tmp248']
+['shl', 'tmp248', '$2']
+['movl', 'tmp248', 'tmp1']
+['movl', 'tmp1', 'tmp249']
+['or', 'tmp249', '$0']
+['movl', 'tmp249', 'tmp1']
+['movl', 'tmp1', 'tmp0']
+['movl', '$2', 'tmp5']
+['movl', 'tmp5', 'tmp250']
+['shl', 'tmp250', '$2']
+['movl', 'tmp250', 'tmp4']
+['movl', 'tmp4', 'tmp251']
+['or', 'tmp251', '$0']
+['movl', 'tmp251', 'tmp4']
+['movl', 'tmp4', 'tmp3']
+['movl', 'tmp3', 'tmp6']
+['movl', 'tmp0', 'tmp8']
+['call', 'is_int', ['tmp8']]
+['movl', '%eax', 'tmp252']
+['movl', 'tmp252', 'tmp15']
+['call', 'is_bool', ['tmp8']]
+['movl', '%eax', 'tmp253']
+['movl', 'tmp253', 'tmp16']
+['movl', 'tmp15', 'tmp254']
+['or', 'tmp254', 'tmp16']
+['movl', 'tmp254', 'tmp14']
+['call', 'is_int', ['tmp6']]
+['movl', '%eax', 'tmp255']
+['movl', 'tmp255', 'tmp18']
+['call', 'is_bool', ['tmp6']]
+['movl', '%eax', 'tmp256']
+['movl', 'tmp256', 'tmp19']
+['movl', 'tmp18', 'tmp257']
+['or', 'tmp257', 'tmp19']
+['movl', 'tmp257', 'tmp17']
+['movl', 'tmp14', 'tmp258']
+['and', 'tmp258', 'tmp17']
+['movl', 'tmp258', 'tmp13']
+['movl', 'tmp13', 'tmp12']
+['movl', 'tmp12', 'tmp259']
+['shl', 'tmp259', '$2']
+['movl', 'tmp259', 'tmp11']
+['movl', 'tmp11', 'tmp260']
+['or', 'tmp260', '$0']
+['movl', 'tmp260', 'tmp11']
+['movl', 'tmp11', 'tmp10']
+['call', 'is_true', ['tmp10']]
+['movl', '%eax', 'tmp261']
+['movl', 'tmp261', 'tmp10']
+['movl', '$0', 'tmp20']
+['cmp', 'tmp10', 'tmp20', 'tmp263']
+['sete', 'tmp262', 'tmp263']
+['not', 'tmp262', None]
+['and', 'tmp262', '$1']
+['movl', 'tmp262', 'tmp10']
+['movl', '$1', 'tmp264']
+['if', 'tmp10', '0', 'tmp264']
+['movl', 'tmp8', 'tmp265']
+['shr', 'tmp265', '$2']
+['movl', 'tmp265', 'tmp26']
+['movl', 'tmp6', 'tmp266']
+['shr', 'tmp266', '$2']
+['movl', 'tmp266', 'tmp27']
+['movl', 'tmp27', 'tmp25']
+['cmp', 'tmp26', 'tmp25', 'tmp268']
+['sete', 'tmp267', 'tmp268']
+['movl', 'tmp267', 'tmp24']
+['movl', 'tmp24', 'tmp23']
+['movl', 'tmp23', 'tmp269']
+['shl', 'tmp269', '$2']
+['movl', 'tmp269', 'tmp22']
+['movl', 'tmp22', 'tmp270']
+['or', 'tmp270', '$1']
+['movl', 'tmp270', 'tmp22']
+['movl', 'tmp22', 'tmp21']
+['else', None, '0']
+['call', 'is_big', ['tmp8']]
+['movl', '%eax', 'tmp271']
+['movl', 'tmp271', 'tmp32']
+['call', 'is_big', ['tmp6']]
+['movl', '%eax', 'tmp272']
+['movl', 'tmp272', 'tmp33']
+['movl', 'tmp32', 'tmp273']
+['and', 'tmp273', 'tmp33']
+['movl', 'tmp273', 'tmp31']
+['movl', 'tmp31', 'tmp30']
+['movl', 'tmp30', 'tmp274']
+['shl', 'tmp274', '$2']
+['movl', 'tmp274', 'tmp29']
+['movl', 'tmp29', 'tmp275']
+['or', 'tmp275', '$0']
+['movl', 'tmp275', 'tmp29']
+['movl', 'tmp29', 'tmp28']
+['call', 'is_true', ['tmp28']]
+['movl', '%eax', 'tmp276']
+['movl', 'tmp276', 'tmp28']
+['movl', '$0', 'tmp34']
+['cmp', 'tmp28', 'tmp34', 'tmp278']
+['sete', 'tmp277', 'tmp278']
+['not', 'tmp277', None]
+['and', 'tmp277', '$1']
+['movl', 'tmp277', 'tmp28']
+['movl', '$1', 'tmp279']
+['if', 'tmp28', '1', 'tmp279']
+['movl', '$3', 'tmp280']
+['not', 'tmp280', None]
+['movl', 'tmp280', 'tmp40']
+['movl', 'tmp8', 'tmp281']
+['and', 'tmp281', 'tmp40']
+['movl', 'tmp281', 'tmp39']
+['movl', '$3', 'tmp282']
+['not', 'tmp282', None]
+['movl', 'tmp282', 'tmp42']
+['movl', 'tmp6', 'tmp283']
+['and', 'tmp283', 'tmp42']
+['movl', 'tmp283', 'tmp41']
+['call', 'equal', ['tmp39', 'tmp41']]
+['movl', '%eax', 'tmp284']
+['movl', 'tmp284', 'tmp38']
+['movl', 'tmp38', 'tmp37']
+['movl', 'tmp37', 'tmp285']
+['shl', 'tmp285', '$2']
+['movl', 'tmp285', 'tmp36']
+['movl', 'tmp36', 'tmp286']
+['or', 'tmp286', '$1']
+['movl', 'tmp286', 'tmp36']
+['movl', 'tmp36', 'tmp35']
+['else', None, '1']
+['movl', '$0', 'tmp44']
+['movl', 'tmp44', 'tmp287']
+['shl', 'tmp287', '$2']
+['movl', 'tmp287', 'tmp43']
+['movl', 'tmp43', 'tmp288']
+['or', 'tmp288', '$1']
+['movl', 'tmp288', 'tmp43']
+['movl', 'tmp43', 'tmp35']
+['endif', None, '1']
+['movl', 'tmp35', 'tmp21']
+['endif', None, '0']
+['movl', 'tmp21', 'tmp9']
+['movl', 'tmp9', 'tmp7']
+['print', 'tmp7', None]
+['movl', '$1', 'tmp46']
+['movl', 'tmp46', 'tmp289']
+['shl', 'tmp289', '$2']
+['movl', 'tmp289', 'tmp45']
+['movl', 'tmp45', 'tmp290']
+['or', 'tmp290', '$1']
+['movl', 'tmp290', 'tmp45']
+['movl', 'tmp45', 'tmp0']
+['movl', '$1', 'tmp48']
+['movl', 'tmp48', 'tmp291']
+['shl', 'tmp291', '$2']
+['movl', 'tmp291', 'tmp47']
+['movl', 'tmp47', 'tmp292']
+['or', 'tmp292', '$0']
+['movl', 'tmp292', 'tmp47']
+['movl', 'tmp47', 'tmp3']
+['movl', 'tmp3', 'tmp49']
+['movl', 'tmp0', 'tmp51']
+['call', 'is_int', ['tmp51']]
+['movl', '%eax', 'tmp293']
+['movl', 'tmp293', 'tmp58']
+['call', 'is_bool', ['tmp51']]
+['movl', '%eax', 'tmp294']
+['movl', 'tmp294', 'tmp59']
+['movl', 'tmp58', 'tmp295']
+['or', 'tmp295', 'tmp59']
+['movl', 'tmp295', 'tmp57']
+['call', 'is_int', ['tmp49']]
+['movl', '%eax', 'tmp296']
+['movl', 'tmp296', 'tmp61']
+['call', 'is_bool', ['tmp49']]
+['movl', '%eax', 'tmp297']
+['movl', 'tmp297', 'tmp62']
+['movl', 'tmp61', 'tmp298']
+['or', 'tmp298', 'tmp62']
+['movl', 'tmp298', 'tmp60']
+['movl', 'tmp57', 'tmp299']
+['and', 'tmp299', 'tmp60']
+['movl', 'tmp299', 'tmp56']
+['movl', 'tmp56', 'tmp55']
+['movl', 'tmp55', 'tmp300']
+['shl', 'tmp300', '$2']
+['movl', 'tmp300', 'tmp54']
+['movl', 'tmp54', 'tmp301']
+['or', 'tmp301', '$0']
+['movl', 'tmp301', 'tmp54']
+['movl', 'tmp54', 'tmp53']
+['call', 'is_true', ['tmp53']]
+['movl', '%eax', 'tmp302']
+['movl', 'tmp302', 'tmp53']
+['movl', '$0', 'tmp63']
+['cmp', 'tmp53', 'tmp63', 'tmp304']
+['sete', 'tmp303', 'tmp304']
+['not', 'tmp303', None]
+['and', 'tmp303', '$1']
+['movl', 'tmp303', 'tmp53']
+['movl', '$1', 'tmp305']
+['if', 'tmp53', '2', 'tmp305']
+['movl', 'tmp51', 'tmp306']
+['shr', 'tmp306', '$2']
+['movl', 'tmp306', 'tmp69']
+['movl', 'tmp49', 'tmp307']
+['shr', 'tmp307', '$2']
+['movl', 'tmp307', 'tmp70']
+['movl', 'tmp70', 'tmp68']
+['cmp', 'tmp69', 'tmp68', 'tmp309']
+['sete', 'tmp308', 'tmp309']
+['movl', 'tmp308', 'tmp67']
+['movl', 'tmp67', 'tmp66']
+['movl', 'tmp66', 'tmp310']
+['shl', 'tmp310', '$2']
+['movl', 'tmp310', 'tmp65']
+['movl', 'tmp65', 'tmp311']
+['or', 'tmp311', '$1']
+['movl', 'tmp311', 'tmp65']
+['movl', 'tmp65', 'tmp64']
+['else', None, '2']
+['call', 'is_big', ['tmp51']]
+['movl', '%eax', 'tmp312']
+['movl', 'tmp312', 'tmp75']
+['call', 'is_big', ['tmp49']]
+['movl', '%eax', 'tmp313']
+['movl', 'tmp313', 'tmp76']
+['movl', 'tmp75', 'tmp314']
+['and', 'tmp314', 'tmp76']
+['movl', 'tmp314', 'tmp74']
+['movl', 'tmp74', 'tmp73']
+['movl', 'tmp73', 'tmp315']
+['shl', 'tmp315', '$2']
+['movl', 'tmp315', 'tmp72']
+['movl', 'tmp72', 'tmp316']
+['or', 'tmp316', '$0']
+['movl', 'tmp316', 'tmp72']
+['movl', 'tmp72', 'tmp71']
+['call', 'is_true', ['tmp71']]
+['movl', '%eax', 'tmp317']
+['movl', 'tmp317', 'tmp71']
+['movl', '$0', 'tmp77']
+['cmp', 'tmp71', 'tmp77', 'tmp319']
+['sete', 'tmp318', 'tmp319']
+['not', 'tmp318', None]
+['and', 'tmp318', '$1']
+['movl', 'tmp318', 'tmp71']
+['movl', '$1', 'tmp320']
+['if', 'tmp71', '3', 'tmp320']
+['movl', '$3', 'tmp321']
+['not', 'tmp321', None]
+['movl', 'tmp321', 'tmp83']
+['movl', 'tmp51', 'tmp322']
+['and', 'tmp322', 'tmp83']
+['movl', 'tmp322', 'tmp82']
+['movl', '$3', 'tmp323']
+['not', 'tmp323', None]
+['movl', 'tmp323', 'tmp85']
+['movl', 'tmp49', 'tmp324']
+['and', 'tmp324', 'tmp85']
+['movl', 'tmp324', 'tmp84']
+['call', 'equal', ['tmp82', 'tmp84']]
+['movl', '%eax', 'tmp325']
+['movl', 'tmp325', 'tmp81']
+['movl', 'tmp81', 'tmp80']
+['movl', 'tmp80', 'tmp326']
+['shl', 'tmp326', '$2']
+['movl', 'tmp326', 'tmp79']
+['movl', 'tmp79', 'tmp327']
+['or', 'tmp327', '$1']
+['movl', 'tmp327', 'tmp79']
+['movl', 'tmp79', 'tmp78']
+['else', None, '3']
+['movl', '$0', 'tmp87']
+['movl', 'tmp87', 'tmp328']
+['shl', 'tmp328', '$2']
+['movl', 'tmp328', 'tmp86']
+['movl', 'tmp86', 'tmp329']
+['or', 'tmp329', '$1']
+['movl', 'tmp329', 'tmp86']
+['movl', 'tmp86', 'tmp78']
+['endif', None, '3']
+['movl', 'tmp78', 'tmp64']
+['endif', None, '2']
+['movl', 'tmp64', 'tmp52']
+['movl', 'tmp52', 'tmp50']
+['print', 'tmp50', None]
+['movl', 'tmp3', 'tmp88']
+['movl', 'tmp0', 'tmp90']
+['call', 'is_int', ['tmp90']]
+['movl', '%eax', 'tmp330']
+['movl', 'tmp330', 'tmp97']
+['call', 'is_bool', ['tmp90']]
+['movl', '%eax', 'tmp331']
+['movl', 'tmp331', 'tmp98']
+['movl', 'tmp97', 'tmp332']
+['or', 'tmp332', 'tmp98']
+['movl', 'tmp332', 'tmp96']
+['call', 'is_int', ['tmp88']]
+['movl', '%eax', 'tmp333']
+['movl', 'tmp333', 'tmp100']
+['call', 'is_bool', ['tmp88']]
+['movl', '%eax', 'tmp334']
+['movl', 'tmp334', 'tmp101']
+['movl', 'tmp100', 'tmp335']
+['or', 'tmp335', 'tmp101']
+['movl', 'tmp335', 'tmp99']
+['movl', 'tmp96', 'tmp336']
+['and', 'tmp336', 'tmp99']
+['movl', 'tmp336', 'tmp95']
+['movl', 'tmp95', 'tmp94']
+['movl', 'tmp94', 'tmp337']
+['shl', 'tmp337', '$2']
+['movl', 'tmp337', 'tmp93']
+['movl', 'tmp93', 'tmp338']
+['or', 'tmp338', '$0']
+['movl', 'tmp338', 'tmp93']
+['movl', 'tmp93', 'tmp92']
+['call', 'is_true', ['tmp92']]
+['movl', '%eax', 'tmp339']
+['movl', 'tmp339', 'tmp92']
+['movl', '$0', 'tmp102']
+['cmp', 'tmp92', 'tmp102', 'tmp341']
+['sete', 'tmp340', 'tmp341']
+['not', 'tmp340', None]
+['and', 'tmp340', '$1']
+['movl', 'tmp340', 'tmp92']
+['movl', '$1', 'tmp342']
+['if', 'tmp92', '4', 'tmp342']
+['movl', 'tmp90', 'tmp343']
+['shr', 'tmp343', '$2']
+['movl', 'tmp343', 'tmp108']
+['movl', 'tmp88', 'tmp344']
+['shr', 'tmp344', '$2']
+['movl', 'tmp344', 'tmp109']
+['movl', 'tmp109', 'tmp107']
+['cmp', 'tmp108', 'tmp107', 'tmp346']
+['sete', 'tmp345', 'tmp346']
+['not', 'tmp345', None]
+['and', 'tmp345', '$1']
+['movl', 'tmp345', 'tmp106']
+['movl', 'tmp106', 'tmp105']
+['movl', 'tmp105', 'tmp347']
+['shl', 'tmp347', '$2']
+['movl', 'tmp347', 'tmp104']
+['movl', 'tmp104', 'tmp348']
+['or', 'tmp348', '$1']
+['movl', 'tmp348', 'tmp104']
+['movl', 'tmp104', 'tmp103']
+['else', None, '4']
+['call', 'is_big', ['tmp90']]
+['movl', '%eax', 'tmp349']
+['movl', 'tmp349', 'tmp114']
+['call', 'is_big', ['tmp88']]
+['movl', '%eax', 'tmp350']
+['movl', 'tmp350', 'tmp115']
+['movl', 'tmp114', 'tmp351']
+['and', 'tmp351', 'tmp115']
+['movl', 'tmp351', 'tmp113']
+['movl', 'tmp113', 'tmp112']
+['movl', 'tmp112', 'tmp352']
+['shl', 'tmp352', '$2']
+['movl', 'tmp352', 'tmp111']
+['movl', 'tmp111', 'tmp353']
+['or', 'tmp353', '$0']
+['movl', 'tmp353', 'tmp111']
+['movl', 'tmp111', 'tmp110']
+['call', 'is_true', ['tmp110']]
+['movl', '%eax', 'tmp354']
+['movl', 'tmp354', 'tmp110']
+['movl', '$0', 'tmp116']
+['cmp', 'tmp110', 'tmp116', 'tmp356']
+['sete', 'tmp355', 'tmp356']
+['not', 'tmp355', None]
+['and', 'tmp355', '$1']
+['movl', 'tmp355', 'tmp110']
+['movl', '$1', 'tmp357']
+['if', 'tmp110', '5', 'tmp357']
+['movl', '$3', 'tmp358']
+['not', 'tmp358', None]
+['movl', 'tmp358', 'tmp122']
+['movl', 'tmp90', 'tmp359']
+['and', 'tmp359', 'tmp122']
+['movl', 'tmp359', 'tmp121']
+['movl', '$3', 'tmp360']
+['not', 'tmp360', None]
+['movl', 'tmp360', 'tmp124']
+['movl', 'tmp88', 'tmp361']
+['and', 'tmp361', 'tmp124']
+['movl', 'tmp361', 'tmp123']
+['call', 'not_equal', ['tmp121', 'tmp123']]
+['movl', '%eax', 'tmp362']
+['movl', 'tmp362', 'tmp120']
+['movl', 'tmp120', 'tmp119']
+['movl', 'tmp119', 'tmp363']
+['shl', 'tmp363', '$2']
+['movl', 'tmp363', 'tmp118']
+['movl', 'tmp118', 'tmp364']
+['or', 'tmp364', '$1']
+['movl', 'tmp364', 'tmp118']
+['movl', 'tmp118', 'tmp117']
+['else', None, '5']
+['movl', '$1', 'tmp126']
+['movl', 'tmp126', 'tmp365']
+['shl', 'tmp365', '$2']
+['movl', 'tmp365', 'tmp125']
+['movl', 'tmp125', 'tmp366']
+['or', 'tmp366', '$1']
+['movl', 'tmp366', 'tmp125']
+['movl', 'tmp125', 'tmp117']
+['endif', None, '5']
+['movl', 'tmp117', 'tmp103']
+['endif', None, '4']
+['movl', 'tmp103', 'tmp91']
+['movl', 'tmp91', 'tmp89']
+['print', 'tmp89', None]
+['movl', 'tmp3', 'tmp127']
+['movl', 'tmp3', 'tmp129']
+['call', 'is_int', ['tmp129']]
+['movl', '%eax', 'tmp367']
+['movl', 'tmp367', 'tmp136']
+['call', 'is_bool', ['tmp129']]
+['movl', '%eax', 'tmp368']
+['movl', 'tmp368', 'tmp137']
+['movl', 'tmp136', 'tmp369']
+['or', 'tmp369', 'tmp137']
+['movl', 'tmp369', 'tmp135']
+['call', 'is_int', ['tmp127']]
+['movl', '%eax', 'tmp370']
+['movl', 'tmp370', 'tmp139']
+['call', 'is_bool', ['tmp127']]
+['movl', '%eax', 'tmp371']
+['movl', 'tmp371', 'tmp140']
+['movl', 'tmp139', 'tmp372']
+['or', 'tmp372', 'tmp140']
+['movl', 'tmp372', 'tmp138']
+['movl', 'tmp135', 'tmp373']
+['and', 'tmp373', 'tmp138']
+['movl', 'tmp373', 'tmp134']
+['movl', 'tmp134', 'tmp133']
+['movl', 'tmp133', 'tmp374']
+['shl', 'tmp374', '$2']
+['movl', 'tmp374', 'tmp132']
+['movl', 'tmp132', 'tmp375']
+['or', 'tmp375', '$0']
+['movl', 'tmp375', 'tmp132']
+['movl', 'tmp132', 'tmp131']
+['call', 'is_true', ['tmp131']]
+['movl', '%eax', 'tmp376']
+['movl', 'tmp376', 'tmp131']
+['movl', '$0', 'tmp141']
+['cmp', 'tmp131', 'tmp141', 'tmp378']
+['sete', 'tmp377', 'tmp378']
+['not', 'tmp377', None]
+['and', 'tmp377', '$1']
+['movl', 'tmp377', 'tmp131']
+['movl', '$1', 'tmp379']
+['if', 'tmp131', '6', 'tmp379']
+['movl', 'tmp129', 'tmp380']
+['shr', 'tmp380', '$2']
+['movl', 'tmp380', 'tmp147']
+['movl', 'tmp127', 'tmp381']
+['shr', 'tmp381', '$2']
+['movl', 'tmp381', 'tmp148']
+['movl', 'tmp148', 'tmp146']
+['cmp', 'tmp147', 'tmp146', 'tmp383']
+['sete', 'tmp382', 'tmp383']
+['movl', 'tmp382', 'tmp145']
+['movl', 'tmp145', 'tmp144']
+['movl', 'tmp144', 'tmp384']
+['shl', 'tmp384', '$2']
+['movl', 'tmp384', 'tmp143']
+['movl', 'tmp143', 'tmp385']
+['or', 'tmp385', '$1']
+['movl', 'tmp385', 'tmp143']
+['movl', 'tmp143', 'tmp142']
+['else', None, '6']
+['call', 'is_big', ['tmp129']]
+['movl', '%eax', 'tmp386']
+['movl', 'tmp386', 'tmp153']
+['call', 'is_big', ['tmp127']]
+['movl', '%eax', 'tmp387']
+['movl', 'tmp387', 'tmp154']
+['movl', 'tmp153', 'tmp388']
+['and', 'tmp388', 'tmp154']
+['movl', 'tmp388', 'tmp152']
+['movl', 'tmp152', 'tmp151']
+['movl', 'tmp151', 'tmp389']
+['shl', 'tmp389', '$2']
+['movl', 'tmp389', 'tmp150']
+['movl', 'tmp150', 'tmp390']
+['or', 'tmp390', '$0']
+['movl', 'tmp390', 'tmp150']
+['movl', 'tmp150', 'tmp149']
+['call', 'is_true', ['tmp149']]
+['movl', '%eax', 'tmp391']
+['movl', 'tmp391', 'tmp149']
+['movl', '$0', 'tmp155']
+['cmp', 'tmp149', 'tmp155', 'tmp393']
+['sete', 'tmp392', 'tmp393']
+['not', 'tmp392', None]
+['and', 'tmp392', '$1']
+['movl', 'tmp392', 'tmp149']
+['movl', '$1', 'tmp394']
+['if', 'tmp149', '7', 'tmp394']
+['movl', '$3', 'tmp395']
+['not', 'tmp395', None]
+['movl', 'tmp395', 'tmp161']
+['movl', 'tmp129', 'tmp396']
+['and', 'tmp396', 'tmp161']
+['movl', 'tmp396', 'tmp160']
+['movl', '$3', 'tmp397']
+['not', 'tmp397', None]
+['movl', 'tmp397', 'tmp163']
+['movl', 'tmp127', 'tmp398']
+['and', 'tmp398', 'tmp163']
+['movl', 'tmp398', 'tmp162']
+['call', 'equal', ['tmp160', 'tmp162']]
+['movl', '%eax', 'tmp399']
+['movl', 'tmp399', 'tmp159']
+['movl', 'tmp159', 'tmp158']
+['movl', 'tmp158', 'tmp400']
+['shl', 'tmp400', '$2']
+['movl', 'tmp400', 'tmp157']
+['movl', 'tmp157', 'tmp401']
+['or', 'tmp401', '$1']
+['movl', 'tmp401', 'tmp157']
+['movl', 'tmp157', 'tmp156']
+['else', None, '7']
+['movl', '$0', 'tmp165']
+['movl', 'tmp165', 'tmp402']
+['shl', 'tmp402', '$2']
+['movl', 'tmp402', 'tmp164']
+['movl', 'tmp164', 'tmp403']
+['or', 'tmp403', '$1']
+['movl', 'tmp403', 'tmp164']
+['movl', 'tmp164', 'tmp156']
+['endif', None, '7']
+['movl', 'tmp156', 'tmp142']
+['endif', None, '6']
+['movl', 'tmp142', 'tmp130']
+['movl', 'tmp130', 'tmp128']
+['print', 'tmp128', None]
+['movl', '$0', 'tmp167']
+['movl', 'tmp167', 'tmp404']
+['shl', 'tmp404', '$2']
+['movl', 'tmp404', 'tmp166']
+['movl', 'tmp166', 'tmp405']
+['or', 'tmp405', '$1']
+['movl', 'tmp405', 'tmp166']
+['movl', 'tmp166', 'tmp3']
+['movl', 'tmp3', 'tmp168']
+['movl', 'tmp3', 'tmp170']
+['call', 'is_int', ['tmp170']]
+['movl', '%eax', 'tmp406']
+['movl', 'tmp406', 'tmp177']
+['call', 'is_bool', ['tmp170']]
+['movl', '%eax', 'tmp407']
+['movl', 'tmp407', 'tmp178']
+['movl', 'tmp177', 'tmp408']
+['or', 'tmp408', 'tmp178']
+['movl', 'tmp408', 'tmp176']
+['call', 'is_int', ['tmp168']]
+['movl', '%eax', 'tmp409']
+['movl', 'tmp409', 'tmp180']
+['call', 'is_bool', ['tmp168']]
+['movl', '%eax', 'tmp410']
+['movl', 'tmp410', 'tmp181']
+['movl', 'tmp180', 'tmp411']
+['or', 'tmp411', 'tmp181']
+['movl', 'tmp411', 'tmp179']
+['movl', 'tmp176', 'tmp412']
+['and', 'tmp412', 'tmp179']
+['movl', 'tmp412', 'tmp175']
+['movl', 'tmp175', 'tmp174']
+['movl', 'tmp174', 'tmp413']
+['shl', 'tmp413', '$2']
+['movl', 'tmp413', 'tmp173']
+['movl', 'tmp173', 'tmp414']
+['or', 'tmp414', '$0']
+['movl', 'tmp414', 'tmp173']
+['movl', 'tmp173', 'tmp172']
+['call', 'is_true', ['tmp172']]
+['movl', '%eax', 'tmp415']
+['movl', 'tmp415', 'tmp172']
+['movl', '$0', 'tmp182']
+['cmp', 'tmp172', 'tmp182', 'tmp417']
+['sete', 'tmp416', 'tmp417']
+['not', 'tmp416', None]
+['and', 'tmp416', '$1']
+['movl', 'tmp416', 'tmp172']
+['movl', '$1', 'tmp418']
+['if', 'tmp172', '8', 'tmp418']
+['movl', 'tmp170', 'tmp419']
+['shr', 'tmp419', '$2']
+['movl', 'tmp419', 'tmp188']
+['movl', 'tmp168', 'tmp420']
+['shr', 'tmp420', '$2']
+['movl', 'tmp420', 'tmp189']
+['movl', 'tmp189', 'tmp187']
+['cmp', 'tmp188', 'tmp187', 'tmp422']
+['sete', 'tmp421', 'tmp422']
+['not', 'tmp421', None]
+['and', 'tmp421', '$1']
+['movl', 'tmp421', 'tmp186']
+['movl', 'tmp186', 'tmp185']
+['movl', 'tmp185', 'tmp423']
+['shl', 'tmp423', '$2']
+['movl', 'tmp423', 'tmp184']
+['movl', 'tmp184', 'tmp424']
+['or', 'tmp424', '$1']
+['movl', 'tmp424', 'tmp184']
+['movl', 'tmp184', 'tmp183']
+['else', None, '8']
+['call', 'is_big', ['tmp170']]
+['movl', '%eax', 'tmp425']
+['movl', 'tmp425', 'tmp194']
+['call', 'is_big', ['tmp168']]
+['movl', '%eax', 'tmp426']
+['movl', 'tmp426', 'tmp195']
+['movl', 'tmp194', 'tmp427']
+['and', 'tmp427', 'tmp195']
+['movl', 'tmp427', 'tmp193']
+['movl', 'tmp193', 'tmp192']
+['movl', 'tmp192', 'tmp428']
+['shl', 'tmp428', '$2']
+['movl', 'tmp428', 'tmp191']
+['movl', 'tmp191', 'tmp429']
+['or', 'tmp429', '$0']
+['movl', 'tmp429', 'tmp191']
+['movl', 'tmp191', 'tmp190']
+['call', 'is_true', ['tmp190']]
+['movl', '%eax', 'tmp430']
+['movl', 'tmp430', 'tmp190']
+['movl', '$0', 'tmp196']
+['cmp', 'tmp190', 'tmp196', 'tmp432']
+['sete', 'tmp431', 'tmp432']
+['not', 'tmp431', None]
+['and', 'tmp431', '$1']
+['movl', 'tmp431', 'tmp190']
+['movl', '$1', 'tmp433']
+['if', 'tmp190', '9', 'tmp433']
+['movl', '$3', 'tmp434']
+['not', 'tmp434', None]
+['movl', 'tmp434', 'tmp202']
+['movl', 'tmp170', 'tmp435']
+['and', 'tmp435', 'tmp202']
+['movl', 'tmp435', 'tmp201']
+['movl', '$3', 'tmp436']
+['not', 'tmp436', None]
+['movl', 'tmp436', 'tmp204']
+['movl', 'tmp168', 'tmp437']
+['and', 'tmp437', 'tmp204']
+['movl', 'tmp437', 'tmp203']
+['call', 'not_equal', ['tmp201', 'tmp203']]
+['movl', '%eax', 'tmp438']
+['movl', 'tmp438', 'tmp200']
+['movl', 'tmp200', 'tmp199']
+['movl', 'tmp199', 'tmp439']
+['shl', 'tmp439', '$2']
+['movl', 'tmp439', 'tmp198']
+['movl', 'tmp198', 'tmp440']
+['or', 'tmp440', '$1']
+['movl', 'tmp440', 'tmp198']
+['movl', 'tmp198', 'tmp197']
+['else', None, '9']
+['movl', '$1', 'tmp206']
+['movl', 'tmp206', 'tmp441']
+['shl', 'tmp441', '$2']
+['movl', 'tmp441', 'tmp205']
+['movl', 'tmp205', 'tmp442']
+['or', 'tmp442', '$1']
+['movl', 'tmp442', 'tmp205']
+['movl', 'tmp205', 'tmp197']
+['endif', None, '9']
+['movl', 'tmp197', 'tmp183']
+['endif', None, '8']
+['movl', 'tmp183', 'tmp171']
+['movl', 'tmp171', 'tmp169']
+['print', 'tmp169', None]
+['movl', '$0', 'tmp209']
+['movl', 'tmp209', 'tmp443']
+['shl', 'tmp443', '$2']
+['movl', 'tmp443', 'tmp208']
+['movl', 'tmp208', 'tmp444']
+['or', 'tmp444', '$0']
+['movl', 'tmp444', 'tmp208']
+['movl', 'tmp208', 'tmp207']
+['movl', 'tmp3', 'tmp211']
+['call', 'is_int', ['tmp211']]
+['movl', '%eax', 'tmp445']
+['movl', 'tmp445', 'tmp218']
+['call', 'is_bool', ['tmp211']]
+['movl', '%eax', 'tmp446']
+['movl', 'tmp446', 'tmp219']
+['movl', 'tmp218', 'tmp447']
+['or', 'tmp447', 'tmp219']
+['movl', 'tmp447', 'tmp217']
+['call', 'is_int', ['tmp207']]
+['movl', '%eax', 'tmp448']
+['movl', 'tmp448', 'tmp221']
+['call', 'is_bool', ['tmp207']]
+['movl', '%eax', 'tmp449']
+['movl', 'tmp449', 'tmp222']
+['movl', 'tmp221', 'tmp450']
+['or', 'tmp450', 'tmp222']
+['movl', 'tmp450', 'tmp220']
+['movl', 'tmp217', 'tmp451']
+['and', 'tmp451', 'tmp220']
+['movl', 'tmp451', 'tmp216']
+['movl', 'tmp216', 'tmp215']
+['movl', 'tmp215', 'tmp452']
+['shl', 'tmp452', '$2']
+['movl', 'tmp452', 'tmp214']
+['movl', 'tmp214', 'tmp453']
+['or', 'tmp453', '$0']
+['movl', 'tmp453', 'tmp214']
+['movl', 'tmp214', 'tmp213']
+['call', 'is_true', ['tmp213']]
+['movl', '%eax', 'tmp454']
+['movl', 'tmp454', 'tmp213']
+['movl', '$0', 'tmp223']
+['cmp', 'tmp213', 'tmp223', 'tmp456']
+['sete', 'tmp455', 'tmp456']
+['not', 'tmp455', None]
+['and', 'tmp455', '$1']
+['movl', 'tmp455', 'tmp213']
+['movl', '$1', 'tmp457']
+['if', 'tmp213', '10', 'tmp457']
+['movl', 'tmp211', 'tmp458']
+['shr', 'tmp458', '$2']
+['movl', 'tmp458', 'tmp229']
+['movl', 'tmp207', 'tmp459']
+['shr', 'tmp459', '$2']
+['movl', 'tmp459', 'tmp230']
+['movl', 'tmp230', 'tmp228']
+['cmp', 'tmp229', 'tmp228', 'tmp461']
+['sete', 'tmp460', 'tmp461']
+['movl', 'tmp460', 'tmp227']
+['movl', 'tmp227', 'tmp226']
+['movl', 'tmp226', 'tmp462']
+['shl', 'tmp462', '$2']
+['movl', 'tmp462', 'tmp225']
+['movl', 'tmp225', 'tmp463']
+['or', 'tmp463', '$1']
+['movl', 'tmp463', 'tmp225']
+['movl', 'tmp225', 'tmp224']
+['else', None, '10']
+['call', 'is_big', ['tmp211']]
+['movl', '%eax', 'tmp464']
+['movl', 'tmp464', 'tmp235']
+['call', 'is_big', ['tmp207']]
+['movl', '%eax', 'tmp465']
+['movl', 'tmp465', 'tmp236']
+['movl', 'tmp235', 'tmp466']
+['and', 'tmp466', 'tmp236']
+['movl', 'tmp466', 'tmp234']
+['movl', 'tmp234', 'tmp233']
+['movl', 'tmp233', 'tmp467']
+['shl', 'tmp467', '$2']
+['movl', 'tmp467', 'tmp232']
+['movl', 'tmp232', 'tmp468']
+['or', 'tmp468', '$0']
+['movl', 'tmp468', 'tmp232']
+['movl', 'tmp232', 'tmp231']
+['call', 'is_true', ['tmp231']]
+['movl', '%eax', 'tmp469']
+['movl', 'tmp469', 'tmp231']
+['movl', '$0', 'tmp237']
+['cmp', 'tmp231', 'tmp237', 'tmp471']
+['sete', 'tmp470', 'tmp471']
+['not', 'tmp470', None]
+['and', 'tmp470', '$1']
+['movl', 'tmp470', 'tmp231']
+['movl', '$1', 'tmp472']
+['if', 'tmp231', '11', 'tmp472']
+['movl', '$3', 'tmp473']
+['not', 'tmp473', None]
+['movl', 'tmp473', 'tmp243']
+['movl', 'tmp211', 'tmp474']
+['and', 'tmp474', 'tmp243']
+['movl', 'tmp474', 'tmp242']
+['movl', '$3', 'tmp475']
+['not', 'tmp475', None]
+['movl', 'tmp475', 'tmp245']
+['movl', 'tmp207', 'tmp476']
+['and', 'tmp476', 'tmp245']
+['movl', 'tmp476', 'tmp244']
+['call', 'equal', ['tmp242', 'tmp244']]
+['movl', '%eax', 'tmp477']
+['movl', 'tmp477', 'tmp241']
+['movl', 'tmp241', 'tmp240']
+['movl', 'tmp240', 'tmp478']
+['shl', 'tmp478', '$2']
+['movl', 'tmp478', 'tmp239']
+['movl', 'tmp239', 'tmp479']
+['or', 'tmp479', '$1']
+['movl', 'tmp479', 'tmp239']
+['movl', 'tmp239', 'tmp238']
+['else', None, '11']
+['movl', '$0', 'tmp247']
+['movl', 'tmp247', 'tmp480']
+['shl', 'tmp480', '$2']
+['movl', 'tmp480', 'tmp246']
+['movl', 'tmp246', 'tmp481']
+['or', 'tmp481', '$1']
+['movl', 'tmp481', 'tmp246']
+['movl', 'tmp246', 'tmp238']
+['endif', None, '11']
+['movl', 'tmp238', 'tmp224']
+['endif', None, '10']
+['movl', 'tmp224', 'tmp212']
+['movl', 'tmp212', 'tmp210']
+['print', 'tmp210', None]
+
+
+True
+HERE
+['sete', 'tmp262', 'tmp263']
+HERE
+['sete', 'tmp267', 'tmp268']
+HERE
+['sete', 'tmp277', 'tmp278']
+HERE
+['sete', 'tmp303', 'tmp304']
+HERE
+['sete', 'tmp308', 'tmp309']
+HERE
+['sete', 'tmp318', 'tmp319']
+HERE
+['sete', 'tmp340', 'tmp341']
+HERE
+['sete', 'tmp345', 'tmp346']
+HERE
+['sete', 'tmp355', 'tmp356']
+HERE
+['sete', 'tmp377', 'tmp378']
+HERE
+['sete', 'tmp382', 'tmp383']
+HERE
+['sete', 'tmp392', 'tmp393']
+HERE
+['sete', 'tmp416', 'tmp417']
+HERE
+['sete', 'tmp421', 'tmp422']
+HERE
+['sete', 'tmp431', 'tmp432']
+HERE
+['sete', 'tmp455', 'tmp456']
+HERE
+['sete', 'tmp460', 'tmp461']
+HERE
+['sete', 'tmp470', 'tmp471']
+False
+True
+HERE
+['sete', 'tmp262', 'tmp263']
+HERE
+['sete', 'tmp267', 'tmp268']
+HERE
+['sete', 'tmp277', 'tmp278']
+HERE
+['sete', 'tmp303', 'tmp304']
+HERE
+['sete', 'tmp308', 'tmp309']
+HERE
+['sete', 'tmp318', 'tmp319']
+HERE
+['sete', 'tmp340', 'tmp341']
+HERE
+['sete', 'tmp345', 'tmp346']
+HERE
+['sete', 'tmp355', 'tmp356']
+HERE
+['sete', 'tmp377', 'tmp378']
+HERE
+['sete', 'tmp382', 'tmp383']
+HERE
+['sete', 'tmp392', 'tmp393']
+HERE
+['sete', 'tmp416', 'tmp417']
+HERE
+['sete', 'tmp421', 'tmp422']
+HERE
+['sete', 'tmp431', 'tmp432']
+HERE
+['sete', 'tmp455', 'tmp456']
+HERE
+['sete', 'tmp460', 'tmp461']
+HERE
+['sete', 'tmp470', 'tmp471']
+False
+True
+HERE
+['sete', 'tmp262', 'tmp263']
+HERE
+['sete', 'tmp267', 'tmp268']
+HERE
+['sete', 'tmp277', 'tmp278']
+HERE
+['sete', 'tmp303', 'tmp304']
+HERE
+['sete', 'tmp308', 'tmp309']
+HERE
+['sete', 'tmp318', 'tmp319']
+HERE
+['sete', 'tmp340', 'tmp341']
+HERE
+['sete', 'tmp345', 'tmp346']
+HERE
+['sete', 'tmp355', 'tmp356']
+HERE
+['sete', 'tmp377', 'tmp378']
+HERE
+['sete', 'tmp382', 'tmp383']
+HERE
+['sete', 'tmp392', 'tmp393']
+HERE
+['sete', 'tmp416', 'tmp417']
+HERE
+['sete', 'tmp421', 'tmp422']
+HERE
+['sete', 'tmp431', 'tmp432']
+HERE
+['sete', 'tmp455', 'tmp456']
+HERE
+['sete', 'tmp460', 'tmp461']
+HERE
+['sete', 'tmp470', 'tmp471']
+True

@@ -1,0 +1,136 @@
+LexToken(NAME,'x',1,0)
+LexToken(ASSIGN,'=',1,2)
+LexToken(LCURLY,'{',1,4)
+LexToken(INT,1,1,5)
+LexToken(COLON,':',1,6)
+LexToken(INT,2,1,7)
+LexToken(COMMA,',',1,8)
+LexToken(INT,2,1,10)
+LexToken(COLON,':',1,11)
+LexToken(INT,3,1,12)
+LexToken(RCURLY,'}',1,13)
+LexToken(NAME,'x',2,15)
+LexToken(LSQUARE,'[',2,16)
+LexToken(INT,1,2,17)
+LexToken(RSQUARE,']',2,18)
+LexToken(ASSIGN,'=',2,20)
+LexToken(INT,5,2,21)
+LexToken(PRINT,'print',3,23)
+LexToken(NAME,'x',3,29)
+LexToken(LSQUARE,'[',3,30)
+LexToken(INT,1,3,31)
+LexToken(RSQUARE,']',3,32)
+
+
+--------AST--------
+Module(None, Stmt([Assign([AssName('x', 'OP_ASSIGN')], Dict([(Const(1), Const(2)), (Const(2), Const(3))])), Assign([Subscript(Name('x'), 'OP_ASSIGN', [Const(1)])], Const(5)), Printnl([Subscript(Name('x'), 'OP_APPLY', [Const(1)])], None)]))
+
+-------ExpAST-------
+Module(None, Stmt([Assign([AssName('x', 'OP_ASSIGN')], Dict([(InjectFrom('Const(0)', Const(1)), InjectFrom('Const(0)', Const(2))), (InjectFrom('Const(0)', Const(2)), InjectFrom('Const(0)', Const(3)))])), Assign([Subscript(Name('x'), 'OP_ASSIGN', InjectFrom('Const(0)', Const(1)))], InjectFrom('Const(0)', Const(5))), Printnl([Subscript(Name('x'), 'OP_APPLY', InjectFrom('Const(0)', Const(1)))], None)]))
+
+-------FLATTEN-------
+tmp1
+tmp1= create_dict()
+tmp1 = tmp1 | 3
+tmp3 = 2
+tmp2 = tmp3 << 2
+tmp2 = tmp2 | 0
+tmp5 = 1
+tmp4 = tmp5 << 2
+tmp4 = tmp4 | 0
+set_subscript(tmp1, tmp4, tmp2)
+tmp7 = 3
+tmp6 = tmp7 << 2
+tmp6 = tmp6 | 0
+tmp9 = 2
+tmp8 = tmp9 << 2
+tmp8 = tmp8 | 0
+set_subscript(tmp1, tmp8, tmp6)
+tmp0 = tmp1
+tmp12 = 1
+tmp11 = tmp12 << 2
+tmp11 = tmp11 | 0
+tmp14 = 5
+tmp13 = tmp14 << 2
+tmp13 = tmp13 | 0
+set_subscript(tmp0, tmp11, tmp13)
+tmp17 = 1
+tmp16 = tmp17 << 2
+tmp16 = tmp16 | 0
+tmp15 = get_subscript(tmp0, tmp16)
+print tmp15
+
+
+-------AST_flat-------
+Module(None, Stmt([Assign([AssName('tmp1', 'OP_ASSIGN')], CallFunc(Name('create_dict'), [], None, None)), Assign([AssName('tmp1', 'OP_ASSIGN')], Bitor([Name('tmp1'), Const(3)])), Assign([AssName('tmp3', 'OP_ASSIGN')], Const(2)), Assign([AssName('tmp2', 'OP_ASSIGN')], LeftShift((Name('tmp3'), Const(2)))), Assign([AssName('tmp2', 'OP_ASSIGN')], Bitor([Name('tmp2'), Const(0)])), Assign([AssName('tmp5', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp4', 'OP_ASSIGN')], LeftShift((Name('tmp5'), Const(2)))), Assign([AssName('tmp4', 'OP_ASSIGN')], Bitor([Name('tmp4'), Const(0)])), Discard(CallFunc(Name('set_subscript'), [Name('tmp1'), Name('tmp4'), Name('tmp2')], None, None)), Assign([AssName('tmp7', 'OP_ASSIGN')], Const(3)), Assign([AssName('tmp6', 'OP_ASSIGN')], LeftShift((Name('tmp7'), Const(2)))), Assign([AssName('tmp6', 'OP_ASSIGN')], Bitor([Name('tmp6'), Const(0)])), Assign([AssName('tmp9', 'OP_ASSIGN')], Const(2)), Assign([AssName('tmp8', 'OP_ASSIGN')], LeftShift((Name('tmp9'), Const(2)))), Assign([AssName('tmp8', 'OP_ASSIGN')], Bitor([Name('tmp8'), Const(0)])), Discard(CallFunc(Name('set_subscript'), [Name('tmp1'), Name('tmp8'), Name('tmp6')], None, None)), Assign([AssName('tmp0', 'OP_ASSIGN')], Name('tmp1')), Assign([AssName('tmp12', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp11', 'OP_ASSIGN')], LeftShift((Name('tmp12'), Const(2)))), Assign([AssName('tmp11', 'OP_ASSIGN')], Bitor([Name('tmp11'), Const(0)])), Assign([AssName('tmp14', 'OP_ASSIGN')], Const(5)), Assign([AssName('tmp13', 'OP_ASSIGN')], LeftShift((Name('tmp14'), Const(2)))), Assign([AssName('tmp13', 'OP_ASSIGN')], Bitor([Name('tmp13'), Const(0)])), Discard(CallFunc(Name('set_subscript'), [Name('tmp0'), Name('tmp11'), Name('tmp13')], None, None)), Assign([AssName('tmp17', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp16', 'OP_ASSIGN')], LeftShift((Name('tmp17'), Const(2)))), Assign([AssName('tmp16', 'OP_ASSIGN')], Bitor([Name('tmp16'), Const(0)])), Assign([AssName('tmp15', 'OP_ASSIGN')], CallFunc(Name('get_subscript'), [Name('tmp0'), Name('tmp16')], None, None)), Printnl([Name('tmp15')], None)]))
+
+-------x86_IR-------
+['call', 'create_dict', []]
+['movl', '%eax', 'tmp18']
+['movl', 'tmp18', 'tmp1']
+['movl', 'tmp1', 'tmp19']
+['or', 'tmp19', '$3']
+['movl', 'tmp19', 'tmp1']
+['movl', '$2', 'tmp3']
+['movl', 'tmp3', 'tmp20']
+['shl', 'tmp20', '$2']
+['movl', 'tmp20', 'tmp2']
+['movl', 'tmp2', 'tmp21']
+['or', 'tmp21', '$0']
+['movl', 'tmp21', 'tmp2']
+['movl', '$1', 'tmp5']
+['movl', 'tmp5', 'tmp22']
+['shl', 'tmp22', '$2']
+['movl', 'tmp22', 'tmp4']
+['movl', 'tmp4', 'tmp23']
+['or', 'tmp23', '$0']
+['movl', 'tmp23', 'tmp4']
+['call', 'set_subscript', ['tmp1', 'tmp4', 'tmp2']]
+['movl', '%eax', 'tmp24']
+['movl', '$3', 'tmp7']
+['movl', 'tmp7', 'tmp25']
+['shl', 'tmp25', '$2']
+['movl', 'tmp25', 'tmp6']
+['movl', 'tmp6', 'tmp26']
+['or', 'tmp26', '$0']
+['movl', 'tmp26', 'tmp6']
+['movl', '$2', 'tmp9']
+['movl', 'tmp9', 'tmp27']
+['shl', 'tmp27', '$2']
+['movl', 'tmp27', 'tmp8']
+['movl', 'tmp8', 'tmp28']
+['or', 'tmp28', '$0']
+['movl', 'tmp28', 'tmp8']
+['call', 'set_subscript', ['tmp1', 'tmp8', 'tmp6']]
+['movl', '%eax', 'tmp29']
+['movl', 'tmp1', 'tmp0']
+['movl', '$1', 'tmp12']
+['movl', 'tmp12', 'tmp30']
+['shl', 'tmp30', '$2']
+['movl', 'tmp30', 'tmp11']
+['movl', 'tmp11', 'tmp31']
+['or', 'tmp31', '$0']
+['movl', 'tmp31', 'tmp11']
+['movl', '$5', 'tmp14']
+['movl', 'tmp14', 'tmp32']
+['shl', 'tmp32', '$2']
+['movl', 'tmp32', 'tmp13']
+['movl', 'tmp13', 'tmp33']
+['or', 'tmp33', '$0']
+['movl', 'tmp33', 'tmp13']
+['call', 'set_subscript', ['tmp0', 'tmp11', 'tmp13']]
+['movl', '%eax', 'tmp34']
+['movl', '$1', 'tmp17']
+['movl', 'tmp17', 'tmp35']
+['shl', 'tmp35', '$2']
+['movl', 'tmp35', 'tmp16']
+['movl', 'tmp16', 'tmp36']
+['or', 'tmp36', '$0']
+['movl', 'tmp36', 'tmp16']
+['call', 'get_subscript', ['tmp0', 'tmp16']]
+['movl', '%eax', 'tmp37']
+['movl', 'tmp37', 'tmp15']
+['print', 'tmp15', None]
+
+
+False

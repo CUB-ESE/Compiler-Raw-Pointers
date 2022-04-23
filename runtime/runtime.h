@@ -139,10 +139,12 @@ pyobj set_attr(pyobj obj, char* attr, pyobj val);
 
 pyobj error_pyobj(char* string);
 
+
 /* Pointers*/
 int* create_ptr(int);
 int* set_ptr_value(int*, int);
 int get_ptr_value(int*);
 void free_ptr(int*);
+
 
 #endif /* RUNTIME_H */

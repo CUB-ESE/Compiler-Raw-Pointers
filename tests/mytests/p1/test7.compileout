@@ -1,0 +1,465 @@
+LexToken(NAME,'x',1,0)
+LexToken(ASSIGN,'=',1,2)
+LexToken(INT,1,1,4)
+LexToken(NAME,'y',2,6)
+LexToken(ASSIGN,'=',2,8)
+LexToken(INT,2,2,10)
+LexToken(NAME,'value',3,12)
+LexToken(ASSIGN,'=',3,18)
+LexToken(NAME,'x',3,20)
+LexToken(PLUS,'+',3,21)
+LexToken(NAME,'x',3,22)
+LexToken(IF,'if',3,24)
+LexToken(TRUE,'True',3,27)
+LexToken(ELSE,'else',3,32)
+LexToken(NAME,'y',3,37)
+LexToken(PLUS,'+',3,38)
+LexToken(NAME,'y',3,39)
+LexToken(PRINT,'print',4,41)
+LexToken(LPAREN,'(',4,46)
+LexToken(NAME,'value',4,47)
+LexToken(RPAREN,')',4,52)
+
+
+--------AST--------
+Module(None, Stmt([Assign([AssName('x', 'OP_ASSIGN')], Const(1)), Assign([AssName('y', 'OP_ASSIGN')], Const(2)), Assign([AssName('value', 'OP_ASSIGN')], IfExp(Name('True'), Add((Name('x'), Name('x'))), Add((Name('y'), Name('y'))))), Printnl([Name('value')], None)]))
+
+-------ExpAST-------
+Module(None, Stmt([Assign([AssName('x', 'OP_ASSIGN')], InjectFrom('Const(0)', Const(1))), Assign([AssName('y', 'OP_ASSIGN')], InjectFrom('Const(0)', Const(2))), Assign([AssName('value', 'OP_ASSIGN')], IfExp(InjectFrom('Const(1)', Const(1)), Let(let_var1, Name('x'), Let(let_var2, Name('x'), IfExp(InjectFrom('Const(0)', And([Or([CallFunc(Name('is_int'), [Name('let_var1')], None, None), CallFunc(Name('is_bool'), [Name('let_var1')], None, None)]), Or([CallFunc(Name('is_int'), [Name('let_var2')], None, None), CallFunc(Name('is_bool'), [Name('let_var2')], None, None)])])), InjectFrom('Const(0)', Add((ProjectTo('Const(0)', let_var1), ProjectTo('Const(0)', let_var2)))), IfExp(InjectFrom('Const(0)', And([CallFunc(Name('is_big'), [Name('let_var1')], None, None), CallFunc(Name('is_big'), [Name('let_var2')], None, None)])), InjectFrom('Const(3)', CallFunc(Name('add'), [ProjectTo('Const(3)', let_var1), ProjectTo('Const(3)', let_var2)], None, None)), CallFunc(Name('error_pyobj'), [Name('1')], None, None))))), Let(let_var3, Name('y'), Let(let_var4, Name('y'), IfExp(InjectFrom('Const(0)', And([Or([CallFunc(Name('is_int'), [Name('let_var3')], None, None), CallFunc(Name('is_bool'), [Name('let_var3')], None, None)]), Or([CallFunc(Name('is_int'), [Name('let_var4')], None, None), CallFunc(Name('is_bool'), [Name('let_var4')], None, None)])])), InjectFrom('Const(0)', Add((ProjectTo('Const(0)', let_var3), ProjectTo('Const(0)', let_var4)))), IfExp(InjectFrom('Const(0)', And([CallFunc(Name('is_big'), [Name('let_var3')], None, None), CallFunc(Name('is_big'), [Name('let_var4')], None, None)])), InjectFrom('Const(3)', CallFunc(Name('add'), [ProjectTo('Const(3)', let_var3), ProjectTo('Const(3)', let_var4)], None, None)), CallFunc(Name('error_pyobj'), [Name('1')], None, None))))))), Printnl([Name('value')], None)]))
+
+-------FLATTEN-------
+tmp2 = 1
+tmp1 = tmp2 << 2
+tmp1 = tmp1 | 0
+tmp0 = tmp1
+tmp5 = 2
+tmp4 = tmp5 << 2
+tmp4 = tmp4 | 0
+tmp3 = tmp4
+tmp9 = 1
+tmp8 = tmp9 << 2
+tmp8 = tmp8 | 1
+tmp7 = tmp8
+tmp7 = is_true(tmp7)
+tmp10 = 0
+tmp7 = tmp7!= tmp10
+if0 = tmp7
+tmp12 = tmp0
+tmp14 = tmp0
+tmp21 = is_int(tmp12)
+tmp22 = is_bool(tmp12)
+tmp20 = tmp21 or tmp22
+tmp24 = is_int(tmp14)
+tmp25 = is_bool(tmp14)
+tmp23 = tmp24 or tmp25
+tmp19 = tmp20 and tmp23
+tmp18 = tmp19
+tmp17 = tmp18 << 2
+tmp17 = tmp17 | 0
+tmp16 = tmp17
+tmp16 = is_true(tmp16)
+tmp26 = 0
+tmp16 = tmp16!= tmp26
+if1 = tmp16
+tmp30 = tmp12 >> 2
+tmp31 = tmp14 >> 2
+tmp32 = tmp30 + tmp31
+tmp29 = tmp32
+tmp28 = tmp29 << 2
+tmp28 = tmp28 | 0
+tmp27 = tmp28
+else1
+tmp37 = is_big(tmp12)
+tmp38 = is_big(tmp14)
+tmp36 = tmp37 and tmp38
+tmp35 = tmp36
+tmp34 = tmp35 << 2
+tmp34 = tmp34 | 0
+tmp33 = tmp34
+tmp33 = is_true(tmp33)
+tmp39 = 0
+tmp33 = tmp33!= tmp39
+if2 = tmp33
+tmp45 = ~3
+tmp44 = tmp12 & tmp45
+tmp47 = ~3
+tmp46 = tmp14 & tmp47
+tmp43 = add(tmp44, tmp46)
+tmp42 = tmp43
+tmp41 = tmp42 | 3
+tmp40 = tmp41
+else2
+tmp48 = error_pyobj(tmp49)
+tmp40 = tmp48
+endif2
+tmp27 = tmp40
+endif1
+tmp15 = tmp27
+tmp13 = tmp15
+tmp11 = tmp13
+else0
+tmp50 = tmp3
+tmp52 = tmp3
+tmp59 = is_int(tmp50)
+tmp60 = is_bool(tmp50)
+tmp58 = tmp59 or tmp60
+tmp62 = is_int(tmp52)
+tmp63 = is_bool(tmp52)
+tmp61 = tmp62 or tmp63
+tmp57 = tmp58 and tmp61
+tmp56 = tmp57
+tmp55 = tmp56 << 2
+tmp55 = tmp55 | 0
+tmp54 = tmp55
+tmp54 = is_true(tmp54)
+tmp64 = 0
+tmp54 = tmp54!= tmp64
+if3 = tmp54
+tmp68 = tmp50 >> 2
+tmp69 = tmp52 >> 2
+tmp70 = tmp68 + tmp69
+tmp67 = tmp70
+tmp66 = tmp67 << 2
+tmp66 = tmp66 | 0
+tmp65 = tmp66
+else3
+tmp75 = is_big(tmp50)
+tmp76 = is_big(tmp52)
+tmp74 = tmp75 and tmp76
+tmp73 = tmp74
+tmp72 = tmp73 << 2
+tmp72 = tmp72 | 0
+tmp71 = tmp72
+tmp71 = is_true(tmp71)
+tmp77 = 0
+tmp71 = tmp71!= tmp77
+if4 = tmp71
+tmp83 = ~3
+tmp82 = tmp50 & tmp83
+tmp85 = ~3
+tmp84 = tmp52 & tmp85
+tmp81 = add(tmp82, tmp84)
+tmp80 = tmp81
+tmp79 = tmp80 | 3
+tmp78 = tmp79
+else4
+tmp86 = error_pyobj(tmp49)
+tmp78 = tmp86
+endif4
+tmp65 = tmp78
+endif3
+tmp53 = tmp65
+tmp51 = tmp53
+tmp11 = tmp51
+endif0
+tmp6 = tmp11
+print tmp6
+
+
+-------AST_flat-------
+Module(None, Stmt([Assign([AssName('tmp2', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp1', 'OP_ASSIGN')], LeftShift((Name('tmp2'), Const(2)))), Assign([AssName('tmp1', 'OP_ASSIGN')], Bitor([Name('tmp1'), Const(0)])), Assign([AssName('tmp0', 'OP_ASSIGN')], Name('tmp1')), Assign([AssName('tmp5', 'OP_ASSIGN')], Const(2)), Assign([AssName('tmp4', 'OP_ASSIGN')], LeftShift((Name('tmp5'), Const(2)))), Assign([AssName('tmp4', 'OP_ASSIGN')], Bitor([Name('tmp4'), Const(0)])), Assign([AssName('tmp3', 'OP_ASSIGN')], Name('tmp4')), Assign([AssName('tmp9', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp8', 'OP_ASSIGN')], LeftShift((Name('tmp9'), Const(2)))), Assign([AssName('tmp8', 'OP_ASSIGN')], Bitor([Name('tmp8'), Const(1)])), Assign([AssName('tmp7', 'OP_ASSIGN')], Name('tmp8')), Assign([AssName('tmp7', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp7')], None, None)), Assign([AssName('tmp10', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp7', 'OP_ASSIGN')], Compare(Name('tmp7'), [('!=', Name('tmp10'))])), Assign([AssName('if0', 'OP_ASSIGN')], Name('tmp7')), Assign([AssName('tmp12', 'OP_ASSIGN')], Name('tmp0')), Assign([AssName('tmp14', 'OP_ASSIGN')], Name('tmp0')), Assign([AssName('tmp21', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp12')], None, None)), Assign([AssName('tmp22', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp12')], None, None)), Assign([AssName('tmp20', 'OP_ASSIGN')], Or([Name('tmp21'), Name('tmp22')])), Assign([AssName('tmp24', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp14')], None, None)), Assign([AssName('tmp25', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp14')], None, None)), Assign([AssName('tmp23', 'OP_ASSIGN')], Or([Name('tmp24'), Name('tmp25')])), Assign([AssName('tmp19', 'OP_ASSIGN')], And([Name('tmp20'), Name('tmp23')])), Assign([AssName('tmp18', 'OP_ASSIGN')], Name('tmp19')), Assign([AssName('tmp17', 'OP_ASSIGN')], LeftShift((Name('tmp18'), Const(2)))), Assign([AssName('tmp17', 'OP_ASSIGN')], Bitor([Name('tmp17'), Const(0)])), Assign([AssName('tmp16', 'OP_ASSIGN')], Name('tmp17')), Assign([AssName('tmp16', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp16')], None, None)), Assign([AssName('tmp26', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp16', 'OP_ASSIGN')], Compare(Name('tmp16'), [('!=', Name('tmp26'))])), Assign([AssName('if1', 'OP_ASSIGN')], Name('tmp16')), Assign([AssName('tmp30', 'OP_ASSIGN')], RightShift((Name('tmp12'), Const(2)))), Assign([AssName('tmp31', 'OP_ASSIGN')], RightShift((Name('tmp14'), Const(2)))), Assign([AssName('tmp32', 'OP_ASSIGN')], Add((Name('tmp30'), Name('tmp31')))), Assign([AssName('tmp29', 'OP_ASSIGN')], Name('tmp32')), Assign([AssName('tmp28', 'OP_ASSIGN')], LeftShift((Name('tmp29'), Const(2)))), Assign([AssName('tmp28', 'OP_ASSIGN')], Bitor([Name('tmp28'), Const(0)])), Assign([AssName('tmp27', 'OP_ASSIGN')], Name('tmp28')), Discard(Name('else1')), Assign([AssName('tmp37', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp12')], None, None)), Assign([AssName('tmp38', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp14')], None, None)), Assign([AssName('tmp36', 'OP_ASSIGN')], And([Name('tmp37'), Name('tmp38')])), Assign([AssName('tmp35', 'OP_ASSIGN')], Name('tmp36')), Assign([AssName('tmp34', 'OP_ASSIGN')], LeftShift((Name('tmp35'), Const(2)))), Assign([AssName('tmp34', 'OP_ASSIGN')], Bitor([Name('tmp34'), Const(0)])), Assign([AssName('tmp33', 'OP_ASSIGN')], Name('tmp34')), Assign([AssName('tmp33', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp33')], None, None)), Assign([AssName('tmp39', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp33', 'OP_ASSIGN')], Compare(Name('tmp33'), [('!=', Name('tmp39'))])), Assign([AssName('if2', 'OP_ASSIGN')], Name('tmp33')), Assign([AssName('tmp45', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp44', 'OP_ASSIGN')], Bitand([Name('tmp12'), Name('tmp45')])), Assign([AssName('tmp47', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp46', 'OP_ASSIGN')], Bitand([Name('tmp14'), Name('tmp47')])), Assign([AssName('tmp43', 'OP_ASSIGN')], CallFunc(Name('add'), [Name('tmp44'), Name('tmp46')], None, None)), Assign([AssName('tmp42', 'OP_ASSIGN')], Name('tmp43')), Assign([AssName('tmp41', 'OP_ASSIGN')], Bitor([Name('tmp42'), Const(3)])), Assign([AssName('tmp40', 'OP_ASSIGN')], Name('tmp41')), Discard(Name('else2')), Assign([AssName('tmp48', 'OP_ASSIGN')], CallFunc(Name('error_pyobj'), [Name('tmp49')], None, None)), Assign([AssName('tmp40', 'OP_ASSIGN')], Name('tmp48')), Discard(Name('endif2')), Assign([AssName('tmp27', 'OP_ASSIGN')], Name('tmp40')), Discard(Name('endif1')), Assign([AssName('tmp15', 'OP_ASSIGN')], Name('tmp27')), Assign([AssName('tmp13', 'OP_ASSIGN')], Name('tmp15')), Assign([AssName('tmp11', 'OP_ASSIGN')], Name('tmp13')), Discard(Name('else0')), Assign([AssName('tmp50', 'OP_ASSIGN')], Name('tmp3')), Assign([AssName('tmp52', 'OP_ASSIGN')], Name('tmp3')), Assign([AssName('tmp59', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp50')], None, None)), Assign([AssName('tmp60', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp50')], None, None)), Assign([AssName('tmp58', 'OP_ASSIGN')], Or([Name('tmp59'), Name('tmp60')])), Assign([AssName('tmp62', 'OP_ASSIGN')], CallFunc(Name('is_int'), [Name('tmp52')], None, None)), Assign([AssName('tmp63', 'OP_ASSIGN')], CallFunc(Name('is_bool'), [Name('tmp52')], None, None)), Assign([AssName('tmp61', 'OP_ASSIGN')], Or([Name('tmp62'), Name('tmp63')])), Assign([AssName('tmp57', 'OP_ASSIGN')], And([Name('tmp58'), Name('tmp61')])), Assign([AssName('tmp56', 'OP_ASSIGN')], Name('tmp57')), Assign([AssName('tmp55', 'OP_ASSIGN')], LeftShift((Name('tmp56'), Const(2)))), Assign([AssName('tmp55', 'OP_ASSIGN')], Bitor([Name('tmp55'), Const(0)])), Assign([AssName('tmp54', 'OP_ASSIGN')], Name('tmp55')), Assign([AssName('tmp54', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp54')], None, None)), Assign([AssName('tmp64', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp54', 'OP_ASSIGN')], Compare(Name('tmp54'), [('!=', Name('tmp64'))])), Assign([AssName('if3', 'OP_ASSIGN')], Name('tmp54')), Assign([AssName('tmp68', 'OP_ASSIGN')], RightShift((Name('tmp50'), Const(2)))), Assign([AssName('tmp69', 'OP_ASSIGN')], RightShift((Name('tmp52'), Const(2)))), Assign([AssName('tmp70', 'OP_ASSIGN')], Add((Name('tmp68'), Name('tmp69')))), Assign([AssName('tmp67', 'OP_ASSIGN')], Name('tmp70')), Assign([AssName('tmp66', 'OP_ASSIGN')], LeftShift((Name('tmp67'), Const(2)))), Assign([AssName('tmp66', 'OP_ASSIGN')], Bitor([Name('tmp66'), Const(0)])), Assign([AssName('tmp65', 'OP_ASSIGN')], Name('tmp66')), Discard(Name('else3')), Assign([AssName('tmp75', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp50')], None, None)), Assign([AssName('tmp76', 'OP_ASSIGN')], CallFunc(Name('is_big'), [Name('tmp52')], None, None)), Assign([AssName('tmp74', 'OP_ASSIGN')], And([Name('tmp75'), Name('tmp76')])), Assign([AssName('tmp73', 'OP_ASSIGN')], Name('tmp74')), Assign([AssName('tmp72', 'OP_ASSIGN')], LeftShift((Name('tmp73'), Const(2)))), Assign([AssName('tmp72', 'OP_ASSIGN')], Bitor([Name('tmp72'), Const(0)])), Assign([AssName('tmp71', 'OP_ASSIGN')], Name('tmp72')), Assign([AssName('tmp71', 'OP_ASSIGN')], CallFunc(Name('is_true'), [Name('tmp71')], None, None)), Assign([AssName('tmp77', 'OP_ASSIGN')], Const(0)), Assign([AssName('tmp71', 'OP_ASSIGN')], Compare(Name('tmp71'), [('!=', Name('tmp77'))])), Assign([AssName('if4', 'OP_ASSIGN')], Name('tmp71')), Assign([AssName('tmp83', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp82', 'OP_ASSIGN')], Bitand([Name('tmp50'), Name('tmp83')])), Assign([AssName('tmp85', 'OP_ASSIGN')], Invert(Const(3))), Assign([AssName('tmp84', 'OP_ASSIGN')], Bitand([Name('tmp52'), Name('tmp85')])), Assign([AssName('tmp81', 'OP_ASSIGN')], CallFunc(Name('add'), [Name('tmp82'), Name('tmp84')], None, None)), Assign([AssName('tmp80', 'OP_ASSIGN')], Name('tmp81')), Assign([AssName('tmp79', 'OP_ASSIGN')], Bitor([Name('tmp80'), Const(3)])), Assign([AssName('tmp78', 'OP_ASSIGN')], Name('tmp79')), Discard(Name('else4')), Assign([AssName('tmp86', 'OP_ASSIGN')], CallFunc(Name('error_pyobj'), [Name('tmp49')], None, None)), Assign([AssName('tmp78', 'OP_ASSIGN')], Name('tmp86')), Discard(Name('endif4')), Assign([AssName('tmp65', 'OP_ASSIGN')], Name('tmp78')), Discard(Name('endif3')), Assign([AssName('tmp53', 'OP_ASSIGN')], Name('tmp65')), Assign([AssName('tmp51', 'OP_ASSIGN')], Name('tmp53')), Assign([AssName('tmp11', 'OP_ASSIGN')], Name('tmp51')), Discard(Name('endif0')), Assign([AssName('tmp6', 'OP_ASSIGN')], Name('tmp11')), Printnl([Name('tmp6')], None)]))
+
+-------x86_IR-------
+['movl', '$1', 'tmp2']
+['movl', 'tmp2', 'tmp87']
+['shl', 'tmp87', '$2']
+['movl', 'tmp87', 'tmp1']
+['movl', 'tmp1', 'tmp88']
+['or', 'tmp88', '$0']
+['movl', 'tmp88', 'tmp1']
+['movl', 'tmp1', 'tmp0']
+['movl', '$2', 'tmp5']
+['movl', 'tmp5', 'tmp89']
+['shl', 'tmp89', '$2']
+['movl', 'tmp89', 'tmp4']
+['movl', 'tmp4', 'tmp90']
+['or', 'tmp90', '$0']
+['movl', 'tmp90', 'tmp4']
+['movl', 'tmp4', 'tmp3']
+['movl', '$1', 'tmp9']
+['movl', 'tmp9', 'tmp91']
+['shl', 'tmp91', '$2']
+['movl', 'tmp91', 'tmp8']
+['movl', 'tmp8', 'tmp92']
+['or', 'tmp92', '$1']
+['movl', 'tmp92', 'tmp8']
+['movl', 'tmp8', 'tmp7']
+['call', 'is_true', ['tmp7']]
+['movl', '%eax', 'tmp93']
+['movl', 'tmp93', 'tmp7']
+['movl', '$0', 'tmp10']
+['cmp', 'tmp7', 'tmp10', 'tmp95']
+['sete', 'tmp94', 'tmp95']
+['not', 'tmp94', None]
+['and', 'tmp94', '$1']
+['movl', 'tmp94', 'tmp7']
+['movl', '$1', 'tmp96']
+['if', 'tmp7', '0', 'tmp96']
+['movl', 'tmp0', 'tmp12']
+['movl', 'tmp0', 'tmp14']
+['call', 'is_int', ['tmp12']]
+['movl', '%eax', 'tmp97']
+['movl', 'tmp97', 'tmp21']
+['call', 'is_bool', ['tmp12']]
+['movl', '%eax', 'tmp98']
+['movl', 'tmp98', 'tmp22']
+['movl', 'tmp21', 'tmp99']
+['or', 'tmp99', 'tmp22']
+['movl', 'tmp99', 'tmp20']
+['call', 'is_int', ['tmp14']]
+['movl', '%eax', 'tmp100']
+['movl', 'tmp100', 'tmp24']
+['call', 'is_bool', ['tmp14']]
+['movl', '%eax', 'tmp101']
+['movl', 'tmp101', 'tmp25']
+['movl', 'tmp24', 'tmp102']
+['or', 'tmp102', 'tmp25']
+['movl', 'tmp102', 'tmp23']
+['movl', 'tmp20', 'tmp103']
+['and', 'tmp103', 'tmp23']
+['movl', 'tmp103', 'tmp19']
+['movl', 'tmp19', 'tmp18']
+['movl', 'tmp18', 'tmp104']
+['shl', 'tmp104', '$2']
+['movl', 'tmp104', 'tmp17']
+['movl', 'tmp17', 'tmp105']
+['or', 'tmp105', '$0']
+['movl', 'tmp105', 'tmp17']
+['movl', 'tmp17', 'tmp16']
+['call', 'is_true', ['tmp16']]
+['movl', '%eax', 'tmp106']
+['movl', 'tmp106', 'tmp16']
+['movl', '$0', 'tmp26']
+['cmp', 'tmp16', 'tmp26', 'tmp108']
+['sete', 'tmp107', 'tmp108']
+['not', 'tmp107', None]
+['and', 'tmp107', '$1']
+['movl', 'tmp107', 'tmp16']
+['movl', '$1', 'tmp109']
+['if', 'tmp16', '1', 'tmp109']
+['movl', 'tmp12', 'tmp110']
+['shr', 'tmp110', '$2']
+['movl', 'tmp110', 'tmp30']
+['movl', 'tmp14', 'tmp111']
+['shr', 'tmp111', '$2']
+['movl', 'tmp111', 'tmp31']
+['movl', 'tmp31', 'tmp112']
+['addl', 'tmp30', 'tmp112']
+['movl', 'tmp112', 'tmp32']
+['movl', 'tmp32', 'tmp29']
+['movl', 'tmp29', 'tmp113']
+['shl', 'tmp113', '$2']
+['movl', 'tmp113', 'tmp28']
+['movl', 'tmp28', 'tmp114']
+['or', 'tmp114', '$0']
+['movl', 'tmp114', 'tmp28']
+['movl', 'tmp28', 'tmp27']
+['else', None, '1']
+['call', 'is_big', ['tmp12']]
+['movl', '%eax', 'tmp115']
+['movl', 'tmp115', 'tmp37']
+['call', 'is_big', ['tmp14']]
+['movl', '%eax', 'tmp116']
+['movl', 'tmp116', 'tmp38']
+['movl', 'tmp37', 'tmp117']
+['and', 'tmp117', 'tmp38']
+['movl', 'tmp117', 'tmp36']
+['movl', 'tmp36', 'tmp35']
+['movl', 'tmp35', 'tmp118']
+['shl', 'tmp118', '$2']
+['movl', 'tmp118', 'tmp34']
+['movl', 'tmp34', 'tmp119']
+['or', 'tmp119', '$0']
+['movl', 'tmp119', 'tmp34']
+['movl', 'tmp34', 'tmp33']
+['call', 'is_true', ['tmp33']]
+['movl', '%eax', 'tmp120']
+['movl', 'tmp120', 'tmp33']
+['movl', '$0', 'tmp39']
+['cmp', 'tmp33', 'tmp39', 'tmp122']
+['sete', 'tmp121', 'tmp122']
+['not', 'tmp121', None]
+['and', 'tmp121', '$1']
+['movl', 'tmp121', 'tmp33']
+['movl', '$1', 'tmp123']
+['if', 'tmp33', '2', 'tmp123']
+['movl', '$3', 'tmp124']
+['not', 'tmp124', None]
+['movl', 'tmp124', 'tmp45']
+['movl', 'tmp12', 'tmp125']
+['and', 'tmp125', 'tmp45']
+['movl', 'tmp125', 'tmp44']
+['movl', '$3', 'tmp126']
+['not', 'tmp126', None]
+['movl', 'tmp126', 'tmp47']
+['movl', 'tmp14', 'tmp127']
+['and', 'tmp127', 'tmp47']
+['movl', 'tmp127', 'tmp46']
+['call', 'add', ['tmp44', 'tmp46']]
+['movl', '%eax', 'tmp128']
+['movl', 'tmp128', 'tmp43']
+['movl', 'tmp43', 'tmp42']
+['movl', 'tmp42', 'tmp129']
+['or', 'tmp129', '$3']
+['movl', 'tmp129', 'tmp41']
+['movl', 'tmp41', 'tmp40']
+['else', None, '2']
+['call', 'error_pyobj', ['tmp49']]
+['movl', '%eax', 'tmp130']
+['movl', 'tmp130', 'tmp48']
+['movl', 'tmp48', 'tmp40']
+['endif', None, '2']
+['movl', 'tmp40', 'tmp27']
+['endif', None, '1']
+['movl', 'tmp27', 'tmp15']
+['movl', 'tmp15', 'tmp13']
+['movl', 'tmp13', 'tmp11']
+['else', None, '0']
+['movl', 'tmp3', 'tmp50']
+['movl', 'tmp3', 'tmp52']
+['call', 'is_int', ['tmp50']]
+['movl', '%eax', 'tmp131']
+['movl', 'tmp131', 'tmp59']
+['call', 'is_bool', ['tmp50']]
+['movl', '%eax', 'tmp132']
+['movl', 'tmp132', 'tmp60']
+['movl', 'tmp59', 'tmp133']
+['or', 'tmp133', 'tmp60']
+['movl', 'tmp133', 'tmp58']
+['call', 'is_int', ['tmp52']]
+['movl', '%eax', 'tmp134']
+['movl', 'tmp134', 'tmp62']
+['call', 'is_bool', ['tmp52']]
+['movl', '%eax', 'tmp135']
+['movl', 'tmp135', 'tmp63']
+['movl', 'tmp62', 'tmp136']
+['or', 'tmp136', 'tmp63']
+['movl', 'tmp136', 'tmp61']
+['movl', 'tmp58', 'tmp137']
+['and', 'tmp137', 'tmp61']
+['movl', 'tmp137', 'tmp57']
+['movl', 'tmp57', 'tmp56']
+['movl', 'tmp56', 'tmp138']
+['shl', 'tmp138', '$2']
+['movl', 'tmp138', 'tmp55']
+['movl', 'tmp55', 'tmp139']
+['or', 'tmp139', '$0']
+['movl', 'tmp139', 'tmp55']
+['movl', 'tmp55', 'tmp54']
+['call', 'is_true', ['tmp54']]
+['movl', '%eax', 'tmp140']
+['movl', 'tmp140', 'tmp54']
+['movl', '$0', 'tmp64']
+['cmp', 'tmp54', 'tmp64', 'tmp142']
+['sete', 'tmp141', 'tmp142']
+['not', 'tmp141', None]
+['and', 'tmp141', '$1']
+['movl', 'tmp141', 'tmp54']
+['movl', '$1', 'tmp143']
+['if', 'tmp54', '3', 'tmp143']
+['movl', 'tmp50', 'tmp144']
+['shr', 'tmp144', '$2']
+['movl', 'tmp144', 'tmp68']
+['movl', 'tmp52', 'tmp145']
+['shr', 'tmp145', '$2']
+['movl', 'tmp145', 'tmp69']
+['movl', 'tmp69', 'tmp146']
+['addl', 'tmp68', 'tmp146']
+['movl', 'tmp146', 'tmp70']
+['movl', 'tmp70', 'tmp67']
+['movl', 'tmp67', 'tmp147']
+['shl', 'tmp147', '$2']
+['movl', 'tmp147', 'tmp66']
+['movl', 'tmp66', 'tmp148']
+['or', 'tmp148', '$0']
+['movl', 'tmp148', 'tmp66']
+['movl', 'tmp66', 'tmp65']
+['else', None, '3']
+['call', 'is_big', ['tmp50']]
+['movl', '%eax', 'tmp149']
+['movl', 'tmp149', 'tmp75']
+['call', 'is_big', ['tmp52']]
+['movl', '%eax', 'tmp150']
+['movl', 'tmp150', 'tmp76']
+['movl', 'tmp75', 'tmp151']
+['and', 'tmp151', 'tmp76']
+['movl', 'tmp151', 'tmp74']
+['movl', 'tmp74', 'tmp73']
+['movl', 'tmp73', 'tmp152']
+['shl', 'tmp152', '$2']
+['movl', 'tmp152', 'tmp72']
+['movl', 'tmp72', 'tmp153']
+['or', 'tmp153', '$0']
+['movl', 'tmp153', 'tmp72']
+['movl', 'tmp72', 'tmp71']
+['call', 'is_true', ['tmp71']]
+['movl', '%eax', 'tmp154']
+['movl', 'tmp154', 'tmp71']
+['movl', '$0', 'tmp77']
+['cmp', 'tmp71', 'tmp77', 'tmp156']
+['sete', 'tmp155', 'tmp156']
+['not', 'tmp155', None]
+['and', 'tmp155', '$1']
+['movl', 'tmp155', 'tmp71']
+['movl', '$1', 'tmp157']
+['if', 'tmp71', '4', 'tmp157']
+['movl', '$3', 'tmp158']
+['not', 'tmp158', None]
+['movl', 'tmp158', 'tmp83']
+['movl', 'tmp50', 'tmp159']
+['and', 'tmp159', 'tmp83']
+['movl', 'tmp159', 'tmp82']
+['movl', '$3', 'tmp160']
+['not', 'tmp160', None]
+['movl', 'tmp160', 'tmp85']
+['movl', 'tmp52', 'tmp161']
+['and', 'tmp161', 'tmp85']
+['movl', 'tmp161', 'tmp84']
+['call', 'add', ['tmp82', 'tmp84']]
+['movl', '%eax', 'tmp162']
+['movl', 'tmp162', 'tmp81']
+['movl', 'tmp81', 'tmp80']
+['movl', 'tmp80', 'tmp163']
+['or', 'tmp163', '$3']
+['movl', 'tmp163', 'tmp79']
+['movl', 'tmp79', 'tmp78']
+['else', None, '4']
+['call', 'error_pyobj', ['tmp49']]
+['movl', '%eax', 'tmp164']
+['movl', 'tmp164', 'tmp86']
+['movl', 'tmp86', 'tmp78']
+['endif', None, '4']
+['movl', 'tmp78', 'tmp65']
+['endif', None, '3']
+['movl', 'tmp65', 'tmp53']
+['movl', 'tmp53', 'tmp51']
+['movl', 'tmp51', 'tmp11']
+['endif', None, '0']
+['movl', 'tmp11', 'tmp6']
+['print', 'tmp6', None]
+
+
+True
+HERE
+['sete', 'tmp94', 'tmp95']
+HERE
+['sete', 'tmp107', 'tmp108']
+HERE
+['sete', 'tmp121', 'tmp122']
+HERE
+['sete', 'tmp141', 'tmp142']
+HERE
+['sete', 'tmp155', 'tmp156']
+False
+True
+HERE
+['sete', 'tmp94', 'tmp95']
+HERE
+['sete', 'tmp107', 'tmp108']
+HERE
+['sete', 'tmp121', 'tmp122']
+HERE
+['sete', 'tmp141', 'tmp142']
+HERE
+['sete', 'tmp155', 'tmp156']
+True

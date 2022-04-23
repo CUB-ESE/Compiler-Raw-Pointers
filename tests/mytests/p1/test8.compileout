@@ -1,0 +1,32 @@
+LexToken(PRINT,'print',1,0)
+LexToken(INT,1,1,6)
+
+
+--------AST--------
+Module(None, Stmt([Printnl([Const(1)], None)]))
+
+-------ExpAST-------
+Module(None, Stmt([Printnl([InjectFrom('Const(0)', Const(1))], None)]))
+
+-------FLATTEN-------
+tmp1 = 1
+tmp0 = tmp1 << 2
+tmp0 = tmp0 | 0
+print tmp0
+
+
+-------AST_flat-------
+Module(None, Stmt([Assign([AssName('tmp1', 'OP_ASSIGN')], Const(1)), Assign([AssName('tmp0', 'OP_ASSIGN')], LeftShift((Name('tmp1'), Const(2)))), Assign([AssName('tmp0', 'OP_ASSIGN')], Bitor([Name('tmp0'), Const(0)])), Printnl([Name('tmp0')], None)]))
+
+-------x86_IR-------
+['movl', '$1', 'tmp1']
+['movl', 'tmp1', 'tmp2']
+['shl', 'tmp2', '$2']
+['movl', 'tmp2', 'tmp0']
+['movl', 'tmp0', 'tmp3']
+['or', 'tmp3', '$0']
+['movl', 'tmp3', 'tmp0']
+['print', 'tmp0', None]
+
+
+False
