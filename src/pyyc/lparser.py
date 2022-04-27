@@ -4,7 +4,7 @@ from compiler.ast import *
 
 tokens = ( 'INT', 'FLOAT', 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
            'NAME', 'PRINT', 'INPUT', 'DEF', 'RETURN', 'WHILE', 'IF', 'ELSE', 'LAMBDA',
-           'ASSIGN', 'COLON', 'LCURLY', 'RCURLY', 'LSQUARE', 'RSQUARE', 'COMMA', 
+           'ASSIGN', 'COLON', 'LCURLY', 'RCURLY', 'LSQUARE', 'RSQUARE', 'COMMA', 'MEMCPY',
             'AND', 'OR', 'EQ', 'NEQ', 'INDENT', 'DEDENT', 'TRUE', 'FALSE', 'NOT', 'IS', 'NEWLINE' )
 
 indent_amount = 0
@@ -30,6 +30,7 @@ t_NEQ = r'!='
 reserved = { 
     'print' : 'PRINT', 
     'input' : 'INPUT',
+    'memcpy' : 'MEMCPY',
     'def' : 'DEF',
     'return' : 'RETURN',
     'while' : 'WHILE',
@@ -200,6 +201,12 @@ def p_expression_input (p):
     expression :  INPUT LPAREN RPAREN
     '''
     p[0] = CallFunc(Name('input'), [], None, None)
+    
+def p_expression_memcpy (p):
+    '''
+    simple_statement :  MEMCPY LPAREN expr_list RPAREN
+    '''
+    p[0] = CallFunc(Name('p1_memcpy'), p[3], None, None)
 
 ##############################################
 # Added in P1
