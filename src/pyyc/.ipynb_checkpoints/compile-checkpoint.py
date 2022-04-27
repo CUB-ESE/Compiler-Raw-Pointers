@@ -5,6 +5,7 @@ import ast
 import graph
 import os
 import lparser as parser
+from lparser import C_String
 
 MASK  = 3
 BOOL  = 1
@@ -414,6 +415,8 @@ def explicate(AST):
 #         print("SUBS")
 #         print AST.subs[0]
         return Subscript(explicate(AST.expr), AST.flags, explicate(AST.subs[0]))
+    elif isinstance (AST, C_String):
+        return AST
 
         
     else:
@@ -499,6 +502,8 @@ def flatten(AST):
         return flatten(AST.expr)
     elif isinstance(AST, Const):
         return AST.value
+    elif isinstance (AST, C_String):
+        return AST.string
     elif isinstance(AST, Name):   
         return mapped(AST.name)
     elif isinstance(AST, Add):
@@ -523,7 +528,10 @@ def flatten(AST):
         #!!!!!PROJECT!!!!
         func_name = AST.node.name
         if AST.node.name == "ptr":
-            func_name = "create_ptr"
+            if isinstance (AST.args[0], C_String):
+                func_name = "create_str_ptr"
+            else:
+                func_name = "create_ptr"
         elif AST.node.name == "deref":
             func_name = "get_ptr_value"
         elif AST.node.name == "freep":
@@ -721,6 +729,8 @@ def getAsmIR(AST):
             x86_IR.append(["endif", None, exp[5:]])
         return exp
     elif isinstance(AST, Const):
+        if isinstance (AST.value, str):
+            return AST.value
         return "$" + str(AST.value)
     elif isinstance(AST, Name):
         return AST.name
@@ -744,6 +754,9 @@ def getAsmIR(AST):
         if AST.args:
             for i in range(len(AST.args)):
                 args.append(getAsmIR(AST.args[i]))
+        if AST.node.name == "create_str_ptr":
+            args[0] = args[0] + '\0'
+            args.append ("$"+str(len (args[0])))
         x86_IR.append(["call", AST.node.name, args])
         x86_IR.append(["movl","%eax",tmp_var])
         return tmp_var

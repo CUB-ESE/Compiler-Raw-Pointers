@@ -139,6 +139,7 @@ static void print_bool(int b) {
 }
 
 static void print_pyobj(pyobj x) {
+    printf ("tag x %d\n", tag(x));
   switch (tag(x)) {
   case INT_TAG:
     print_int(project_int(x));
@@ -149,6 +150,7 @@ static void print_pyobj(pyobj x) {
   case FLOAT_TAG:
     print_float(project_float(x));
     break;
+  case   
   case BIG_TAG: {
     big_pyobj* b = project_big(x);
     switch (b->tag) {
@@ -1074,14 +1076,27 @@ int* create_ptr(int ptr_value)
     int* ptr_addr = (int*)malloc(sizeof(int));
     *(ptr_addr) = ptr_value;
     return ptr_addr;
-} 
+}
 
+char* create_str_ptr (char* value, size_t len)
+{
+    char* ptr = (char*) malloc (len * sizeof (char));
+    strcpy (ptr, value);
+    return ptr
+}
 
 void free_ptr(int* ptr_addr)
 {
     assert(ptr_addr != NULL);
     free(ptr_addr);
     ptr_addr = NULL;
+}
+
+void free_str_ptr (char* ptr)
+{
+    assert (ptr != NULL);
+    free (ptr);
+    ptr = NULL;
 }
 
 int* set_ptr_value(int* ptr_addr, int ptr_value)

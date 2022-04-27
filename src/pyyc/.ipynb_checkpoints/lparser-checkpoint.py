@@ -6,7 +6,7 @@ class C_String:
     def __init__ (self, string):
         self.string = string
     def __repr__ (self):
-        return "C_String(\"" + self.string + "\")"
+        return "C_String(" + self.string + ")"
 
 tokens = ( 'INT', 'FLOAT', 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
            'NAME', 'PRINT', 'INPUT', 'DEF', 'RETURN', 'WHILE', 'IF', 'ELSE', 'LAMBDA', 'STRING',
@@ -56,7 +56,6 @@ reserved = {
 # Remove the quotes from the string and add a null terminator, as this is going to be a c_string
 def t_STRING(t):
     r'"[^"]*"'
-    t.value = t.value[1:-1] + '\0'
     return t
 
 def t_comment(t):

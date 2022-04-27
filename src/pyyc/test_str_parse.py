@@ -1,1 +1,2 @@
-x = "hello"
+x = ptr ("hello")
+print deref (x)
