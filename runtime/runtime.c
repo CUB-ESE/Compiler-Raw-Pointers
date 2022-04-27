@@ -1098,3 +1098,12 @@ int get_ptr_value(int* ptr_addr)
     ptr_value = *(ptr_addr);
     return ptr_value;
 }
+
+void p1_memcpy (void* dest, void* src, size_t bytes)
+{
+    char* dest_byte = (char*) dest;
+    char* src_byte = (char*) src;
+    
+    for (int i = 0; i < bytes; i++)
+        dest_byte [i] = src_byte [i];
+}
