@@ -2,8 +2,14 @@ from ply.yacc import yacc
 from ply.lex import lex, LexToken
 from compiler.ast import *
 
+class C_String:
+    def __init__ (self, string):
+        self.string = string
+    def __repr__ (self):
+        return "C_String(\"" + self.string + "\")"
+
 tokens = ( 'INT', 'FLOAT', 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
-           'NAME', 'PRINT', 'INPUT', 'DEF', 'RETURN', 'WHILE', 'IF', 'ELSE', 'LAMBDA',
+           'NAME', 'PRINT', 'INPUT', 'DEF', 'RETURN', 'WHILE', 'IF', 'ELSE', 'LAMBDA', 'STRING',
            'ASSIGN', 'COLON', 'LCURLY', 'RCURLY', 'LSQUARE', 'RSQUARE', 'COMMA', 'MEMCPY',
             'AND', 'OR', 'EQ', 'NEQ', 'INDENT', 'DEDENT', 'TRUE', 'FALSE', 'NOT', 'IS', 'NEWLINE' )
 
@@ -45,10 +51,18 @@ reserved = {
     'is' : 'IS'
 }
 
+
+# Match a single quote, then zero of more characters until we see another quote
+# Remove the quotes from the string and add a null terminator, as this is going to be a c_string
+def t_STRING(t):
+    r'"[^"]*"'
+    t.value = t.value[1:-1] + '\0'
+    return t
+
 def t_comment(t):
     r'\#.*'
 
-    
+
 
 # Multiline mode regex, matches a line that starts with one of more whitespace
 # Transforms whitespace into an indent level, also handles coming down from nested indents, does not handle going from indent 1 to 0
@@ -176,6 +190,10 @@ def p_expression_const (p):
                | FLOAT
     '''
     p[0] = Const (p[1])  
+    
+def p_expression_cstring (p):
+    'expression : STRING'
+    p[0] = C_String (p[1])
 
 def p_expression_group (p):
     '''
