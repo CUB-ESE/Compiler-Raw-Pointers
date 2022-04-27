@@ -6,10 +6,11 @@ import graph
 import os
 import lparser as parser
 
-MASK = 3
-BOOL = 1
-INT  = 0
-BIG  = 3
+MASK  = 3
+BOOL  = 1
+INT   = 0
+FLOAT = 2
+BIG   = 3
 ########################################################################################
 #
 #                                EXPLICATE PASS
@@ -321,6 +322,10 @@ def explicate(AST):
     elif isinstance(AST, Discard):
         return Discard(explicate(AST.expr))
     elif isinstance(AST, Const):
+        #!!!!!!PROJECT!!!!!
+        if type(AST.value) == float:
+            return InjectFrom(Const(FLOAT), Const(AST.value))
+        #!
         return InjectFrom(Const(INT), Const(AST.value))
 #         return Const(AST.value)
     elif isinstance(AST, Name):
@@ -333,7 +338,7 @@ def explicate(AST):
         
         if(AST.node.name == "input"):
             return InjectFrom(Const(INT) ,CallFunc(Name('input'), [], None, None))
-        return CallFunc(explicate(AST.node), [], None, None)
+        return CallFunc(explicate(AST.node), [explicate(AST.args[0])], None, None)
     elif isinstance(AST, List):
         tmp = []
         for i in range(len(AST.nodes)):
@@ -476,9 +481,15 @@ def flatten(AST):
         f.write(c * tab + "print {}\n".format(str(flatten(AST.nodes[0]))))
         return 
     elif isinstance(AST,Assign):
+        #!!!!!PROJECT!!!!!
+        if isinstance(AST.nodes[0], CallFunc):
+            f.write("set_ptr_value("+ flatten(AST.nodes[0].args[0]) + ", " + str(flatten(AST.expr)) + ")\n")
+            return
+        #!
+        
         node = flatten(AST.nodes[0])
         if node[:3]=="set":
-            f.write(node+", "+str(flatten(AST.expr))+")\n")
+            f.write(node+", "+str(flatten(AST.expr))+")\n")        
         else:
             f.write(c * tab + "{} = {}\n".format(node, str(flatten(AST.expr))))
         return 
@@ -509,7 +520,16 @@ def flatten(AST):
         if AST.args:
             for i in range(len(AST.args)):
                   args=args+"{}, ".format(str(flatten(AST.args[i])))
-        f.write(c * tab + var + " = " + AST.node.name + "("+ args[:-2] + ")\n") # avoid recursion to avoid mapping function to temporary variable
+        #!!!!!PROJECT!!!!
+        func_name = AST.node.name
+        if AST.node.name == "ptr":
+            func_name = "create_ptr"
+        elif AST.node.name == "deref":
+            func_name = "get_ptr_value"
+        elif AST.node.name == "freep":
+            func_name = "free_ptr"  
+        #!
+        f.write(c * tab + var + " = " + func_name + "("+ args[:-2] + ")\n") # avoid recursion to avoid mapping function to temporary variable
         return var
     elif isinstance(AST, List):
         var = getTmpVar()   

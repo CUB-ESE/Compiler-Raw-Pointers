@@ -153,14 +153,6 @@ def p_assign_statement (p):
                      
     '''
     p[0] = Assign ([p[1]], p[3])
-    
-# def p_funcassign_statement(p):
-#     '''
-#     simple_statement : expression ASSIGN expression
-    
-#     '''    
-#     p[0] = Assign([AssName(p[1],'OP_ASSIGN')],p[3])
-    
 
 def p_expr_statement (p):
     '''
@@ -168,10 +160,6 @@ def p_expr_statement (p):
                      | target   
     '''
     p[0] = Discard (p[1])
-
-# def p_funcall_expression(p):
-#     ''' expression : NAME LPAREN expression RPAREN '''
-#     p[0] = CallFunc(Name(p[1]),[p[3]], None, None)
     
 def p_expression_name (p):
     '''
@@ -289,7 +277,7 @@ def p_target_func(p):
     target : NAME LPAREN expression RPAREN 
     
     '''
-    p[0] = AssName(CallFunc(Name(p[1]),[p[3]], None, None), 'OP_ASSIGN')
+    p[0] = CallFunc(Name(p[1]),[p[3]], None, None)
     
 def p_target_subscript (p):
     '''
@@ -452,8 +440,8 @@ def parseFile (filename):
     data = open(filename).read() + "\n"
     
     lexer.input (data)
-    for tok in lexer:
-        print tok
+#     for tok in lexer:
+#         print tok
     
     lexer = lex ()    
     return parser.parse (data)

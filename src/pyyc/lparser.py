@@ -277,7 +277,7 @@ def p_target_func(p):
     target : NAME LPAREN expression RPAREN 
     
     '''
-    p[0] = AssName(CallFunc(Name(p[1]),[p[3]], None, None), 'OP_ASSIGN')
+    p[0] = CallFunc(Name(p[1]),[p[3]], None, None)
     
 def p_target_subscript (p):
     '''
@@ -440,8 +440,8 @@ def parseFile (filename):
     data = open(filename).read() + "\n"
     
     lexer.input (data)
-    for tok in lexer:
-        print tok
+#     for tok in lexer:
+#         print tok
     
     lexer = lex ()    
     return parser.parse (data)
