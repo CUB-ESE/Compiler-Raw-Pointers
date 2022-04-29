@@ -1,9 +1,3 @@
-LexToken(PRINT,'print',1,0)
-LexToken(INPUT,'input',1,6)
-LexToken(LPAREN,'(',1,11)
-LexToken(RPAREN,')',1,12)
-LexToken(PLUS,'+',1,14)
-LexToken(INT,1,1,16)
 
 
 --------AST--------

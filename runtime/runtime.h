@@ -28,7 +28,7 @@ int input();
 */
 #define BIG_TAG 3   /* 11 */
 
-enum big_type_tag { LIST, DICT, FUN, CLASS, OBJECT, UBMETHOD, BMETHOD };
+enum big_type_tag { LIST, DICT, FUN, CLASS, OBJECT, UBMETHOD, BMETHOD, POINTER };
 
 typedef long int pyobj;
 
@@ -73,7 +73,12 @@ struct bound_method_struct {
 };
 typedef struct bound_method_struct bound_method;
 
-
+struct pointer_struct{
+    void* ptr;
+    char type;
+};
+typedef struct pointer_struct pointer;   
+    
 struct pyobj_struct {
   enum big_type_tag tag;
   union {
@@ -84,6 +89,7 @@ struct pyobj_struct {
     object obj;
     unbound_method ubm;
     bound_method bm;
+    pointer p;
   } u;
 };
 typedef struct pyobj_struct big_pyobj;
@@ -141,10 +147,11 @@ pyobj error_pyobj(char* string);
 
 
 /* Pointers*/
-int* create_ptr(int);
-int* set_ptr_value(int*, int);
-int get_ptr_value(int*);
-void free_ptr(int*);
+big_pyobj* create_ptr(pyobj);
+big_pyobj* set_ptr_value(big_pyobj*, pyobj);
+pyobj get_ptr_value(big_pyobj*);
+void free_ptr(big_pyobj*);
 
-
+void p1_memcpy(void*, void*, size_t);
+    
 #endif /* RUNTIME_H */

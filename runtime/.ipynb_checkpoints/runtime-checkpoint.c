@@ -1069,32 +1069,62 @@ pyobj error_pyobj(char* string) {
 
 /* Pointers */
 
-int* create_ptr(int ptr_value)
+
+static big_pyobj* pointer_to_big(pointer p) {
+  big_pyobj* v = (big_pyobj*)malloc(sizeof(big_pyobj));
+  v->tag = POINTER;
+  v->u.p = p;
+  return v;
+}
+
+
+big_pyobj* create_ptr(pyobj ptr_value)
 {
     int* ptr_addr = (int*)malloc(sizeof(int));
-    *(ptr_addr) = ptr_value;
-    return ptr_addr;
+    *(ptr_addr) = project_int(ptr_value);
+    
+    pointer p;
+    p.ptr = ptr_addr;
+    p.type = 'I';
+    return pointer_to_big(p);
 } 
 
 
-void free_ptr(int* ptr_addr)
+big_pyobj* set_ptr_value(big_pyobj* ptr_addr, pyobj ptr_value)
 {
-    assert(ptr_addr != NULL);
-    free(ptr_addr);
-    ptr_addr = NULL;
-}
+    assert(ptr_addr->u.p.ptr != NULL);
+    switch (tag(ptr_value)) {
+      case INT_TAG:
+            *((int*)ptr_addr->u.p.ptr) = project_int(ptr_value);
+    }
 
-int* set_ptr_value(int* ptr_addr, int ptr_value)
-{
-    assert(ptr_addr != NULL);
-    *(ptr_addr) = ptr_value;
     return ptr_addr;
 }
 
-int get_ptr_value(int* ptr_addr)
+pyobj get_ptr_value(big_pyobj* ptr_addr)
 {
-    assert(ptr_addr != NULL);
-    int ptr_value;
-    ptr_value = *(ptr_addr);
+    assert(ptr_addr->u.p.ptr != NULL);
+    pyobj ptr_value;
+    ptr_value = *((int*)ptr_addr->u.p.ptr);
+    ptr_value = inject_int(ptr_value);
     return ptr_value;
 }
+
+
+void free_ptr(big_pyobj* ptr_addr)
+{
+    assert(ptr_addr->u.p.ptr != NULL);
+    free(ptr_addr->u.p.ptr);
+    ptr_addr->u.p.ptr = NULL;
+}
+
+
+//Alex
+void p1_memcpy (void* dest, void* src, size_t bytes)
+{
+    char* dest_byte = (char*) dest;
+    char* src_byte = (char*) src;
+
+    for (int i = 0; i < bytes; i++)
+        dest_byte [i] = src_byte [i];
+} 

@@ -338,7 +338,7 @@ def explicate(AST):
         
         if(AST.node.name == "input"):
             return InjectFrom(Const(INT) ,CallFunc(Name('input'), [], None, None))
-        return CallFunc(explicate(AST.node), [explicate(AST.args[0])], None, None)
+        return CallFunc(explicate(AST.node), [explicate (arg) for arg in AST.args], None, None)
     elif isinstance(AST, List):
         tmp = []
         for i in range(len(AST.nodes)):

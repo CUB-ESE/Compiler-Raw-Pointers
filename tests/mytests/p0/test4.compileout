@@ -1,21 +1,3 @@
-LexToken(NAME,'x',1,0)
-LexToken(ASSIGN,'=',1,2)
-LexToken(LSQUARE,'[',1,4)
-LexToken(INT,1,1,5)
-LexToken(COMMA,',',1,6)
-LexToken(INT,2,1,8)
-LexToken(RSQUARE,']',1,9)
-LexToken(NAME,'y',2,11)
-LexToken(ASSIGN,'=',2,13)
-LexToken(LSQUARE,'[',2,15)
-LexToken(INT,1,2,16)
-LexToken(COMMA,',',2,17)
-LexToken(INT,2,2,19)
-LexToken(RSQUARE,']',2,20)
-LexToken(PRINT,'print',3,22)
-LexToken(NAME,'x',3,28)
-LexToken(IS,'is',3,30)
-LexToken(NAME,'y',3,33)
 
 
 --------AST--------

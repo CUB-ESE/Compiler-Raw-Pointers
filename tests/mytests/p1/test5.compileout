@@ -1,18 +1,3 @@
-LexToken(NAME,'x',1,0)
-LexToken(ASSIGN,'=',1,2)
-LexToken(INT,1,1,4)
-LexToken(NAME,'y',2,6)
-LexToken(ASSIGN,'=',2,8)
-LexToken(INT,2,2,10)
-LexToken(NAME,'z',3,12)
-LexToken(ASSIGN,'=',3,14)
-LexToken(INT,3,3,16)
-LexToken(PRINT,'print',4,18)
-LexToken(NAME,'x',4,24)
-LexToken(PLUS,'+',4,26)
-LexToken(NAME,'y',4,28)
-LexToken(PLUS,'+',4,30)
-LexToken(NAME,'z',4,32)
 
 
 --------AST--------

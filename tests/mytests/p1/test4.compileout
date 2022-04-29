@@ -1,13 +1,3 @@
-LexToken(NAME,'x',1,0)
-LexToken(ASSIGN,'=',1,2)
-LexToken(INT,1,1,4)
-LexToken(NAME,'y',2,6)
-LexToken(ASSIGN,'=',2,8)
-LexToken(INT,2,2,10)
-LexToken(PRINT,'print',3,12)
-LexToken(NAME,'x',3,18)
-LexToken(PLUS,'+',3,20)
-LexToken(NAME,'y',3,22)
 
 
 --------AST--------

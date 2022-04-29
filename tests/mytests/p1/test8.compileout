@@ -1,5 +1,3 @@
-LexToken(PRINT,'print',1,0)
-LexToken(INT,1,1,6)
 
 
 --------AST--------
