@@ -2,15 +2,21 @@ from ply.yacc import yacc
 from ply.lex import lex, LexToken
 from compiler.ast import *
 
+class C_String:
+    def __init__ (self, string):
+        self.string = string
+    def __repr__ (self):
+        return "C_String(" + self.string + ")"
+  
+    
 tokens = ( 'INT', 'FLOAT', 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
-           'NAME', 'PRINT', 'INPUT', 'DEF', 'RETURN', 'WHILE', 'IF', 'ELSE', 'LAMBDA',
-           'ASSIGN', 'COLON', 'LCURLY', 'RCURLY', 'LSQUARE', 'RSQUARE', 'COMMA', 'MEMCPY', 
+           'NAME', 'PRINT', 'INPUT', 'DEF', 'RETURN', 'WHILE', 'IF', 'ELSE', 'LAMBDA', 'STRING',
+           'ASSIGN', 'COLON', 'LCURLY', 'RCURLY', 'LSQUARE', 'RSQUARE', 'COMMA', 'MEMCPY',
             'AND', 'OR', 'EQ', 'NEQ', 'INDENT', 'DEDENT', 'TRUE', 'FALSE', 'NOT', 'IS', 'NEWLINE' )
 
 indent_amount = 0
 last_indent_level = 0
 eof_flag = False
-
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'
@@ -26,7 +32,6 @@ t_RSQUARE = r'\]'
 t_COMMA = r','
 t_EQ = r'=='
 t_NEQ = r'!='
-
 reserved = { 
     'print' : 'PRINT', 
     'input' : 'INPUT',
@@ -45,10 +50,18 @@ reserved = {
     'is' : 'IS'
 }
 
+
+# Match a single quote, then zero of more characters until we see another quote
+# Remove the quotes from the string and add a null terminator, as this is going to be a c_string
+def t_STRING(t):
+    r'"[^"]*"'
+    return t
+
 def t_comment(t):
     r'\#.*'
 
     
+
 
 # Multiline mode regex, matches a line that starts with one of more whitespace
 # Transforms whitespace into an indent level, also handles coming down from nested indents, does not handle going from indent 1 to 0
@@ -74,7 +87,6 @@ def t_INDENT (t):
         else:
             last_indent_level = t.value
     return t
-
 def t_FLOAT (t):
     r'\d+\.\d+'
     try:
@@ -83,7 +95,6 @@ def t_FLOAT (t):
         print "float too big"
         t.value = 0
     return t
-
 def t_INT (t):
     r'\d+'
     try:
@@ -92,12 +103,10 @@ def t_INT (t):
         print "int too big"
         t.value = 0
     return t
-
 def t_NAME (t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get (t.value, 'NAME')
     return t
-
 def t_NEWLINE (t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
@@ -129,7 +138,6 @@ precedence = (
     ('left', 'PLUS', 'MINUS'),
     ('left', 'TIMES', 'DIVIDE')
 )
-
 def p_program (p):
     '''
     program : module
@@ -141,20 +149,17 @@ def p_module (p):
     module : statements
     '''
     p[0] = Stmt (p[1])
-
 def p_print_statement (p):
     '''
     simple_statement : PRINT expression
     '''
     p[0] = Printnl ([p[2]], None)
-
 def p_assign_statement (p):
     '''
     simple_statement : target ASSIGN expression
                      
     '''
     p[0] = Assign ([p[1]], p[3])
-
 def p_expr_statement (p):
     '''
     simple_statement : expression
@@ -176,6 +181,10 @@ def p_expression_const (p):
                | FLOAT
     '''
     p[0] = Const (p[1])  
+
+def p_expression_cstring (p):
+    'expression : STRING'
+    p[0] = C_String (p[1])
 
 def p_expression_group (p):
     '''
@@ -201,7 +210,7 @@ def p_expression_input (p):
     expression :  INPUT LPAREN RPAREN
     '''
     p[0] = CallFunc(Name('input'), [], None, None)
-
+    
 def p_expression_memcpy (p):
     '''
     simple_statement :  MEMCPY LPAREN expr_list RPAREN
@@ -210,11 +219,9 @@ def p_expression_memcpy (p):
 ##############################################
 # Added in P1
 ##############################################
-
 def p_empty (p):
     'empty :'
     pass
-
 def p_expression_unot (p):
     '''
     expression : NOT expression
@@ -277,7 +284,6 @@ def p_target_name (p):
            
     '''
     p[0] = AssName (p[1], 'OP_ASSIGN')
-
 def p_target_func(p):
     ''' 
     target : NAME LPAREN expression RPAREN 
@@ -297,7 +303,6 @@ def p_key_datum (p):
     key_datum : expression COLON expression
     '''
     p[0] = (p[1], p[3])
-
 def p_key_datum_list_empty (p):
     '''
     key_datum_list : empty
@@ -335,11 +340,9 @@ def p_expr_list_extend (p):
     '''
     p[1].append (p[3])
     p[0] = p[1]
-
 ##############################################
 # Added in P2
 ##############################################
-
 def p_expression_callfunc (p):
     '''
     expression : expression LPAREN expr_list RPAREN
@@ -357,13 +360,11 @@ def p_id_list_empty (p):
     id_list : empty
     '''
     p[0] = tuple()
-
 def p_id_list (p):
     '''
     id_list : NAME
     '''
     p[0] = [p[1]]
-
 def p_id_list_extend (p):
     '''
     id_list : id_list COMMA NAME
@@ -377,13 +378,11 @@ def p_statement (p):
               | compound_statement
     '''
     p[0] = p[1]
-
 def p_return_statement (p):
     '''
     simple_statement : RETURN expression
     '''
     p[0] = Return (p[2])
-
 def p_compound_statement (p):
     '''
     compound_statement : DEF NAME LPAREN id_list RPAREN COLON suite
@@ -401,7 +400,6 @@ def p_statements (p):
     statements : statement
     '''
     p[0] = [p[1]]
-
 def p_statements_extend (p):
     '''
     statements : statements statement
@@ -412,26 +410,21 @@ def p_statements_extend (p):
 ##############################################
 # Added in P3
 ##############################################
-
 # Currently it is confusing this with the ifexpr expression!
 def p_if_else_statement (p):
     '''
     simple_statement : IF expression COLON suite ELSE COLON suite
     '''
     p[0] = If ([(p[2], Stmt (p[4]))], Stmt (p[7]))
-
 def p_while_statement (p):
     '''
     simple_statement : WHILE expression COLON suite
     '''
     p[0] = While (p[2], Stmt(p[4]), None)
-
 def p_error(p):
     global parser
-
     print "Syntax error on "+str(p.type)+" at " + str(p.lineno)
     print parser.statestack
-
     
     
     
@@ -440,7 +433,6 @@ def p_error(p):
     
 lexer = lex ()
 parser = yacc ()
-
 def parseFile (filename):
     global parser, lexer
     data = open(filename).read() + "\n"

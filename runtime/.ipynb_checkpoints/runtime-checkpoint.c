@@ -14,6 +14,7 @@ static void print_float(double in);
 static void print_list(pyobj pyobj_list);
 static void print_dict(pyobj dict);
 static list list_add(list x, list y);
+static void print_pointer(pyobj p);
 
 int tag(pyobj val) {
   return val & MASK;
@@ -157,6 +158,9 @@ static void print_pyobj(pyobj x) {
       break;
     case LIST:
       print_list(x);
+      break;
+    case POINTER:
+      print_pointer(x);
       break;
     default:
       assert(0);
@@ -581,6 +585,18 @@ static void print_float(double in)
 
     printf( ( (*p)  ? "%s" : "%s.0" ), outstr);
 }
+
+
+
+static void print_pointer(pyobj p)
+{
+    big_pyobj* ptr = project_big(p);
+    
+    while(*((char*)ptr->u.p.ptr) !='\0')
+        printf("%c",*(char*)ptr->u.p.ptr++);
+    
+}
+
 
 static pyobj *current_list;
 static void print_list(pyobj ls)
@@ -1090,6 +1106,25 @@ big_pyobj* create_ptr(pyobj ptr_value)
 } 
 
 
+big_pyobj* create_str_ptr(char* value, size_t len)
+{
+    
+    while(*value != '\0'){
+        printf("%c",*value++);
+    }
+    char* ptr = (char*) malloc (len * sizeof(char));
+    strcpy(ptr, value);
+    
+    pointer p;
+    p.ptr = ptr;
+    p.type = 'C';
+    return pointer_to_big(p);
+        
+}
+
+
+
+
 big_pyobj* set_ptr_value(big_pyobj* ptr_addr, pyobj ptr_value)
 {
     assert(ptr_addr->u.p.ptr != NULL);
@@ -1105,9 +1140,22 @@ pyobj get_ptr_value(big_pyobj* ptr_addr)
 {
     assert(ptr_addr->u.p.ptr != NULL);
     pyobj ptr_value;
-    ptr_value = *((int*)ptr_addr->u.p.ptr);
-    ptr_value = inject_int(ptr_value);
-    return ptr_value;
+    
+    switch(ptr_addr->u.p.type){
+        case 'I':{
+            ptr_value = *((int*)ptr_addr->u.p.ptr);
+            ptr_value = inject_int(ptr_value);
+            return ptr_value;
+        }
+        
+        case 'C':{
+            ptr_value = inject_big(ptr_addr);
+            return ptr_value;
+        }
+            
+    }
+    
+    
 }
 
 
@@ -1128,3 +1176,5 @@ void p1_memcpy (void* dest, void* src, size_t bytes)
     for (int i = 0; i < bytes; i++)
         dest_byte [i] = src_byte [i];
 } 
+
+

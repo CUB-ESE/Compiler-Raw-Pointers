@@ -153,5 +153,7 @@ pyobj get_ptr_value(big_pyobj*);
 void free_ptr(big_pyobj*);
 
 void p1_memcpy(void*, void*, size_t);
+
+big_pyobj* create_str_ptr(char*, size_t);
     
 #endif /* RUNTIME_H */
