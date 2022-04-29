@@ -139,7 +139,7 @@ static void print_bool(int b) {
 }
 
 static void print_pyobj(pyobj x) {
-    printf ("tag x %d\n", tag(x));
+//     printf ("tag x %d\n", tag(x));
   switch (tag(x)) {
   case INT_TAG:
     print_int(project_int(x));
@@ -150,7 +150,6 @@ static void print_pyobj(pyobj x) {
   case FLOAT_TAG:
     print_float(project_float(x));
     break;
-  case   
   case BIG_TAG: {
     big_pyobj* b = project_big(x);
     switch (b->tag) {
@@ -1078,12 +1077,12 @@ int* create_ptr(int ptr_value)
     return ptr_addr;
 }
 
-char* create_str_ptr (char* value, size_t len)
-{
-    char* ptr = (char*) malloc (len * sizeof (char));
-    strcpy (ptr, value);
-    return ptr
-}
+// char* create_str_ptr (char* value, size_t len)
+// {
+//     char* ptr = (char*) malloc (len * sizeof (char));
+//     strcpy (ptr, value);
+//     return ptr
+// }
 
 void free_ptr(int* ptr_addr)
 {
@@ -1092,12 +1091,12 @@ void free_ptr(int* ptr_addr)
     ptr_addr = NULL;
 }
 
-void free_str_ptr (char* ptr)
-{
-    assert (ptr != NULL);
-    free (ptr);
-    ptr = NULL;
-}
+// void free_str_ptr (char* ptr)
+// {
+//     assert (ptr != NULL);
+//     free (ptr);
+//     ptr = NULL;
+// }
 
 int* set_ptr_value(int* ptr_addr, int ptr_value)
 {
@@ -1121,4 +1120,12 @@ void p1_memcpy (void* dest, void* src, size_t bytes)
     
     for (int i = 0; i < bytes; i++)
         dest_byte [i] = src_byte [i];
+}
+
+void p1_memset (void* dest, int val, size_t bytes)
+{
+    char* dest_byte = (char*) dest;
+    
+    for (int i = 0; i < bytes; i++) 
+        dest_byte [i] = (unsigned char) val;
 }

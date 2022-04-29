@@ -10,7 +10,7 @@ class C_String:
 
 tokens = ( 'INT', 'FLOAT', 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
            'NAME', 'PRINT', 'INPUT', 'DEF', 'RETURN', 'WHILE', 'IF', 'ELSE', 'LAMBDA', 'STRING',
-           'ASSIGN', 'COLON', 'LCURLY', 'RCURLY', 'LSQUARE', 'RSQUARE', 'COMMA', 'MEMCPY',
+           'ASSIGN', 'COLON', 'LCURLY', 'RCURLY', 'LSQUARE', 'RSQUARE', 'COMMA', 'MEMCPY', 'MEMSET',
             'AND', 'OR', 'EQ', 'NEQ', 'INDENT', 'DEDENT', 'TRUE', 'FALSE', 'NOT', 'IS', 'NEWLINE' )
 
 indent_amount = 0
@@ -37,6 +37,7 @@ reserved = {
     'print' : 'PRINT', 
     'input' : 'INPUT',
     'memcpy' : 'MEMCPY',
+    'memset' : 'MEMSET',
     'def' : 'DEF',
     'return' : 'RETURN',
     'while' : 'WHILE',
@@ -60,8 +61,6 @@ def t_STRING(t):
 
 def t_comment(t):
     r'\#.*'
-
-
 
 # Multiline mode regex, matches a line that starts with one of more whitespace
 # Transforms whitespace into an indent level, also handles coming down from nested indents, does not handle going from indent 1 to 0
@@ -224,6 +223,12 @@ def p_expression_memcpy (p):
     simple_statement :  MEMCPY LPAREN expr_list RPAREN
     '''
     p[0] = CallFunc(Name('p1_memcpy'), p[3], None, None)
+    
+def p_expression_memset (p):
+    '''
+    simple_statement :  MEMSET LPAREN expr_list RPAREN
+    '''
+    p[0] = CallFunc(Name('p1_memset'), p[3], None, None)
 
 ##############################################
 # Added in P1
