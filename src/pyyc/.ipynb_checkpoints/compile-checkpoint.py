@@ -469,6 +469,7 @@ def getTmpVar():
 c = 0
 DEBUG = False
 if_count = 0
+str_cnt = 0
 
 def flatten(AST):
     
@@ -476,6 +477,7 @@ def flatten(AST):
     global c
     global DEBUG
     global if_count
+    global str_cnt
 
     if isinstance(AST,Module):
         return flatten(AST.node)
@@ -531,6 +533,7 @@ def flatten(AST):
             if isinstance (AST.args[0], C_String):
                 func_name = "create_str_ptr"
             else:
+                print AST
                 func_name = "create_ptr"
                 
         elif AST.node.name == "deref":
@@ -696,12 +699,24 @@ def flatten(AST):
         return var
     
     elif isinstance (AST, C_String):
-#         list = []
-#         list[:0] = AST.string
-#         list = list[1:-1]
-#         tmp = flatten(List(list))
-#         return tmp
-        return AST.string
+        
+        c_str = AST.string[1:-1]
+        print(c_str)
+        # need to include space for null terminator
+        f.write("str_ptr" + str(str_cnt)+ " = create_str_ptr(" + str(len(c_str)+1) + ")\n")
+        
+        
+        for i in range(len(c_str)):
+            # convert c_str to immediate ASCII value
+            ascii_val = ord(c_str[i])
+            f.write("set_str_ptr(str_ptr" + str(str_cnt) +" , " + str(i) + ", " + str(ascii_val) + ")\n")
+            
+        f.write("set_str_ptr(str_ptr" + str(str_cnt) +" , " + str(len(c_str)) + ", 0)\n")
+        
+        str_var = "str_ptr" + str(str_cnt)
+        str_cnt += 1
+#         print("STR", AST.string)
+        return str_var
         
     else:
         return -1

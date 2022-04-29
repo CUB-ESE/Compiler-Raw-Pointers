@@ -1093,7 +1093,7 @@ static big_pyobj* pointer_to_big(pointer p) {
   return v;
 }
 
-
+// TODO: rename to create_int_ptr
 big_pyobj* create_ptr(pyobj ptr_value)
 {
     int* ptr_addr = (int*)malloc(sizeof(int));
@@ -1106,24 +1106,35 @@ big_pyobj* create_ptr(pyobj ptr_value)
 } 
 
 
-big_pyobj* create_str_ptr(char* value, size_t len)
-{
+// big_pyobj* create_str_ptr(char* value, size_t len)
+// {
     
-    while(*value != '\0'){
-        printf("%c",*value++);
-    }
-    char* ptr = (char*) malloc (len * sizeof(char));
-    strcpy(ptr, value);
+//     while(*value != '\0'){
+//         printf("%c",*value++);
+//     }
+//     char* ptr = (char*) malloc (len * sizeof(char));
+//     strcpy(ptr, value);
     
+//     pointer p;
+//     p.ptr = ptr;
+//     p.type = 'C';
+//     return pointer_to_big(p);
+        
+// }
+
+
+big_pyobj* create_str_ptr(size_t len) {
+    char* ptr = malloc(len);
     pointer p;
     p.ptr = ptr;
     p.type = 'C';
     return pointer_to_big(p);
-        
 }
 
-
-
+void set_str_ptr(big_pyobj* str_ptr, int index, int c) {
+    char _c = (char) c;
+    *((char*)str_ptr->u.p.ptr + index) = _c;
+}
 
 big_pyobj* set_ptr_value(big_pyobj* ptr_addr, pyobj ptr_value)
 {

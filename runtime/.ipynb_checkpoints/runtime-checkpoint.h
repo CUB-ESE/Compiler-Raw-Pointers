@@ -154,6 +154,8 @@ void free_ptr(big_pyobj*);
 
 void p1_memcpy(void*, void*, size_t);
 
-big_pyobj* create_str_ptr(char*, size_t);
+// big_pyobj* create_str_ptr(char*, size_t);
+big_pyobj* create_str_ptr(size_t len);
+void set_str_ptr(big_pyobj* str_ptr, int index, int c);
     
 #endif /* RUNTIME_H */
