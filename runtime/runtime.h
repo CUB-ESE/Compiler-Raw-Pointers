@@ -20,7 +20,7 @@ int input();
 
 /* The following is for a non-standard single-precision (21-bit fraction)
    floating point number */
-#define FLOAT_TAG 2   /* 10 */
+#define CHAR_TAG 2   /* 10 */
 
 /*
   For larger objects, we have a pointer to the object, and the
@@ -149,13 +149,14 @@ pyobj error_pyobj(char* string);
 /* Pointers*/
 big_pyobj* create_ptr(pyobj);
 big_pyobj* set_ptr_value(big_pyobj*, pyobj);
-pyobj get_ptr_value(big_pyobj*);
+pyobj get_ptr_value(big_pyobj*, pyobj offset);
 void free_ptr(big_pyobj*);
 
-void p1_memcpy(void*, void*, size_t);
+void p1_memcpy(big_pyobj*, big_pyobj*, pyobj);
 
 // big_pyobj* create_str_ptr(char*, size_t);
 big_pyobj* create_str_ptr(size_t len);
 void set_str_ptr(big_pyobj* str_ptr, int index, int c);
+void p1_memset (big_pyobj* dest, pyobj val, pyobj bytes);
     
 #endif /* RUNTIME_H */

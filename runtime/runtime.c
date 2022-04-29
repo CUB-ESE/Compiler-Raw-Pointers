@@ -10,7 +10,7 @@ int min(int x, int y) { return y < x ? y : x; }
 
 /* Some forward declarations */
 static int equal_pyobj(pyobj a, pyobj b);
-static void print_float(double in);
+static void print_char(char c);
 static void print_list(pyobj pyobj_list);
 static void print_dict(pyobj dict);
 static list list_add(list x, list y);
@@ -28,8 +28,8 @@ int is_bool(pyobj val) {
   return (val & MASK) == BOOL_TAG;
 }
 
-int is_float(pyobj val) {
-  return (val & MASK) == FLOAT_TAG;
+int is_char(pyobj val) {
+  return (val & MASK) == CHAR_TAG;
 }
 
 int is_big(pyobj val) {
@@ -66,9 +66,9 @@ pyobj inject_int(int i) {
 pyobj inject_bool(int b) {
   return (b << SHIFT) | BOOL_TAG;
 }
-pyobj inject_float(int f) {
+pyobj inject_char(int f) {
   /* Could accomplish this with a special mask */
-  return ((f >> SHIFT) << SHIFT) | FLOAT_TAG;
+  return (f << SHIFT) | CHAR_TAG;
 }
 pyobj inject_big(big_pyobj* p) {
   assert((((long)p) & MASK) == 0); 
@@ -85,9 +85,9 @@ int project_bool(pyobj val) {
   assert((val & MASK) == BOOL_TAG);
   return val >> SHIFT;
 }
-float project_float(pyobj val) {
-  assert((val & MASK) == FLOAT_TAG);
-  return (val >> SHIFT) << SHIFT;
+int project_char(pyobj val) {
+  assert((val & MASK) == CHAR_TAG);
+  return val >> SHIFT;
 }
 big_pyobj* project_big(pyobj val) {
   assert((val & MASK) == BIG_TAG);
@@ -147,8 +147,8 @@ static void print_pyobj(pyobj x) {
   case BOOL_TAG:
     print_bool(project_bool(x));
     break;
-  case FLOAT_TAG:
-    print_float(project_float(x));
+  case CHAR_TAG:
+    print_char((char)project_char(x));
     break;
   case BIG_TAG: {
     big_pyobj* b = project_big(x);
@@ -319,8 +319,8 @@ static unsigned int hash_any(void* o)
   switch (tag(obj)) {
   case INT_TAG:
     return hash32shift(project_int(obj));
-  case FLOAT_TAG:
-    return hash32shift(project_float(obj));
+  case CHAR_TAG:
+    return hash32shift(project_char(obj));
   case BOOL_TAG:
     return hash32shift(project_bool(obj));
   case BIG_TAG: {
@@ -435,21 +435,21 @@ static int equal_pyobj(pyobj a, pyobj b)
       return project_int(a) == project_int(b);
     case BOOL_TAG:
       return project_int(a) == project_bool(b);
-    case FLOAT_TAG:
+    case CHAR_TAG:
       return project_int(a) == project_bool(b);
     default:
       return 0;
     }
     break;
   }
-  case FLOAT_TAG: {
+  case CHAR_TAG: {
     switch (tag(b)) {
     case INT_TAG:
-      return project_float(a) == project_int(b);
+      return project_char(a) == project_int(b);
     case BOOL_TAG:
-      return project_float(a) == project_bool(b);
-    case FLOAT_TAG:
-      return project_float(a) == project_bool(b);
+      return project_char(a) == project_bool(b);
+    case CHAR_TAG:
+      return project_char(a) == project_bool(b);
     default:
       return 0;
     }
@@ -461,7 +461,7 @@ static int equal_pyobj(pyobj a, pyobj b)
       return project_bool(a) == project_int(b);
     case BOOL_TAG:
       return project_bool(a) == project_bool(b);
-    case FLOAT_TAG:
+    case CHAR_TAG:
       return project_bool(a) == project_bool(b);
     default:
       return 0;
@@ -554,36 +554,38 @@ static pyobj* list_subscript(list ls, pyobj n)
 
 static char printed_0;
 static char printed_0_neg;
-static void print_float(double in)
+static void print_char(char c)
 {
-    char outstr[128];
+    printf("%c", c);
+        
+//     char outstr[128];
 
-    snprintf(outstr, 128, "%.12g", in);
+//     snprintf(outstr, 128, "%.12g", in);
 
-    char *p = outstr;
+//     char *p = outstr;
 
-    if(in == 0.0)
-    {
-        if(printed_0 == 0)
-        {
-            printed_0 = 1;
-            printed_0_neg = *p == '-'; /*see if we incremented for negative*/
-        }
-        else
-        {
-            printf(printed_0_neg ? "-0.0" : "0.0");
-            return;
-        }
-    }
+//     if(in == 0.0)
+//     {
+//         if(printed_0 == 0)
+//         {
+//             printed_0 = 1;
+//             printed_0_neg = *p == '-'; /*see if we incremented for negative*/
+//         }
+//         else
+//         {
+//             printf(printed_0_neg ? "-0.0" : "0.0");
+//             return;
+//         }
+//     }
 
-    if(*p == '-')
-        p++;
+//     if(*p == '-')
+//         p++;
 
 
-    while(*p && isdigit(*p))
-        p++;
+//     while(*p && isdigit(*p))
+//         p++;
 
-    printf( ( (*p)  ? "%s" : "%s.0" ), outstr);
+//     printf( ( (*p)  ? "%s" : "%s.0" ), outstr);
 }
 
 
@@ -753,8 +755,8 @@ int is_true(pyobj v)
   switch (tag(v)) {
   case INT_TAG:
     return project_int(v) != 0;
-  case FLOAT_TAG:
-    return project_float(v) != 0;
+  case CHAR_TAG:
+    return project_char(v) != 0;
   case BOOL_TAG:
     return project_bool(v) != 0;
   case BIG_TAG: {
@@ -1147,10 +1149,12 @@ big_pyobj* set_ptr_value(big_pyobj* ptr_addr, pyobj ptr_value)
     return ptr_addr;
 }
 
-pyobj get_ptr_value(big_pyobj* ptr_addr)
+pyobj get_ptr_value(big_pyobj* ptr_addr, pyobj offset)
 {
     assert(ptr_addr->u.p.ptr != NULL);
     pyobj ptr_value;
+    
+    int _offset = project_int(offset);
     
     switch(ptr_addr->u.p.type){
         case 'I':{
@@ -1160,7 +1164,9 @@ pyobj get_ptr_value(big_pyobj* ptr_addr)
         }
         
         case 'C':{
-            ptr_value = inject_big(ptr_addr);
+            int val = (int)*((char*)ptr_addr->u.p.ptr + _offset);
+//             printf("VAL: %d\n", val);
+            ptr_value = inject_char(val);
             return ptr_value;
         }
             
@@ -1179,13 +1185,31 @@ void free_ptr(big_pyobj* ptr_addr)
 
 
 //Alex
-void p1_memcpy (void* dest, void* src, size_t bytes)
+void p1_memcpy (big_pyobj* dest, big_pyobj* src, pyobj bytes)
 {
-    char* dest_byte = (char*) dest;
-    char* src_byte = (char*) src;
+//     char* dest_byte = (char*) dest;
+//     char* src_byte = (char*) src;
+    
+    int b = project_int(bytes);
+//     printf("CURR DST: %s\n", (char*)dest->u.p.ptr);
 
-    for (int i = 0; i < bytes; i++)
-        dest_byte [i] = src_byte [i];
+//     for (int i = 0; i < bytes; i++)
+//         dest_byte [i] = src_byte [i];
+    for (int i = 0; i < b; i++) {
+        *((char*)dest->u.p.ptr + i) = *((char*)src->u.p.ptr + i);
+    }
+//     printf("NEW DST: %s\n", (char*)dest->u.p.ptr);
 } 
 
 
+void p1_memset (big_pyobj* dest, pyobj val, pyobj bytes)
+{
+//     char* dest_byte = (char*) dest;
+    
+    char _c = (char) project_int(val);
+    int b = project_int(bytes);
+    
+    for (int i = 0; i < b; i++) 
+//         *((char*)dest + i) = _c;
+        *((char*)dest->u.p.ptr + i) = _c;
+}

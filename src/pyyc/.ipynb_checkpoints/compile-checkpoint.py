@@ -782,7 +782,7 @@ def getAsmIR(AST):
             for i in range(len(AST.args)):
                 args.append(getAsmIR(AST.args[i]))
         if AST.node.name == "create_str_ptr":
-            args[0] = args[0] + '\0'
+            args[0] = args[0]
             args.append ("$"+str(len (args[0])))
         x86_IR.append(["call", AST.node.name, args])
         x86_IR.append(["movl","%eax",tmp_var])

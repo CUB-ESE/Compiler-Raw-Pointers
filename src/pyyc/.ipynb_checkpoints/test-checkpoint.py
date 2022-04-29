@@ -12,9 +12,9 @@
 
 # x_ptr = ptr (123)
 # y_ptr = ptr (0)
-# print (deref(y_ptr))
+# print (deref(y_ptr,0))
 # memcpy (y_ptr, x_ptr, 4)
-# print deref(y_ptr)
+# print deref(y_ptr,0)
 
 
 ## CHAR/STRING
@@ -27,5 +27,17 @@
 # a =[0x41,2]
 # print a
 x = "hello"
+y = "aaaaa"
 # x_ptr = ptr (x)
-print deref (x)
+# print deref (y)
+memcpy(y, x, 3)
+print deref (y,0)
+memcpy(y, "AA", 2)
+print deref (y,0)
+print deref (y,1)
+print deref (y,2)
+# memset(y, 66, 5)
+# print deref (y)
+
+free(x)
+free(y)
