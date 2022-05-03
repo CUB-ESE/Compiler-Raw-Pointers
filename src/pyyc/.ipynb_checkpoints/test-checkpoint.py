@@ -26,18 +26,27 @@
 
 # a =[0x41,2]
 # print a
+
+
+
 x = "hello"
 y = "aaaaa"
-# x_ptr = ptr (x)
-# print deref (y)
+
+print deref (y)
 memcpy(y, x, 3)
 print deref (y,0)
 memcpy(y, "AA", 2)
 print deref (y,0)
 print deref (y,1)
 print deref (y,2)
-# memset(y, 66, 5)
-# print deref (y)
+memset(y, 66, 5)
+print deref (y)
 
-free(x)
-free(y)
+freep(x)
+freep(y)
+
+
+# x = "hello"
+# print(deref(x))
+# print(x)
+# freep(x)

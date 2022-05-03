@@ -147,16 +147,16 @@ pyobj error_pyobj(char* string);
 
 
 /* Pointers*/
-big_pyobj* create_ptr(pyobj);
-big_pyobj* set_ptr_value(big_pyobj*, pyobj);
-pyobj get_ptr_value(big_pyobj*, pyobj offset);
-void free_ptr(big_pyobj*);
+pyobj create_ptr(pyobj);
+void set_ptr_value(pyobj, pyobj);
+pyobj get_ptr_value(pyobj, pyobj offset);
+void free_ptr(pyobj);
 
-void p1_memcpy(big_pyobj*, big_pyobj*, pyobj);
+void p1_memcpy(pyobj, pyobj, pyobj);
 
 // big_pyobj* create_str_ptr(char*, size_t);
-big_pyobj* create_str_ptr(size_t len);
-void set_str_ptr(big_pyobj* str_ptr, int index, int c);
-void p1_memset (big_pyobj* dest, pyobj val, pyobj bytes);
+pyobj create_str_ptr(size_t len);
+void set_str_ptr(pyobj str_ptr, int index, int c);
+void p1_memset (pyobj dest, pyobj val, pyobj bytes);
     
 #endif /* RUNTIME_H */

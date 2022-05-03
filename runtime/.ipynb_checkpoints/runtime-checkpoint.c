@@ -1096,7 +1096,7 @@ static big_pyobj* pointer_to_big(pointer p) {
 }
 
 // TODO: rename to create_int_ptr
-big_pyobj* create_ptr(pyobj ptr_value)
+pyobj create_ptr(pyobj ptr_value)
 {
     int* ptr_addr = (int*)malloc(sizeof(int));
     *(ptr_addr) = project_int(ptr_value);
@@ -1104,7 +1104,7 @@ big_pyobj* create_ptr(pyobj ptr_value)
     pointer p;
     p.ptr = ptr_addr;
     p.type = 'I';
-    return pointer_to_big(p);
+    return inject_big(pointer_to_big(p));
 } 
 
 
@@ -1125,46 +1125,51 @@ big_pyobj* create_ptr(pyobj ptr_value)
 // }
 
 
-big_pyobj* create_str_ptr(size_t len) {
+pyobj create_str_ptr(size_t len) {
     char* ptr = malloc(len);
     pointer p;
     p.ptr = ptr;
     p.type = 'C';
-    return pointer_to_big(p);
+    return inject_big(pointer_to_big(p));
 }
 
-void set_str_ptr(big_pyobj* str_ptr, int index, int c) {
+void set_str_ptr(pyobj str_ptr, int index, int c) {
+    
+    big_pyobj* s_ptr = project_big(str_ptr);
+    
     char _c = (char) c;
-    *((char*)str_ptr->u.p.ptr + index) = _c;
+    *((char*)s_ptr->u.p.ptr + index) = _c;
 }
 
-big_pyobj* set_ptr_value(big_pyobj* ptr_addr, pyobj ptr_value)
+void set_ptr_value(pyobj ptr_addr, pyobj ptr_value)
 {
-    assert(ptr_addr->u.p.ptr != NULL);
+    big_pyobj* p_addr = project_big(ptr_addr);
+    
+    assert(p_addr->u.p.ptr != NULL);
     switch (tag(ptr_value)) {
       case INT_TAG:
-            *((int*)ptr_addr->u.p.ptr) = project_int(ptr_value);
+            *((int*)p_addr->u.p.ptr) = project_int(ptr_value);
     }
-
-    return ptr_addr;
 }
 
-pyobj get_ptr_value(big_pyobj* ptr_addr, pyobj offset)
+pyobj get_ptr_value(pyobj ptr_addr, pyobj offset)
 {
-    assert(ptr_addr->u.p.ptr != NULL);
+    big_pyobj* p_addr = project_big(ptr_addr);
+    
+    assert(p_addr->u.p.ptr != NULL);
     pyobj ptr_value;
     
     int _offset = project_int(offset);
     
-    switch(ptr_addr->u.p.type){
+    switch(p_addr->u.p.type){
         case 'I':{
-            ptr_value = *((int*)ptr_addr->u.p.ptr);
+            ptr_value = *((int*)p_addr->u.p.ptr);
             ptr_value = inject_int(ptr_value);
             return ptr_value;
         }
         
         case 'C':{
-            int val = (int)*((char*)ptr_addr->u.p.ptr + _offset);
+            int val = (int)*((char*)p_addr->u.p.ptr + _offset);
 //             printf("VAL: %d\n", val);
             ptr_value = inject_char(val);
             return ptr_value;
@@ -1176,19 +1181,26 @@ pyobj get_ptr_value(big_pyobj* ptr_addr, pyobj offset)
 }
 
 
-void free_ptr(big_pyobj* ptr_addr)
+void free_ptr(pyobj ptr_addr)
 {
-    assert(ptr_addr->u.p.ptr != NULL);
-    free(ptr_addr->u.p.ptr);
-    ptr_addr->u.p.ptr = NULL;
+    big_pyobj* p_addr = project_big(ptr_addr);
+
+    assert(p_addr->u.p.ptr != NULL);
+    free(p_addr->u.p.ptr);
+    free(p_addr);
+    p_addr->u.p.ptr = NULL;
 }
 
 
 //Alex
-void p1_memcpy (big_pyobj* dest, big_pyobj* src, pyobj bytes)
+void p1_memcpy (pyobj dest, pyobj src, pyobj bytes)
 {
 //     char* dest_byte = (char*) dest;
 //     char* src_byte = (char*) src;
+    
+    big_pyobj* d_ptr = project_big(dest);
+    big_pyobj* s_ptr = project_big(src);
+    
     
     int b = project_int(bytes);
 //     printf("CURR DST: %s\n", (char*)dest->u.p.ptr);
@@ -1196,20 +1208,21 @@ void p1_memcpy (big_pyobj* dest, big_pyobj* src, pyobj bytes)
 //     for (int i = 0; i < bytes; i++)
 //         dest_byte [i] = src_byte [i];
     for (int i = 0; i < b; i++) {
-        *((char*)dest->u.p.ptr + i) = *((char*)src->u.p.ptr + i);
+        *((char*)d_ptr->u.p.ptr + i) = *((char*)s_ptr->u.p.ptr + i);
     }
 //     printf("NEW DST: %s\n", (char*)dest->u.p.ptr);
 } 
 
 
-void p1_memset (big_pyobj* dest, pyobj val, pyobj bytes)
+void p1_memset (pyobj dest, pyobj val, pyobj bytes)
 {
 //     char* dest_byte = (char*) dest;
+    big_pyobj* d_ptr = project_big(dest);
     
     char _c = (char) project_int(val);
     int b = project_int(bytes);
     
     for (int i = 0; i < b; i++) 
 //         *((char*)dest + i) = _c;
-        *((char*)dest->u.p.ptr + i) = _c;
+        *((char*)d_ptr->u.p.ptr + i) = _c;
 }
