@@ -594,9 +594,10 @@ static void print_pointer(pyobj p)
 {
     big_pyobj* ptr = project_big(p);
     
-    while(*((char*)ptr->u.p.ptr) !='\0')
-        printf("%c",*(char*)ptr->u.p.ptr++);
+    char* tmp = (char*)ptr->u.p.ptr;
     
+    while(*(tmp) !='\0')
+        printf("%c",*tmp++);    
 }
 
 
@@ -1186,6 +1187,7 @@ void free_ptr(pyobj ptr_addr)
     big_pyobj* p_addr = project_big(ptr_addr);
 
     assert(p_addr->u.p.ptr != NULL);
+        
     free(p_addr->u.p.ptr);
     free(p_addr);
     p_addr->u.p.ptr = NULL;
